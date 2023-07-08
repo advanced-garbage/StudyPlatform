@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Data.Models
 {
-    public class Teacher : ApplicationUser
+    public class Teacher
     {
         public Teacher() { 
             this.Lessons = new List<Lesson>(); 
         }
+
+        [Key]
+        //[Required]
+        public Guid Id { get; set; }
 
         public ICollection<Lesson> Lessons { get; set; }
     }

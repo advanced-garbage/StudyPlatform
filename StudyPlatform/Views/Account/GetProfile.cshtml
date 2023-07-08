@@ -1,4 +1,4 @@
-﻿@model StudentViewModel;
+﻿@model UserViewModel;
 @{
     ViewData["Title"] = "Account Profile";
 }
@@ -6,7 +6,7 @@
 <div class="align-content-center align-items-center">
     <img src="~/study_platform_default_pfp.png" alt="default profile picture" width="200" height="200"/>
     <h3>@Model.UserName</h3>
-    <h2>PLACEHOLDER ROLE</h2>
+    <h2>@Model.Role</h2>
     <h1>@($"{Model.FirstName} {Model.MiddleName} {Model.LastName}")</h1>
     <h2>@Model.Age</h2>
 </div>

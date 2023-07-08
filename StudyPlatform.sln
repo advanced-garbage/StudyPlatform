@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPlatform.Data.Models",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPlatform.Common", "StudyPlatform.Common\StudyPlatform.Common.csproj", "{1619185D-0349-47C0-8455-23BBB9DC06F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyPlatform.Services", "StudyPlatform.Services\StudyPlatform.Services.csproj", "{89558734-3AA9-4C76-8314-8DE43F4865D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPlatform.Services", "StudyPlatform.Services\StudyPlatform.Services.csproj", "{89558734-3AA9-4C76-8314-8DE43F4865D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyPlatform.Web.View.Models", "StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj", "{AD120AEB-4E6C-482D-BB76-5ED82B680B0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPlatform.Web.View.Models", "StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj", "{AD120AEB-4E6C-482D-BB76-5ED82B680B0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyPlatform.Infrastructure", "StudyPlatform.Infrastructure\StudyPlatform.Infrastructure.csproj", "{E7F82F45-57CE-4185-8072-D4737F5D80FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{AD120AEB-4E6C-482D-BB76-5ED82B680B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD120AEB-4E6C-482D-BB76-5ED82B680B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD120AEB-4E6C-482D-BB76-5ED82B680B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F82F45-57CE-4185-8072-D4737F5D80FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F82F45-57CE-4185-8072-D4737F5D80FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F82F45-57CE-4185-8072-D4737F5D80FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F82F45-57CE-4185-8072-D4737F5D80FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{2D252C59-2B03-41B6-96C3-8F4E5803335E} = {820D32BA-787C-4ED3-8580-B6A782F73A42}
 		{89558734-3AA9-4C76-8314-8DE43F4865D3} = {820D32BA-787C-4ED3-8580-B6A782F73A42}
 		{AD120AEB-4E6C-482D-BB76-5ED82B680B0A} = {E301A12E-329B-4479-B7F2-D6E22DB3AB2F}
+		{E7F82F45-57CE-4185-8072-D4737F5D80FD} = {E301A12E-329B-4479-B7F2-D6E22DB3AB2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E20BE289-2CB9-4189-ADA2-05D1B129D757}

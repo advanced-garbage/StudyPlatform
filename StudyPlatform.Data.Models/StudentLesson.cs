@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Data.Models
 {
-    public class StudentLesson
+    public class StudentLesson 
     {
         [ForeignKey(nameof(Student))]
         public Guid StudentId { get; set; }
-        public Student Student { get; set; }
+        public ApplicationUser Student { get; set; }
 
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }

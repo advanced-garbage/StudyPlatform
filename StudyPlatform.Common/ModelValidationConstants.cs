@@ -49,6 +49,9 @@ namespace StudyPlatform.Common
 
             public const int LastNameMaxLength = 128;
             public const int LastNameMinLength = 4;
+
+            public const int RoleMaxLength = 25;
+            public const int RoleMinLength = 4;
         }
     }
 }

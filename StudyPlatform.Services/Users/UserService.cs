@@ -1,42 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Services.Users.Interfaces;
-using StudyPlatform.Web.View.Models.Teacher;
+using StudyPlatform.Web.View.Models.Student;
 using StudyPlatform.Web.View.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static StudyPlatform.Common.ModelValidationConstants;
 
 namespace StudyPlatform.Services.Users
 {
-    public class TeacherService : ITeacherService
+    public class UserService : IUserService
     {
         private readonly StudyPlatformDbContext _db;
 
-        public TeacherService(StudyPlatformDbContext db)
+        public UserService(StudyPlatformDbContext db)
         {
             this._db = db;
         }
-
         public async Task<bool> AnyById(Guid id)
         {
-            bool teacherExists
+            bool userExists
                 = await this._db
-                .Teachers
+                .Users
                 .AnyAsync(u => u.Id.Equals(id));
 
-            return teacherExists;
+            return userExists;
         }
 
-        public async Task<TeacherViewModel> GetTeacher(Guid id)
+        public async Task<bool> AnyByUserName(string userName)
         {
-            TeacherViewModel userModel
+            bool userExists
+                = await this._db
+                .Users
+                .AnyAsync(u => u.UserName.Equals(userName));
+
+            return userExists;
+        }
+
+        public async Task<UserViewModel> GetUserByIdAsync(Guid id)
+        {
+            UserViewModel userModel
                 = await this._db
                 .Users
                 .Where(u => u.Id.Equals(id))
-                .Select(u => new TeacherViewModel()
+                .Select(u => new UserViewModel()
                 {
                     UserName = u.UserName,
                     Email = u.Email,
@@ -44,7 +54,7 @@ namespace StudyPlatform.Services.Users
                     MiddleName = u.MiddleName,
                     LastName = u.LastName,
                     Age = u.Age,
-                    Role = "Teacher"
+                    Role = "Student"
                 })
                 .FirstOrDefaultAsync();
 

@@ -38,8 +38,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
 builder.Services.AddScoped<ICourseViewService, CourseViewService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -15,7 +15,6 @@ namespace StudyPlatform.Data
         }
 
         public DbSet<Teacher> Teachers { get; set; }        
-        public DbSet<Student> Students { get; set; }
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<Lesson> Lessons { get; set; }

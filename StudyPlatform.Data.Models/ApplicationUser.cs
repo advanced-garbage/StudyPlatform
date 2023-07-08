@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StudyPlatform.Data.Models
 {
     // <summary>
-    // Customization towards the default identity user
+    // Customization towards the default identity user. default is student.
     // </summary>
     public class ApplicationUser : IdentityUser<Guid>
     {
