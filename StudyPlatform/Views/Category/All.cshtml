@@ -1,0 +1,20 @@
+﻿@model ICollection<CategoryViewModel>
+@{
+    ViewData["Title"] = "All categories";
+}
+
+<h1>@ViewData["Title"]</h1>
+<a asp-controller="Category" asp-action="CreateCategory" class="btn-link">Add Category</a>
+<h3>
+    <li>
+        @{
+            foreach (var category in Model)
+            {
+                <ul>
+                    <a asp-controller="Category" asp-action="GetById" asp-route-id="@category.Id" class="link-dark">@category.Name</a>
+                </ul>
+            }
+        }
+    </li>
+</h3>
+

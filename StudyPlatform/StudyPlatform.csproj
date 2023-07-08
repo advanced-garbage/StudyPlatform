@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-StudyPlatform-f3a5c1fd-0926-42ee-976f-58bf289eb706</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.18" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.18">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StudyPlatform.Common\StudyPlatform.Common.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Data.Models\StudyPlatform.Data.Models.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Data\StudyPlatform.Data.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Services\StudyPlatform.Services.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Student\" />
+    <Folder Include="Views\Teacher\" />
+  </ItemGroup>
+
+</Project>

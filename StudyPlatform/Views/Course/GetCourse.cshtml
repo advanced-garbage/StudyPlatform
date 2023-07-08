@@ -1,0 +1,25 @@
+﻿@model CourseViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+<a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
+<h1>
+    @ViewData["Title"]
+    <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+</h1>
+
+@{
+    if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <h3>@Model.Description</h3>
+    }
+}
+
+<li>
+@{
+    foreach(var lesson in Model.Lessons)
+    {
+        <ul>@lesson.Name</ul>    
+    }
+}
+</li>
