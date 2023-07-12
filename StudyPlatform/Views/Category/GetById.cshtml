@@ -10,7 +10,7 @@
 <h2>@Model.Name</h2>
 <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
 <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
-
+<hr/>
 
 @{
     foreach (var course in Model.Courses)

@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudyPlatform.Infrastructure;
-using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
-using StudyPlatform.Web.View.Models.Student;
 using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Infrastructure.ClaimsPrincipalExtensions;
-
+using static StudyPlatform.Common.ViewModelConstants.Account;
 
 namespace StudyPlatform.Controllers
 {
@@ -35,12 +33,12 @@ namespace StudyPlatform.Controllers
                 return NotFound();
             }
 
-            UserViewModel userModel = await this._userService.GetUserByIdAsync(userId);
+            UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
 
-            // temp method where we just display the username of the user wether they're in the db or not
             if (await this._teacherService.AnyById(userId))
             {
-                userModel.Role = "Teacher";
+                userModel.Role = TeacherRoleTitle;
+                // TODO: Add lessons written by this teacher
             }
 
             return View(userModel);

@@ -9,7 +9,7 @@ namespace StudyPlatform.Services.Users.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserViewModel> GetUserByIdAsync(Guid id);
+        public Task<UserAccountViewModel> GetUserByIdAsync(Guid id);
 
         public Task<bool> AnyByUserName(string userName);
 

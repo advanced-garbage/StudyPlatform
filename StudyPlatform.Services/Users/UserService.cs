@@ -3,12 +3,8 @@ using StudyPlatform.Data;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Student;
 using StudyPlatform.Web.View.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static StudyPlatform.Common.ModelValidationConstants;
+using static StudyPlatform.Common.ViewModelConstants.Account;
+
 
 namespace StudyPlatform.Services.Users
 {
@@ -40,13 +36,13 @@ namespace StudyPlatform.Services.Users
             return userExists;
         }
 
-        public async Task<UserViewModel> GetUserByIdAsync(Guid id)
+        public async Task<UserAccountViewModel> GetUserByIdAsync(Guid id)
         {
-            UserViewModel userModel
+            UserAccountViewModel userModel
                 = await this._db
                 .Users
                 .Where(u => u.Id.Equals(id))
-                .Select(u => new UserViewModel()
+                .Select(u => new UserAccountViewModel()
                 {
                     UserName = u.UserName,
                     Email = u.Email,
@@ -54,7 +50,7 @@ namespace StudyPlatform.Services.Users
                     MiddleName = u.MiddleName,
                     LastName = u.LastName,
                     Age = u.Age,
-                    Role = "Student"
+                    Role = StudentRoleTitle
                 })
                 .FirstOrDefaultAsync();
 
