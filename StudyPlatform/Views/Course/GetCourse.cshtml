@@ -2,24 +2,29 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-<a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
 <h1>
     @ViewData["Title"]
     <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </h1>
-
+<hr/>
+<p>
+    <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">
+        Add new learning material
+    </a>
+</p>
+<hr/>
 @{
     if (!string.IsNullOrEmpty(Model.Description))
     {
         <h3>@Model.Description</h3>
     }
 }
-
+<hr/>
 <li>
 @{
     foreach(var lesson in Model.Lessons)
     {
-        <ul>@lesson.Name</ul>    
+        <ul>@lesson.FileName</ul>    
     }
 }
 </li>

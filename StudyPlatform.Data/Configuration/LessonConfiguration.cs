@@ -13,6 +13,11 @@ namespace StudyPlatform.Data.Configuration
                 .WithMany(c => c.Lessons)  
                 .HasForeignKey(l => l.CourseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            lessonBuilder
+                .HasMany(l => l.LearningMaterials)
+                .WithOne(lm => lm.Lesson)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

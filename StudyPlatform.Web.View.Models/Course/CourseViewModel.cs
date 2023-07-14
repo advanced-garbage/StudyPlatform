@@ -8,7 +8,7 @@ namespace StudyPlatform.Web.View.Models.Course
     {
         public CourseViewModel() 
         {
-            this.Lessons = new List<LessonViewModel>();
+            this.Lessons = new List<LearningMaterialViewModel>();
         }
 
         [Required]
@@ -22,6 +22,6 @@ namespace StudyPlatform.Web.View.Models.Course
         public string? Description { get; set; }
         public int CategoryId { get; set; }
 
-        public ICollection<LessonViewModel>? Lessons { get; set; }
+        public ICollection<LearningMaterialViewModel>? Lessons { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using static StudyPlatform.Common.ModelValidationConstants.Category;
 
 namespace StudyPlatform.Web.View.Models.Lesson
 {
+    // Move to Lessons folder?
     public class AccountLessonLinkViewModel
     {
         [Required]

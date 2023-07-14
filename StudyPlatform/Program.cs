@@ -6,6 +6,8 @@ using StudyPlatform.Services.Category;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course;
 using StudyPlatform.Services.Course.Interfaces;
+using StudyPlatform.Services.LearningMaterial;
+using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
 
@@ -40,6 +42,7 @@ builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
 builder.Services.AddScoped<ICourseViewService, CourseViewService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
 
 var app = builder.Build();
 

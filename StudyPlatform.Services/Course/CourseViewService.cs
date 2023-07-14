@@ -55,7 +55,7 @@ namespace StudyPlatform.Services.Course
             await this._db.SaveChangesAsync();
         }
 
-        public async Task<int> GetCategoryByCourseIdAsync(int courseId)
+        public async Task<int> GetCategoryIdByCourseIdAsync(int courseId)
         {
             int categoryId
                 = (int)await this._db
@@ -78,12 +78,10 @@ namespace StudyPlatform.Services.Course
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
-                    Lessons = c.Lessons.Select(l => new LessonViewModel()
+                    Lessons = c.Lessons.Select(l => new LearningMaterialViewModel()
                     {
                         Id = l.Id,
-                        Name = l.Name,
-                        CourseId = l.CourseId,
-                        Description = l.Description
+                        FileName = l.Name,
                     })
                     .ToList()
                 })
@@ -113,6 +111,24 @@ namespace StudyPlatform.Services.Course
                 .FirstOrDefaultAsync();
 
             return courseModel;
+        }
+
+        public async Task<string> GetNameByIdAsync(int courseId)
+        {
+            if (!await AnyByIdAsync(courseId))
+            {
+                throw new InvalidOperationException($"course by this id ({courseId}) was not found");
+            }
+
+            string Name =
+                await this._db
+                .Courses
+                .Where(c => c.Id.Equals(courseId))
+                .Select(c => c.Name)
+                .Take(1)
+                .FirstOrDefaultAsync();
+
+            return Name;
         }
 
         public async Task RemoveAsync(int id)

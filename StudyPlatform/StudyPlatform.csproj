@@ -23,6 +23,7 @@
     <ProjectReference Include="..\StudyPlatform.Common\StudyPlatform.Common.csproj" />
     <ProjectReference Include="..\StudyPlatform.Data.Models\StudyPlatform.Data.Models.csproj" />
     <ProjectReference Include="..\StudyPlatform.Data\StudyPlatform.Data.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Files\StudyPlatform.Files.csproj" />
     <ProjectReference Include="..\StudyPlatform.Infrastructure\StudyPlatform.Infrastructure.csproj" />
     <ProjectReference Include="..\StudyPlatform.Services\StudyPlatform.Services.csproj" />
     <ProjectReference Include="..\StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj" />
@@ -31,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Views\Student\" />
     <Folder Include="Views\Teacher\" />
+    <Folder Include="wwwroot\files\learningmaterial\" />
   </ItemGroup>
 
 </Project>

@@ -8,9 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StudyPlatform.Common\StudyPlatform.Common.csproj" />
     <ProjectReference Include="..\StudyPlatform.Data.Models\StudyPlatform.Data.Models.csproj" />
     <ProjectReference Include="..\StudyPlatform.Data\StudyPlatform.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Lesson\" />
   </ItemGroup>
 
 </Project>

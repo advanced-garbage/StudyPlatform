@@ -6,6 +6,8 @@ namespace StudyPlatform.Services.Category.Interfaces
     {
         public Task<ICollection<CategoryViewModel>> GetAllCategoriesAsync();
 
+        public Task<int> GetCategoryIdByCourseIdAsync(int courseId);
+
         public Task<CategoryViewModel> GetCategoryByIdAsync(int id);
 
         public Task<bool> AnyByNameAsync(string name);
@@ -17,5 +19,7 @@ namespace StudyPlatform.Services.Category.Interfaces
         public Task<CategoryViewFormModel> GetFormCategory(int id);
 
         public Task EditAsync(CategoryViewFormModel model);
+
+        public Task<string> GetNameByIdAsync(int categoryId);
     }
 }

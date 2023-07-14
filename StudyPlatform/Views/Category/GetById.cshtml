@@ -11,7 +11,8 @@
 <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
 <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
 <hr/>
-
+<a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
+<br/>
 @{
     foreach (var course in Model.Courses)
     {

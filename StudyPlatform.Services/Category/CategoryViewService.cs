@@ -5,6 +5,7 @@ using StudyPlatform.Web.View.Models.Category;
 using StudyPlatform.Web.View.Models.Course;
 using System.Reflection.Metadata.Ecma335;
 using StudyPlatform.Data.Models;
+using static StudyPlatform.Common.ModelValidationConstants;
 
 namespace StudyPlatform.Services.Category
 {
@@ -94,6 +95,23 @@ namespace StudyPlatform.Services.Category
             throw new InvalidOperationException($"A Category by this id ({id}) was not found.");
         }
 
+        public async Task<int> GetCategoryIdByCourseIdAsync(int courseId)
+        {
+            if (!await this._db.Courses.AnyAsync(c => c.Id.Equals(courseId)))
+            {
+                throw new InvalidOperationException($"The provided id ({courseId}) was not found!");
+            }
+
+            int categoryId
+                = await this._db
+                .Courses
+                .Where(c => c.Id.Equals(courseId))
+                .Select(c => c.CategoryId)
+                .FirstOrDefaultAsync();
+
+            return categoryId;
+        }
+
         public async Task<CategoryViewFormModel> GetFormCategory(int id)
         {
             if (!await AnyByIdAsync(id))
@@ -115,6 +133,24 @@ namespace StudyPlatform.Services.Category
             return model;
         }
 
+        public async Task<string> GetNameByIdAsync(int categoryId)
+        {
+            if (!await AnyByIdAsync(categoryId))
+            {
+                throw new InvalidOperationException($"course by this id ({categoryId}) was not found");
+            }
+
+            string Name = 
+                await this._db
+                .Categories
+                .Where(c => c.Id.Equals(categoryId))
+                .Select(c => c.Name)
+                .Take(1)
+                .FirstOrDefaultAsync();
+
+            return Name;
+        }
+
         public async Task RemoveAsync(int id)
         {
             if (!await AnyByIdAsync(id)) 
@@ -133,12 +169,12 @@ namespace StudyPlatform.Services.Category
 
         private async Task<bool> AnyByIdAsync(int id)
         {
-            bool idExists
+            bool categoryExists
                 = await _db
                 .Categories
                 .AnyAsync(c => c.Id.Equals(id));
 
-            return idExists;
+            return categoryExists;
         }
     }
 }

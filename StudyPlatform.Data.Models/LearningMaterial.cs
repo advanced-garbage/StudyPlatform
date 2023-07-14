@@ -16,12 +16,16 @@ namespace StudyPlatform.Data.Models
         [Required]
         public int Id { get; set; }
 
+        public string LearningMaterialName { get; set; }
+
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
-        public string Name { get; set; } = null!;
+        public string FileName { get; set; } = null!;
 
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }
         public Lesson Lesson { get; set; }
+
+
     }
 }

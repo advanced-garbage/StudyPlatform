@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudyPlatform.Data;
 
@@ -11,9 +12,10 @@ using StudyPlatform.Data;
 namespace StudyPlatform.Data.Migrations
 {
     [DbContext(typeof(StudyPlatformDbContext))]
-    partial class StudyPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230713160724_UpdatedLearningMaterialTable")]
+    partial class UpdatedLearningMaterialTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -355,10 +357,6 @@ namespace StudyPlatform.Data.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("LearningMaterialName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
@@ -529,9 +527,9 @@ namespace StudyPlatform.Data.Migrations
             modelBuilder.Entity("StudyPlatform.Data.Models.LearningMaterial", b =>
                 {
                     b.HasOne("StudyPlatform.Data.Models.Lesson", "Lesson")
-                        .WithMany("LearningMaterials")
+                        .WithMany()
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lesson");
@@ -594,11 +592,6 @@ namespace StudyPlatform.Data.Migrations
             modelBuilder.Entity("StudyPlatform.Data.Models.Course", b =>
                 {
                     b.Navigation("Lessons");
-                });
-
-            modelBuilder.Entity("StudyPlatform.Data.Models.Lesson", b =>
-                {
-                    b.Navigation("LearningMaterials");
                 });
 #pragma warning restore 612, 618
         }

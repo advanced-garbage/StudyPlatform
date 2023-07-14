@@ -13,8 +13,8 @@ namespace StudyPlatform.Web.View.Models.Teacher
     {
         public TeacherFormModel() : base() {
             Role = "Teacher";
-            this.Lessons = new List<LessonViewModel>();
+            this.Lessons = new List<LearningMaterialViewModel>();
         }
-        public ICollection<LessonViewModel> Lessons;
+        public ICollection<LearningMaterialViewModel> Lessons;
     }
 }

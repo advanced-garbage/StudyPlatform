@@ -6,10 +6,10 @@ namespace StudyPlatform.Web.View.Models.Teacher
     public class TeacherViewModel : UserViewModel
     {
         public TeacherViewModel() {
-            this.Lessons = new List<LessonViewModel>();
+            this.Lessons = new List<LearningMaterialViewModel>();
             Role = "Teacher";
         }
 
-        public ICollection<LessonViewModel> Lessons;
+        public ICollection<LearningMaterialViewModel> Lessons;
     }
 }
