@@ -1,16 +1,16 @@
 ﻿@model UploadLearningMaterialFormModel
 
 <div class="text-center">
-    <h1 class="display-4">Upload Learning Material for:<br /><b>@Model.CourseName (@Model.CategoryName)</b></h1>
-    <p>Select a file to upload (of type .doc, .docx, .pdf and .txt).</p>
+    <h1 class="display-4">Upload Learning Material for:<br /><b>@Model.LessonName (@Model.CourseName)</b></h1>
+    <p>Select a file to upload (of type .doc, .docx, .pdf or .txt)</p>
     <br />
     <form enctype="multipart/form-data" asp-controller="LearningMaterial" asp-action="Upload" method="post">
-        <input type="hidden" asp-for="@Model.CourseId" />
-        <label asp-for="@Model.LessonName">Name of Lesson</label>
-        <input asp-for="@Model.LessonName" />
-        <span asp-validation-for="@Model.LessonName" class="text-danger"></span>
+        <input type="hidden" asp-for="@Model.LessonName" />
+        <input type="hidden" asp-for="@Model.LessonId" />
+        <label asp-for="@Model.LearningMaterialName">Title:</label>
+        <input asp-for="@Model.LearningMaterialName" />
+        <span asp-validation-for="@Model.LearningMaterialName" class="text-danger"></span>
         <br/>
-        <label>Select a file:</label><br />
         <input type="file" name="file" />
         <br/>
         <button type="submit" class="btn btn-success align-items-center" value="Upload">Upload</button>

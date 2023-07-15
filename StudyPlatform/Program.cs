@@ -47,7 +47,9 @@ builder.Services.AddScoped<ICourseViewFormService, CourseViewFormService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
+builder.Services.AddScoped<ILearningMaterialFormService, LearningMaterialFormService>();
 builder.Services.AddScoped<ILessonViewService, LessonViewService>();
+builder.Services.AddScoped<ILessonFormService, LessonFormService>();
 
 var app = builder.Build();
 

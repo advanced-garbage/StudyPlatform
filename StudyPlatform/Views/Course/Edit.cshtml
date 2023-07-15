@@ -36,6 +36,7 @@
                             if (category.Id == Model.CategoryId) { continue; }
                             <option value="@category.Id">@category.Name</option>
                         }
+                        
                     </select>
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>

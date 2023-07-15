@@ -1,0 +1,3 @@
+Contents for debug lesson 2
+
+this is a text file. it'll probably a pdf file later. if i write the code correctly

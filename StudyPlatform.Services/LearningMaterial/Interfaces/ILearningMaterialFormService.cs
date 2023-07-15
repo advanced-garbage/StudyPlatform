@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Services.LearningMaterial.Interfaces
 {
-    public interface ILearningMaterialService
+    public interface ILearningMaterialFormService
     {
-        Task<bool> AnyByNameAsync(string name);
-
-        Task<bool> AnyByIdAsync(int id);
+        public Task AddLessonAsync(UploadLearningMaterialFormModel model);
     }
 }

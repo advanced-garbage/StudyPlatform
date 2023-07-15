@@ -7,11 +7,6 @@
     <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </h1>
 <hr/>
-<p>
-    <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">
-        Add new learning material
-    </a>
-</p>
 <hr/>
 @{
     if (!string.IsNullOrEmpty(Model.Description))
@@ -20,7 +15,7 @@
     }
 }
 <hr/>
-<a asp-controller="Lesson" asp-action="Add">Add Lesson</a>
+<a asp-controller="Lesson" asp-action="Add" asp-route-id="@Model.Id">Add Lesson</a>
 @{
     foreach(var lesson in Model.Lessons)
     {

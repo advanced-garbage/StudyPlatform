@@ -11,6 +11,7 @@ namespace StudyPlatform.Data.Models
             this.Teachers = new List<Teacher>();
             this.LearningMaterials = new List<LearningMaterial>();
         }
+
         [Key]
         [Required]
         public int Id { get; set; }

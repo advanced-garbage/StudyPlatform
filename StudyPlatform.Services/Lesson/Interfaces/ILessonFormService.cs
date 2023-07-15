@@ -9,6 +9,7 @@ namespace StudyPlatform.Services.Lesson.Interfaces
 {
     public interface ILessonFormService
     {
+        public Task<LessonViewFormModel> GetLessonFormByIdAsync(int id);
         public Task AddAsync(LessonViewFormModel model);
 
         public Task RemoveAsync(int lessonId);

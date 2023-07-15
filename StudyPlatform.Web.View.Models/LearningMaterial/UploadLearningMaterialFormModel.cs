@@ -1,6 +1,6 @@
 ﻿using StudyPlatform.Common;
 using System.ComponentModel.DataAnnotations;
-using static StudyPlatform.Common.ModelValidationConstants.Category;
+using static StudyPlatform.Common.ModelValidationConstants.Lesson ;
 using static StudyPlatform.Common.ModelValidationConstants.LearningMaterial;
 using static StudyPlatform.Common.ModelValidationConstants.Course;
 using Microsoft.AspNetCore.Http;
@@ -11,20 +11,22 @@ namespace StudyPlatform.Web.View.Models.Lesson
     {
         public IFormFile File { get; set; }
 
-        [Display(Name = "Lesson Name")]
+        [Display(Name = "Title of the material")]
         [StringLength(ModelValidationConstants.LearningMaterial.NameMaxLength,
             MinimumLength = ModelValidationConstants.LearningMaterial.NameMinLength)]
-        public string LessonName { get; set; }
+        public string LearningMaterialName { get; set; }
 
-        [StringLength(ModelValidationConstants.Category.NameMaxLength, 
-            MinimumLength = ModelValidationConstants.Category.NameMinLength)]
-        public string? CategoryName { get; set; }
+        [Display(Name = "Lesson Name")]
+        [StringLength(ModelValidationConstants.Lesson.NameMaxLength,
+            MinimumLength = ModelValidationConstants.Lesson.NameMinLength)]
+        public string? LessonName { get; set; }
+
+        [Required]
+        public int LessonId { get; set; }
 
         [StringLength(ModelValidationConstants.Course.NameMaxLength,
             MinimumLength = ModelValidationConstants.Course.NameMinLength)]
         public string? CourseName { get; set; }
-        [Required]
-        public int CourseId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

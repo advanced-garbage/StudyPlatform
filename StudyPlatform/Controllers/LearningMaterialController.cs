@@ -2,6 +2,7 @@
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
+using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
 
 namespace StudyPlatform.Controllers
@@ -12,17 +13,20 @@ namespace StudyPlatform.Controllers
     public class LearningMaterialController : Controller
     {
         private readonly ILearningMaterialService _learningMaterialService;
+        private readonly ILearningMaterialFormService _learningMaterialFormService;
+        private readonly ILessonViewService _lessonViewService;
         private readonly ICourseViewService _courseService;
-        private readonly ICategoryViewService _categoryService;
 
         public LearningMaterialController(
             ILearningMaterialService learningMaterialService,
-            ICategoryViewService categoryService,
-            ICourseViewService courseService)
+            ICourseViewService courseService,
+            ILessonViewService lessonViewService,
+            ILearningMaterialFormService learningMaterialFormService)
         {
             this._learningMaterialService = learningMaterialService;
-            this._categoryService = categoryService;
             this._courseService = courseService;
+            this._lessonViewService = lessonViewService;
+            this._learningMaterialFormService = learningMaterialFormService;
         }
         public IActionResult Index()
         {
@@ -30,15 +34,14 @@ namespace StudyPlatform.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Upload(int id) // relevant course id
+        public async Task<IActionResult> Upload(int id) // relevant lesson id
         {
-            int categoryId = await this._categoryService.GetCategoryIdByCourseIdAsync(id);
-
+            int courseId = await this._lessonViewService.GetCourseIdByLessonId(id);
             UploadLearningMaterialFormModel model = new UploadLearningMaterialFormModel()
             {
-                CourseId = id,    
-                CourseName = await this._courseService.GetNameByIdAsync(id),
-                CategoryName = await this._categoryService.GetNameByIdAsync(categoryId)
+                LessonId = id,    
+                LessonName = await this._lessonViewService.GetNameByIdAsync(id),
+                CourseName = await this._courseService.GetNameByIdAsync(courseId),
             };
 
             return View(model);
@@ -52,17 +55,21 @@ namespace StudyPlatform.Controllers
                 ModelState.AddModelError(nameof(model.File), "File was not sent");
             }
 
+            bool lmNameExists = await this._learningMaterialService.AnyByNameAsync(model.LearningMaterialName);
+            if (lmNameExists)
+            {
+                ModelState.AddModelError(nameof(model.LearningMaterialName), "File by this name already exists.");
+            }
+
             if (!ModelState.IsValid)
             {
-                int categoryId = await this._categoryService.GetCategoryIdByCourseIdAsync(model.CourseId);
-
+                int courseId = await this._lessonViewService.GetCourseIdByLessonId(model.LessonId);
                 UploadLearningMaterialFormModel getModel = new UploadLearningMaterialFormModel()
                 {
-                    CourseId = model.CourseId,
-                    CourseName = await this._courseService.GetNameByIdAsync(model.CourseId),
-                    CategoryName = await this._categoryService.GetNameByIdAsync(categoryId)
+                    LessonId = model.LessonId,
+                    LessonName = await this._lessonViewService.GetNameByIdAsync(model.LessonId),
+                    CourseName = await this._courseService.GetNameByIdAsync(courseId),
                 };
-
                 return View(getModel);
             }
 
@@ -74,6 +81,7 @@ namespace StudyPlatform.Controllers
             }
 
             //TODO: Upload lesson to DB
+            await this._learningMaterialFormService.AddLessonAsync(model);
 
             // TODO: Redirect to the course
             return Ok(model.File);

@@ -81,7 +81,7 @@ namespace StudyPlatform.Services.Course
                 throw new InvalidOperationException($"course by this id ({courseId}) was not found");
             }
 
-            string Name =
+            string courseName =
                 await this._db
                 .Courses
                 .Where(c => c.Id.Equals(courseId))
@@ -89,7 +89,7 @@ namespace StudyPlatform.Services.Course
                 .Take(1)
                 .FirstOrDefaultAsync();
 
-            return Name;
+            return courseName;
         }
 
         private async Task<bool> AnyByIdAsync(int id)

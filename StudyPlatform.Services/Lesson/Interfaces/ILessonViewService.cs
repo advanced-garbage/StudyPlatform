@@ -18,5 +18,7 @@ namespace StudyPlatform.Services.Lesson.Interfaces
         public Task<bool> AnyByIdAsync(int id);
 
         public Task<bool> AnyByNameAsync(string name);
+
+        public Task<string> GetNameByIdAsync(int id);
     }
 }

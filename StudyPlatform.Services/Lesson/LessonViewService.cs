@@ -79,5 +79,18 @@ namespace StudyPlatform.Services.Lesson
 
             return lessonModel;
         }
+
+        public async Task<string> GetNameByIdAsync(int id)
+        {
+            string lessonName =
+                await this._db
+                .Lessons
+                .Where(c => c.Id.Equals(id))
+                .Select(c => c.Name)
+                .Take(1)
+                .FirstOrDefaultAsync();
+
+            return lessonName;
+        }
     }
 }

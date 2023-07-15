@@ -58,5 +58,23 @@ namespace StudyPlatform.Services.Lesson
             lessonObj.Description = model.Description;
             await this._db.SaveChangesAsync();
         }
+
+        public async Task<LessonViewFormModel> GetLessonFormByIdAsync(int id)
+        {
+            LessonViewFormModel model
+                = await this._db
+                .Lessons
+                .Where(l => l.Id.Equals(id))
+                .Select(l => new LessonViewFormModel()
+                {
+                    Id = l.Id,
+                    Name = l.Name,
+                    Description = l.Description,
+                    CourseId = l.CourseId
+                })
+                .FirstOrDefaultAsync();
+
+            return model;
+        }
     }
 }
