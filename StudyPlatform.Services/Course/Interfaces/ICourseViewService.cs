@@ -4,15 +4,8 @@ namespace StudyPlatform.Services.Course.Interfaces
 {
     public interface ICourseViewService
     {
-        public Task<CourseViewModel> GetCourseById(int id);
-
-        public Task EditAsync(CourseViewFormModel model);
-
-        public Task RemoveAsync(int id);
-
-        public Task AddAsync(CourseViewFormModel model);
-
-        public Task AssignToNewCategoryAsync(int courseId, int categoryId); 
+        public Task<ICollection<CourseListViewModel>> GetAllAsync();
+        public Task<CourseViewModel> GetById(int id);
 
         public Task<CourseViewFormModel> GetFormCourseAsync(int id);
 

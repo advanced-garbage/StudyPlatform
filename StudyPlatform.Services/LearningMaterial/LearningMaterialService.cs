@@ -13,14 +13,7 @@ namespace StudyPlatform.Services.LearningMaterial
         }
         public async Task AddLessonAsync(string fileName)
         {
-            Data.Models.LearningMaterial lmObj
-                = new Data.Models.LearningMaterial()
-                {
-                    FileName = fileName,
-                };
-
-            await this._db.LearningMaterials.AddAsync(lmObj);
-            await this._db.SaveChangesAsync();
+            
         }
     }
 }

@@ -12,13 +12,7 @@ namespace StudyPlatform.Services.Category.Interfaces
 
         public Task<bool> AnyByNameAsync(string name);
 
-        public Task AddAsync(CategoryViewFormModel model);
-
-        public Task RemoveAsync(int id);
-
         public Task<CategoryViewFormModel> GetFormCategory(int id);
-
-        public Task EditAsync(CategoryViewFormModel model);
 
         public Task<string> GetNameByIdAsync(int categoryId);
     }

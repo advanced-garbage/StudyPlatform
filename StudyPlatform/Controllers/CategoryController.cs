@@ -10,10 +10,13 @@ namespace StudyPlatform.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryViewService _categoryViewService;
+        private readonly ICategoryViewFormService _categoryViewFormService;
         public CategoryController(
-            ICategoryViewService categoryViewService)
+            ICategoryViewService categoryViewService,
+            ICategoryViewFormService categoryViewFormService)
         {
             this._categoryViewService = categoryViewService;
+            this._categoryViewFormService = categoryViewFormService;
         }
 
         public IActionResult Index()
@@ -57,18 +60,17 @@ namespace StudyPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
+            if (await this._categoryViewService.AnyByNameAsync(model.Name))
+            {
+                ModelState.AddModelError(nameof(model.Name), $"Object with this name ({model.Name}) already exists in the DataBase.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            if (await this._categoryViewService.AnyByNameAsync(model.Name))
-            {
-                ModelState.AddModelError(model.Name, $"Object with this name ({model.Name}) already exists in the DataBase.");
-                return View();
-            }
-
-            await this._categoryViewService.AddAsync(model);
+            await this._categoryViewFormService.AddAsync(model);
 
             return RedirectToAction("All");
         }
@@ -76,7 +78,7 @@ namespace StudyPlatform.Controllers
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
-            await this._categoryViewService.RemoveAsync(id);
+            await this._categoryViewFormService.RemoveAsync(id);
             return RedirectToAction("All");
         }
 
@@ -96,7 +98,7 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._categoryViewService.EditAsync(model);
+            await this._categoryViewFormService.EditAsync(model);
 
             return RedirectToAction("All");
         }

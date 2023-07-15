@@ -18,18 +18,6 @@ namespace StudyPlatform.Services.Category
             _db = db;
         }
 
-        public async Task AddAsync(CategoryViewFormModel model)
-        {
-            Data.Models.Category categoryObj
-                = new Data.Models.Category
-            {
-                Name = model.Name
-            };
-
-            await this._db.AddAsync(categoryObj);
-            await this._db.SaveChangesAsync();
-        }
-
         public async Task<bool> AnyByNameAsync(string name)
         {
             bool existsByName = 
@@ -38,18 +26,6 @@ namespace StudyPlatform.Services.Category
                 .AnyAsync(c => c.Name.Equals(name));
 
             return existsByName;
-        }
-
-        public async Task EditAsync(CategoryViewFormModel model)
-        {
-            Data.Models.Category categoryObj
-                = await this._db
-                .Categories
-                .Where(c => c.Id.Equals(model.Id))
-                .FirstOrDefaultAsync();
-
-            categoryObj.Name = model.Name;
-            await this._db.SaveChangesAsync(); 
         }
 
         public async Task<ICollection<CategoryViewModel>> GetAllCategoriesAsync()
@@ -69,7 +45,7 @@ namespace StudyPlatform.Services.Category
 
         public async Task<CategoryViewModel> GetCategoryByIdAsync(int id)
         {
-            if (await AnyByIdAsync(id))
+            if (await AnyCategoryByIdAsync(id))
             {
                 CategoryViewModel? category
                     = await _db
@@ -114,7 +90,7 @@ namespace StudyPlatform.Services.Category
 
         public async Task<CategoryViewFormModel> GetFormCategory(int id)
         {
-            if (!await AnyByIdAsync(id))
+            if (!await AnyCategoryByIdAsync(id))
             {
                 throw new InvalidOperationException($"A Category by this id {id} was not found");
             }
@@ -135,7 +111,7 @@ namespace StudyPlatform.Services.Category
 
         public async Task<string> GetNameByIdAsync(int categoryId)
         {
-            if (!await AnyByIdAsync(categoryId))
+            if (!await AnyCategoryByIdAsync(categoryId))
             {
                 throw new InvalidOperationException($"course by this id ({categoryId}) was not found");
             }
@@ -151,23 +127,7 @@ namespace StudyPlatform.Services.Category
             return Name;
         }
 
-        public async Task RemoveAsync(int id)
-        {
-            if (!await AnyByIdAsync(id)) 
-            {
-                throw new InvalidOperationException($"Category with this id ({id}) was not found.");
-            }
-
-            Data.Models.Category categoryObj
-                = await this._db
-                .Categories
-                .FirstOrDefaultAsync(c => c.Id.Equals(id));
-
-            this._db.Categories.Remove(categoryObj);
-            await this._db.SaveChangesAsync();
-        }
-
-        private async Task<bool> AnyByIdAsync(int id)
+        private async Task<bool> AnyCategoryByIdAsync(int id)
         {
             bool categoryExists
                 = await _db

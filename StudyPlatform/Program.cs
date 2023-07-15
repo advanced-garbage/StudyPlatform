@@ -8,6 +8,8 @@ using StudyPlatform.Services.Course;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
+using StudyPlatform.Services.Lesson;
+using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
 
@@ -39,10 +41,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
+builder.Services.AddScoped<ICategoryViewFormService, CategoryViewFormService>();
 builder.Services.AddScoped<ICourseViewService, CourseViewService>();
+builder.Services.AddScoped<ICourseViewFormService, CourseViewFormService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
+builder.Services.AddScoped<ILessonViewService, LessonViewService>();
 
 var app = builder.Build();
 

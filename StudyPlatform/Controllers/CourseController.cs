@@ -13,13 +13,16 @@ namespace StudyPlatform.Controllers
     {
         private readonly ICourseViewService _courseViewService;
         private readonly ICategoryViewService _categoryViewService;
+        private readonly ICourseViewFormService _courseViewFormService;
 
         public CourseController(
             ICourseViewService courseViewService,
-            ICategoryViewService categoryViewService)
+            ICategoryViewService categoryViewService,
+            ICourseViewFormService courseViewFormService)
         {
             this._courseViewService = courseViewService;
             this._categoryViewService = categoryViewService;
+            this._courseViewFormService = courseViewFormService;
         }
 
         public IActionResult Index()
@@ -30,7 +33,7 @@ namespace StudyPlatform.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCourse(int id)
         {
-            var course = await this._courseViewService.GetCourseById(id);
+            var course = await this._courseViewService.GetById(id);
             if (course == null)
             {
                 return RedirectToAction("Error", "Home");
@@ -57,7 +60,7 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._courseViewService.EditAsync(model);
+            await this._courseViewFormService.EditAsync(model);
 
             return RedirectToAction("GetCourse", new { id = model.Id});
         }
@@ -66,7 +69,7 @@ namespace StudyPlatform.Controllers
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
-            await this._courseViewService.RemoveAsync(id);
+            await this._courseViewFormService.RemoveAsync(id);
             // TODO: Return to the category of the deleted course
             return RedirectToAction("All", "Category");
         }
@@ -92,7 +95,7 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._courseViewService.AddAsync(model);
+            await this._courseViewFormService.AddAsync(model);
             return RedirectToAction("GetCourse", new { id = model.Id });
         }
     }

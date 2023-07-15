@@ -20,11 +20,11 @@
     }
 }
 <hr/>
-<li>
+<a asp-controller="Lesson" asp-action="Add">Add Lesson</a>
 @{
     foreach(var lesson in Model.Lessons)
     {
-        <ul>@lesson.FileName</ul>    
+        <a asp-controller="Lesson" asp-action="GetLesson" asp-route-id="@lesson.Id" class="link nav-link">@lesson.Name</a>
+        <br />
     }
 }
-</li>
