@@ -11,8 +11,14 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Services.Users
 {
+    /// <summary>
+    /// Teacher Dependency mainly used for reading operations.
+    /// </summary>
     public class TeacherService : ITeacherService
     {
+        /// <summary>
+        /// DbContext dependency.
+        /// </summary>
         private readonly StudyPlatformDbContext _db;
 
         public TeacherService(StudyPlatformDbContext db)
@@ -20,6 +26,9 @@ namespace StudyPlatform.Services.Users
             this._db = db;
         }
 
+        /// <summary>
+        /// Searches for a Teacher Entity with the given Guid. Returns a bool.
+        /// </summary>
         public async Task<bool> AnyById(Guid id)
         {
             bool teacherExists
@@ -29,8 +38,33 @@ namespace StudyPlatform.Services.Users
 
             return teacherExists;
         }
+        /// <summary>
+        /// Returns a collection of every teacher model
+        /// </summary>
+        public async Task<ICollection<TeacherViewModel>> GetAllAsync()
+        {
+            ICollection<TeacherViewModel> teachers
+                = await this._db
+                .Users
+                .Select(u => new TeacherViewModel()
+                {
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    MiddleName = u.MiddleName,
+                    LastName = u.LastName,
+                    Age = u.Age,
+                    Role = "Teacher"
+                })
+                .ToListAsync();
 
-        public async Task<TeacherViewModel> GetTeacher(Guid id)
+            return teachers;
+        }
+
+        /// <summary>
+        /// Returns a Teacher View Model with the given Guid.
+        /// </summary>
+        public async Task<TeacherViewModel> GetAsync(Guid id)
         {
             TeacherViewModel userModel
                 = await this._db

@@ -12,5 +12,13 @@ namespace StudyPlatform.Services.LearningMaterial.Interfaces
         Task<bool> AnyByNameAsync(string name);
 
         Task<bool> AnyByIdAsync(int id);
+
+        Task<int> GetIdByNameAsync(string lmName);
+        Task<LearningMaterialViewModel> GetViewModelAsync(int lmId);
+
+        Task<ICollection<LearningMaterialViewModel>> GetAllModelsByLessonAsync(int lessonId);
+
+        ICollection<LearningMaterialViewModel> GetAllModelsByLesson(int lessonId);
+
     }
 }

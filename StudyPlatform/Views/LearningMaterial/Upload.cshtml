@@ -2,7 +2,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Upload Learning Material for:<br /><b>@Model.LessonName (@Model.CourseName)</b></h1>
-    <p>Select a file to upload (of type .doc, .docx, .pdf or .txt)</p>
+    <p>Select a file to upload (of type .pdf)</p>
     <br />
     <form enctype="multipart/form-data" asp-controller="LearningMaterial" asp-action="Upload" method="post">
         <input type="hidden" asp-for="@Model.LessonName" />

@@ -10,7 +10,7 @@ namespace StudyPlatform.Data.Models
 {
     // Composite keys for the tables 'Teacher' and 'Lesson'
     // it has a Many-to-many relationship.
-    public class TeacherLesson
+    public class TeacherLearningMaterial
     {
         [ForeignKey(nameof(Teacher))]
         public Guid TeacherId { get; set; }
@@ -18,6 +18,6 @@ namespace StudyPlatform.Data.Models
 
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }   
-        public Lesson Lesson { get; set; }
+        public LearningMaterial Lesson { get; set; }
     }
 }

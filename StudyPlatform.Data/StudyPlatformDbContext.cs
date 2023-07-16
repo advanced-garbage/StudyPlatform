@@ -20,8 +20,8 @@ namespace StudyPlatform.Data
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Homework> Homeworks { get; set; }
         public DbSet<LearningMaterial> LearningMaterials { get; set; }
-        public DbSet<TeacherLesson> TeacherLessons { get; set; }
-        public DbSet<StudentLesson> StudentLessons { get; set; }
+        public DbSet<TeacherLearningMaterial> TeacherLessons { get; set; }
+        public DbSet<StudentLearningMaterial> StudentLessons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -4,6 +4,7 @@ using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Infrastructure.ClaimsPrincipalExtensions;
 using static StudyPlatform.Common.ViewModelConstants.Account;
+using StudyPlatform.Services.Lesson.Interfaces;
 
 namespace StudyPlatform.Controllers
 {
@@ -11,12 +12,16 @@ namespace StudyPlatform.Controllers
     {
         private readonly IUserService _userService;
         private readonly ITeacherService _teacherService;
+        private readonly ILessonViewService _lessonViewService;
+
         public AccountController(
             IUserService userService, 
-            ITeacherService teacherService)
+            ITeacherService teacherService,
+            ILessonViewService lessonViewService)
         {
-            _userService = userService;
-            _teacherService = teacherService;
+            this._userService = userService;
+            this._teacherService = teacherService;
+            this._lessonViewService = lessonViewService;
         }
 
         public IActionResult Index()
@@ -38,7 +43,7 @@ namespace StudyPlatform.Controllers
             if (await this._teacherService.AnyById(userId))
             {
                 userModel.Role = TeacherRoleTitle;
-                // TODO: Add lessons written by this teacher
+                userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);
             }
 
             return View(userModel);

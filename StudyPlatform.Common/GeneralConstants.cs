@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StudyPlatform.Common
+﻿namespace StudyPlatform.Common
 {
-    public class GeneralConstants
+    public static class GeneralConstants
     {
+        public const string LearningMaterialFolderPath = "files/learningmaterial/";
     }
 }

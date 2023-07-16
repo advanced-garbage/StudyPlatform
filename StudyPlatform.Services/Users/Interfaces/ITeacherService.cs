@@ -11,6 +11,9 @@ namespace StudyPlatform.Services.Users.Interfaces
     {
         Task<bool> AnyById(Guid id);
 
-        Task<TeacherViewModel> GetTeacher(Guid id);
+        Task<TeacherViewModel> GetAsync(Guid id);
+
+        Task<ICollection<TeacherViewModel>> GetAllAsync();
+
     }
 }

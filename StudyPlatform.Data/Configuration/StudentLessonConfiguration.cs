@@ -4,9 +4,9 @@ using StudyPlatform.Data.Models;
 
 namespace StudyPlatform.Data.Configuration
 {
-    public class StudentLessonConfiguration : IEntityTypeConfiguration<StudentLesson>
+    public class StudentLessonConfiguration : IEntityTypeConfiguration<StudentLearningMaterial>
     {
-        public void Configure(EntityTypeBuilder<StudentLesson> slBuilder)
+        public void Configure(EntityTypeBuilder<StudentLearningMaterial> slBuilder)
         {
             slBuilder
                 .HasKey(sl => new {sl.StudentId, sl.LessonId});

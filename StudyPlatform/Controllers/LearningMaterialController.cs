@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using StudyPlatform.Infrastructure;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Services.TeacherLesson.Intefaces;
+using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
 
 namespace StudyPlatform.Controllers
@@ -16,23 +20,30 @@ namespace StudyPlatform.Controllers
         private readonly ILearningMaterialFormService _learningMaterialFormService;
         private readonly ILessonViewService _lessonViewService;
         private readonly ICourseViewService _courseService;
+        private readonly ITeacherService _teacherService;
+        private readonly ITeacherLearningMaterialService _teacherLearningMaterialService;
 
         public LearningMaterialController(
             ILearningMaterialService learningMaterialService,
             ICourseViewService courseService,
             ILessonViewService lessonViewService,
-            ILearningMaterialFormService learningMaterialFormService)
+            ILearningMaterialFormService learningMaterialFormService,
+            ITeacherService teacherService,
+            ITeacherLearningMaterialService teacherLearningMaterialService)
         {
             this._learningMaterialService = learningMaterialService;
             this._courseService = courseService;
             this._lessonViewService = lessonViewService;
             this._learningMaterialFormService = learningMaterialFormService;
+            this._teacherService = teacherService;
+            this._teacherLearningMaterialService = teacherLearningMaterialService;
         }
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Upload(int id) // relevant lesson id
         {
@@ -50,6 +61,18 @@ namespace StudyPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(UploadLearningMaterialFormModel model)
         {
+            Guid userGuid = User.Id();
+            if (userGuid == Guid.Empty)
+            {
+                return RedirectToAction("Error", "Home", new { StatusCode = 404 });
+            }
+
+            bool isUserTeacher = await this._teacherService.AnyById(userGuid);
+            if (!isUserTeacher)
+            {
+                return RedirectToAction("Error", "Home", new { StatusCode = 404 });
+            }
+
             if (model.File == null)
             {
                 ModelState.AddModelError(nameof(model.File), "File was not sent");
@@ -80,11 +103,26 @@ namespace StudyPlatform.Controllers
                 await model.File.CopyToAsync(stream);
             }
 
-            //TODO: Upload lesson to DB
             await this._learningMaterialFormService.AddLessonAsync(model);
+            int lmId = await this._learningMaterialService.GetIdByNameAsync(model.LearningMaterialName);
+            await this._teacherLearningMaterialService.AddAsync(userGuid, lmId);
 
             // TODO: Redirect to the course
             return Ok(model.File);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowLearningMaterial(int id)
+        {
+            bool lmExists = await this._learningMaterialService.AnyByIdAsync(id);
+            if (!lmExists)
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 404 });
+            }
+
+            LearningMaterialViewModel model = await this._learningMaterialService.GetViewModelAsync(id);
+
+            return View(model);
         }
     }
 }

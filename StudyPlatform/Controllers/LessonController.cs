@@ -35,7 +35,7 @@ namespace StudyPlatform.Controllers
             return View(lessonsModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(id);
@@ -102,12 +102,6 @@ namespace StudyPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(LessonViewFormModel model)
         {
-            bool lessonExists = await this._lessonViewService.AnyByIdAsync(model.Id);
-            if (lessonExists)
-            {
-                ModelState.AddModelError(nameof(model.Id), "Lesson by this id already exists.");
-            }
-
             bool existsByName = await this._lessonViewService.AnyByNameAsync(model.Name);
             if (existsByName)
             {
@@ -125,7 +119,7 @@ namespace StudyPlatform.Controllers
 
             await this._lessonFormService.AddAsync(model);
 
-            int courseId = await this._lessonViewService.GetCourseIdByLessonId(model.CourseId);
+            int courseId = await this._courseViewService.GetIdAsync(model.CourseId);
 
             return RedirectToAction("GetCourse", "Course", new { id = courseId });
         }

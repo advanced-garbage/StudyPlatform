@@ -1,16 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
+using StudyPlatform.Services.Category.Interfaces;
+using StudyPlatform.Services.Course.Interfaces;
+using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
+using StudyPlatform.Web.View.Models.Course;
+using StudyPlatform.Web.View.Models.Category;
 
 namespace StudyPlatform.Services.Lesson
 {
     public class LessonViewService : ILessonViewService
     {
         private readonly StudyPlatformDbContext _db;
-        public LessonViewService(StudyPlatformDbContext db)
+        private readonly ILearningMaterialService _learningMaterialService;
+        private readonly ICourseViewService _courseViewService;
+        private readonly ICategoryViewService _categoryViewService;
+        public LessonViewService(
+            StudyPlatformDbContext db,
+            ILearningMaterialService learningMaterialService,
+            ICourseViewService courseViewService,
+            ICategoryViewService categoryViewService)
         {
             this._db = db;
+            this._learningMaterialService = learningMaterialService;
+            this._courseViewService = courseViewService;
+            this._categoryViewService = categoryViewService;
         }
         public async Task<bool> AnyByIdAsync(int id)
         {
@@ -30,6 +45,67 @@ namespace StudyPlatform.Services.Lesson
                 .AnyAsync(l => l.Name.Equals(name));
 
             return lessonExists;
+        }
+
+        public async Task<AccountCreditsViewModel> GetAccountCreditsAsync(Guid teacherId)
+        {
+            AccountCreditsViewModel model = new AccountCreditsViewModel();
+            IList<int> lessonIds = new List<int>();
+            IList<int> courseIds = new List<int>();
+            IList<int> categoryIds = new List<int>();
+
+            // take every learning material id that shares the passed teacherId
+            IList<int> lmIds 
+                = await this._db.TeacherLessons
+                .Where(c => c.TeacherId.Equals(teacherId))
+                .Select(lm => lm.LessonId)
+                .ToListAsync();
+
+            foreach (int lmId in lmIds)
+            {
+                // find lessonid through learning material ids 
+                int lessonId = await GetLessonIdByLearningMaterialId(lmId);
+                // find courseId through lessonId
+                int courseId = await GetCourseIdByLessonId(lessonId);
+                // find categoryId through courseId
+                int categoryId = await this._courseViewService.GetCategoryIdByCourseIdAsync(courseId);
+
+                if (!categoryIds.Contains(categoryId)) {
+                    categoryIds.Add(categoryId);
+                    string categoryName = await this._categoryViewService.GetNameByIdAsync(categoryId);
+                    model.AccountCategories.Add(new AccountCategoryViewModel()
+                    {
+                        Id = categoryId,
+                        Name = categoryName
+                    });
+                }
+                if (!courseIds.Contains(courseId)) {   
+                    courseIds.Add(courseId);
+                    string courseName = await this._courseViewService.GetNameByIdAsync(courseId);
+                    model.AccountCourses.Add(new AccountCourseViewModel()
+                    {
+                        Id = courseId,
+                        Name = courseName,
+                        CategoryId = categoryId
+                    });
+                }
+                if (!lessonIds.Contains(lessonId)) {
+                    lessonIds.Add(lessonId);
+                    string lessonName = await this.GetNameByIdAsync(lessonId);
+                    model.AccountLessons.Add(new AccountLessonViewModel()
+                    {
+                        Id = lessonId,
+                        Name = lessonName,
+                        CourseId = courseId
+                    });
+                }
+            }
+            return model;
+        }
+
+        public Task<AccountCreditsViewModel> GetAccountCreditsAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ICollection<LessonViewModel>> GetAllLessonsByCourseIdAsync(int courseId)
@@ -73,11 +149,24 @@ namespace StudyPlatform.Services.Lesson
                     Id = l.Id,
                     Name = l.Name,
                     Description = l.Description,
-                    CourseId = l.CourseId
+                    CourseId = l.CourseId,
+                    LearningMaterials = this._learningMaterialService.GetAllModelsByLesson(l.Id)
                 })
                 .FirstOrDefaultAsync();
 
             return lessonModel;
+        }
+
+        public async Task<int> GetLessonIdByLearningMaterialId(int lmId)
+        {
+            int lessonId
+                = await this._db
+                .LearningMaterials
+                .Where(lm => lm.Id.Equals(lmId))
+                .Select(lm => lm.LessonId)
+                .FirstAsync();
+
+            return lessonId;
         }
 
         public async Task<string> GetNameByIdAsync(int id)

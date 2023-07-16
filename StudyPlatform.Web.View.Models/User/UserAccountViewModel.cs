@@ -7,10 +7,6 @@ namespace StudyPlatform.Web.View.Models.User
 {
     public class UserAccountViewModel 
     {
-        public UserAccountViewModel() 
-        {
-            this.Lessons = new List<AccountLessonLinkViewModel>();
-        }
         // role has default value. can be admin
         [StringLength(RoleMaxLength, MinimumLength = RoleMinLength)]
         public string Role { get; set; } = "Student";
@@ -30,6 +26,6 @@ namespace StudyPlatform.Web.View.Models.User
 
         public string Age { get; set; }
 
-        public ICollection<AccountLessonLinkViewModel> Lessons;
+        public AccountCreditsViewModel? Lessons;
     }
 }

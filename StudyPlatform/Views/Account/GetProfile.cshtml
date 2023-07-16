@@ -10,4 +10,23 @@
     <h2>@Model.Role</h2>
     <h1>@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
     <h2>@Model?.Age</h2>
+    <hr/>
+    @{
+        // if user is teacher
+        if (Model.Role.Equals(TeacherRoleTitle))
+        {
+            <h3>This teacher is the author of the following lessons:</h3><br />
+            foreach (AccountCategoryViewModel category in Model.Lessons.AccountCategories) {
+                <a asp-controller="Category" asp-action="GetById" asp-route-id="@category.Id">@category.Name</a>
+                foreach(AccountCourseViewModel course in Model.Lessons.AccountCourses
+                                                         .Where(c => c.CategoryId.Equals(category.Id))){
+                    <div>- <a asp-controller="Course" asp-action="GetCourse" asp-route-id="@course.Id">@course.Name</a></div>
+                    foreach(AccountLessonViewModel lesson in Model.Lessons.AccountLessons
+                                                             .Where(l => l.CourseId.Equals(course.Id))) {
+                        <div>-- <a asp-controller="Lesson" asp-action="GetLesson" asp-route-id="@lesson.Id">@lesson.Name</a></div>
+                    }
+                }
+            } 
+        }
+    }
 </div>

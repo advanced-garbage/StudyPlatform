@@ -14,5 +14,14 @@
     <p>
         <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">Add new learning material</a>
     </p>
-    
+    <hr/>
+    @{
+        foreach (var lms in Model.LearningMaterials)
+        {
+            <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial" asp-route-id="@lms.Id">
+                @lms.Title
+            </a>
+            <br />
+        }
+    }
 </div>

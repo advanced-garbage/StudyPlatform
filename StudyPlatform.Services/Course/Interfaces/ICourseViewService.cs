@@ -11,6 +11,8 @@ namespace StudyPlatform.Services.Course.Interfaces
 
         public Task<int> GetCategoryIdByCourseIdAsync(int courseId);
 
-        public Task<string> GetNameByIdAsync(int courseId); 
+        public Task<string> GetNameByIdAsync(int courseId);
+
+        public Task<int> GetIdAsync(int id);
     }
 }

@@ -10,6 +10,8 @@ using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Services.TeacherLesson;
+using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
 
@@ -45,6 +47,8 @@ builder.Services.AddScoped<ICategoryViewFormService, CategoryViewFormService>();
 builder.Services.AddScoped<ICourseViewService, CourseViewService>();
 builder.Services.AddScoped<ICourseViewFormService, CourseViewFormService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<ITeacherFormService, TeacherFormService>();
+builder.Services.AddScoped<ITeacherLearningMaterialService, TeacherLearningMaterialService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
 builder.Services.AddScoped<ILearningMaterialFormService, LearningMaterialFormService>();

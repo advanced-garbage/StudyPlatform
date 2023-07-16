@@ -20,5 +20,9 @@ namespace StudyPlatform.Services.Lesson.Interfaces
         public Task<bool> AnyByNameAsync(string name);
 
         public Task<string> GetNameByIdAsync(int id);
+
+        public Task<AccountCreditsViewModel> GetAccountCreditsAsync(Guid teacherId);
+
+        public Task<int> GetLessonIdByLearningMaterialId(int lmId);
     }
 }

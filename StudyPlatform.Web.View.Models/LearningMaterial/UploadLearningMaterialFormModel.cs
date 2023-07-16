@@ -30,7 +30,14 @@ namespace StudyPlatform.Web.View.Models.Lesson
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(LessonName)) { yield return new ValidationResult("Lesson Name cannot be null!"); }
+            if (string.IsNullOrWhiteSpace(LearningMaterialName)) { 
+                yield return new ValidationResult("The title cannot be null!"); 
+            }
+
+            if (!File.FileName.EndsWith(".pdf")) {
+                yield return new ValidationResult("You can only upload files with the .pdf extension!");
+            }
+
         }
     }
 }

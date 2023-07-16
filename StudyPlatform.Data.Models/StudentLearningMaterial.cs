@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Data.Models
 {
-    public class StudentLesson 
+    public class StudentLearningMaterial 
     {
         [ForeignKey(nameof(Student))]
         public Guid StudentId { get; set; }
@@ -15,6 +15,6 @@ namespace StudyPlatform.Data.Models
 
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }
-        public Lesson Lesson { get; set; }
+        public LearningMaterial Lesson { get; set; }
     }
 }
