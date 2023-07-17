@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyPlatform.Infrastructure;
-using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
+using static StudyPlatform.Common.ErrorMessages.LearningMaterial;
+using static StudyPlatform.Common.GeneralConstants;
 
 namespace StudyPlatform.Controllers
 {
@@ -75,13 +76,13 @@ namespace StudyPlatform.Controllers
 
             if (model.File == null)
             {
-                ModelState.AddModelError(nameof(model.File), "File was not sent");
+                ModelState.AddModelError(nameof(model.File), FileNotSent);
             }
 
             bool lmNameExists = await this._learningMaterialService.AnyByNameAsync(model.LearningMaterialName);
             if (lmNameExists)
             {
-                ModelState.AddModelError(nameof(model.LearningMaterialName), "File by this name already exists.");
+                ModelState.AddModelError(nameof(model.LearningMaterialName), FileByNameExists);
             }
 
             if (!ModelState.IsValid)
@@ -97,7 +98,7 @@ namespace StudyPlatform.Controllers
             }
 
             string fileName = model.File.FileName;
-            string uploadPath = Path.Combine("wwwroot/files/learningmaterial/", fileName);
+            string uploadPath = Path.Combine(LearningMaterialFolderPathWithRoot, fileName);
             using (FileStream stream = new FileStream(uploadPath, FileMode.Create))
             {
                 await model.File.CopyToAsync(stream);
@@ -124,5 +125,7 @@ namespace StudyPlatform.Controllers
 
             return View(model);
         }
+
+        // TODO: Add a "Add teacher as author" button
     }
 }

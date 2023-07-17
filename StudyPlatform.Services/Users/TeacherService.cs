@@ -1,14 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
+using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Teacher;
-using StudyPlatform.Web.View.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using static StudyPlatform.Common.ViewModelConstants.Account;
 namespace StudyPlatform.Services.Users
 {
     /// <summary>
@@ -26,9 +21,6 @@ namespace StudyPlatform.Services.Users
             this._db = db;
         }
 
-        /// <summary>
-        /// Searches for a Teacher Entity with the given Guid. Returns a bool.
-        /// </summary>
         public async Task<bool> AnyById(Guid id)
         {
             bool teacherExists
@@ -38,9 +30,7 @@ namespace StudyPlatform.Services.Users
 
             return teacherExists;
         }
-        /// <summary>
-        /// Returns a collection of every teacher model
-        /// </summary>
+
         public async Task<ICollection<TeacherViewModel>> GetAllAsync()
         {
             ICollection<TeacherViewModel> teachers
@@ -54,16 +44,14 @@ namespace StudyPlatform.Services.Users
                     MiddleName = u.MiddleName,
                     LastName = u.LastName,
                     Age = u.Age,
-                    Role = "Teacher"
+                    Role = TeacherRoleTitle
                 })
                 .ToListAsync();
 
             return teachers;
         }
 
-        /// <summary>
-        /// Returns a Teacher View Model with the given Guid.
-        /// </summary>
+
         public async Task<TeacherViewModel> GetAsync(Guid id)
         {
             TeacherViewModel userModel
@@ -78,11 +66,36 @@ namespace StudyPlatform.Services.Users
                     MiddleName = u.MiddleName,
                     LastName = u.LastName,
                     Age = u.Age,
-                    Role = "Teacher"
+                    Role = TeacherRoleTitle
                 })
                 .FirstOrDefaultAsync();
 
             return userModel;
+        }
+
+        public ICollection<TeacherForLearningMaterialViewModel> GetByLearningMaterialId(int learningMaterialId)
+        {
+            ICollection<Guid> teacherIds
+                = this._db
+                .TeacherLessons
+                .Where(lm => lm.LessonId.Equals(learningMaterialId))
+                .Select(t => (Guid)t.TeacherId)
+                .ToList();
+
+            ICollection<TeacherForLearningMaterialViewModel> userModels
+                = this._db
+                .Users
+                .Where(t => teacherIds.Contains(t.Id))
+                .Select(t => new TeacherForLearningMaterialViewModel()
+                {
+                    Id = t.Id,
+                    UserName = t.UserName,
+                    FirstName = t.FirstName,
+                    LastName = t.LastName
+                })
+                .ToList();
+
+            return userModels;
         }
     }
 }

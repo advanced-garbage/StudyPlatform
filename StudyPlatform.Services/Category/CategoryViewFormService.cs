@@ -2,11 +2,7 @@
 using StudyPlatform.Data;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static StudyPlatform.Common.ErrorMessages.Category;
 
 namespace StudyPlatform.Services.Category
 {
@@ -46,7 +42,7 @@ namespace StudyPlatform.Services.Category
         {
             if (!await AnyCategoryByIdAsync(id))
             {
-                throw new InvalidOperationException($"Category with this id ({id}) was not found.");
+                throw new InvalidOperationException(CategoryIdNotFound);
             }
 
             Data.Models.Category categoryObj

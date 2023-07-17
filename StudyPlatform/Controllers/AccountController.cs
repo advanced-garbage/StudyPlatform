@@ -24,12 +24,10 @@ namespace StudyPlatform.Controllers
             this._lessonViewService = lessonViewService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
+        [Route("account/home")]
+        [Route("account/index")]
+        [Route("account/")]
         public async Task<IActionResult> GetProfile()
         {
             Guid userId = User.Id();

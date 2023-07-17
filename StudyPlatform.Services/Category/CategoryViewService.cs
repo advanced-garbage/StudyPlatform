@@ -3,9 +3,8 @@ using StudyPlatform.Data;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
 using StudyPlatform.Web.View.Models.Course;
-using System.Reflection.Metadata.Ecma335;
-using StudyPlatform.Data.Models;
-using static StudyPlatform.Common.ModelValidationConstants;
+using static StudyPlatform.Common.ErrorMessages.Category;
+using static StudyPlatform.Common.ErrorMessages.Course;
 
 namespace StudyPlatform.Services.Category
 {
@@ -75,7 +74,7 @@ namespace StudyPlatform.Services.Category
         {
             if (!await this._db.Courses.AnyAsync(c => c.Id.Equals(courseId)))
             {
-                throw new InvalidOperationException($"The provided id ({courseId}) was not found!");
+                throw new InvalidOperationException(CourseIdNotFound);
             }
 
             int categoryId
@@ -113,7 +112,7 @@ namespace StudyPlatform.Services.Category
         {
             if (!await AnyCategoryByIdAsync(categoryId))
             {
-                throw new InvalidOperationException($"course by this id ({categoryId}) was not found");
+                throw new InvalidOperationException(CategoryIdNotFound);
             }
 
             string Name = 

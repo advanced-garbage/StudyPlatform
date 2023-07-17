@@ -3,6 +3,7 @@ using StudyPlatform.Data;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Web.View.Models.Course;
 using StudyPlatform.Web.View.Models.Lesson;
+using static StudyPlatform.Common.ErrorMessages.Course;
 
 namespace StudyPlatform.Services.Course
 {
@@ -56,7 +57,7 @@ namespace StudyPlatform.Services.Course
         {
             if (!await AnyByIdAsync(id))
             {
-                throw new InvalidOperationException($"course by this id ({id}) was not found");
+                throw new InvalidOperationException(CourseIdNotFound);
             }
 
             CourseViewFormModel courseModel
@@ -78,7 +79,7 @@ namespace StudyPlatform.Services.Course
         {
             if (!await AnyByIdAsync(courseId))
             {
-                throw new InvalidOperationException($"course by this id ({courseId}) was not found");
+                throw new InvalidOperationException(CourseIdNotFound);
             }
 
             string courseName =

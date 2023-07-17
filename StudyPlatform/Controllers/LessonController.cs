@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
+using static StudyPlatform.Common.ErrorMessages.Lesson;
 
 namespace StudyPlatform.Controllers
 {
@@ -105,7 +106,7 @@ namespace StudyPlatform.Controllers
             bool existsByName = await this._lessonViewService.AnyByNameAsync(model.Name);
             if (existsByName)
             {
-                ModelState.AddModelError(nameof(model.Name), "Lesson by this name already exists.");
+                ModelState.AddModelError(nameof(model.Name), LessonByNameExists);
             }
 
             if (!ModelState.IsValid)

@@ -21,7 +21,7 @@ namespace StudyPlatform.Data.Models
         public string Name { get; set; } = null!;
 
         [StringLength(DescriptionMaxLength)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [ForeignKey(nameof(Course))]
         public int CourseId { get; set; }

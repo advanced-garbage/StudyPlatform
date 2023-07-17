@@ -2,7 +2,9 @@
 using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
+using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
+using StudyPlatform.Web.View.Models.Teacher;
 
 namespace StudyPlatform.Services.LearningMaterial
 {
@@ -12,9 +14,13 @@ namespace StudyPlatform.Services.LearningMaterial
         /// DataBase injection.
         /// </summary>
         private readonly StudyPlatformDbContext _db;
-        public LearningMaterialService(StudyPlatformDbContext db)
+        private readonly ITeacherService _teacherService;
+        public LearningMaterialService(
+            StudyPlatformDbContext db,
+            ITeacherService teacherService)
         {
             this._db = db;
+            this._teacherService = teacherService;
         }
 
         /// <summary>
@@ -100,6 +106,7 @@ namespace StudyPlatform.Services.LearningMaterial
         /// </summary>
         public async Task<LearningMaterialViewModel> GetViewModelAsync(int lmId)
         {
+            
             LearningMaterialViewModel lmModel =
                 await this._db
                 .LearningMaterials
@@ -108,7 +115,8 @@ namespace StudyPlatform.Services.LearningMaterial
                 {
                     Id = lm.Id,
                     FileName = lm.FileName,
-                    Title = lm.LearningMaterialName
+                    Title = lm.LearningMaterialName,
+                    Teachers = this._teacherService.GetByLearningMaterialId(lm.Id)
                 })
                 .FirstOrDefaultAsync();
 

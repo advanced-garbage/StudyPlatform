@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.Users;
+using static StudyPlatform.Common.ViewModelConstants.Account;
 
 namespace StudyPlatform.Web.View.Models.User
 {
@@ -8,7 +9,7 @@ namespace StudyPlatform.Web.View.Models.User
 
         // role has default value. can be admin
         [StringLength(RoleMaxLength, MinimumLength = RoleMinLength)]
-        public string Role { get; set; } = "Student";
+        public string Role { get; set; } = StudentRoleTitle;
         public string UserName { get; set; }
 
         [EmailAddress]
@@ -27,9 +28,9 @@ namespace StudyPlatform.Web.View.Models.User
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             // age check
-            if (!int.TryParse(Age, out int age) && (age <= 8 || age >= 125))
+            if (!int.TryParse(Age, out int age) && (age <= 8 || age >= 110))
             {
-                yield return new ValidationResult("Age either isn't given as a number or is out of bounds (8-125)");
+                yield return new ValidationResult("Age either isn't given as a number or is out of bounds (8-110)");
             }
         }
 

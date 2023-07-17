@@ -1,5 +1,6 @@
 ﻿using StudyPlatform.Web.View.Models.Lesson;
 using StudyPlatform.Web.View.Models.User;
+using static StudyPlatform.Common.ViewModelConstants.Account;
 
 namespace StudyPlatform.Web.View.Models.Teacher
 {
@@ -7,7 +8,7 @@ namespace StudyPlatform.Web.View.Models.Teacher
     {
         public TeacherViewModel() {
             this.Lessons = new List<LearningMaterialViewModel>();
-            Role = "Teacher";
+            Role = TeacherRoleTitle;
         }
 
         public ICollection<LearningMaterialViewModel> Lessons;

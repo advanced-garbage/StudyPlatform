@@ -2,6 +2,8 @@
 using StudyPlatform.Data;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Web.View.Models.Course;
+using static StudyPlatform.Common.ErrorMessages.Course;
+
 
 namespace StudyPlatform.Services.Course
 {
@@ -57,7 +59,7 @@ namespace StudyPlatform.Services.Course
         {
             if (!await AnyByIdAsync(id))
             {
-                throw new InvalidOperationException($"A course by this id ({id}) was not found");
+                throw new InvalidOperationException(CourseIdNotFound);
             }
 
             Data.Models.Course courseObj

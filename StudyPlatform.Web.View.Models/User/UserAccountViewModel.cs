@@ -1,7 +1,7 @@
 ﻿using StudyPlatform.Web.View.Models.Lesson;
 using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.Users;
-
+using static StudyPlatform.Common.ViewModelConstants.Account;
 
 namespace StudyPlatform.Web.View.Models.User
 {
@@ -9,7 +9,7 @@ namespace StudyPlatform.Web.View.Models.User
     {
         // role has default value. can be admin
         [StringLength(RoleMaxLength, MinimumLength = RoleMinLength)]
-        public string Role { get; set; } = "Student";
+        public string Role { get; set; } = StudentRoleTitle;
         public string UserName { get; set; }
 
         [EmailAddress]

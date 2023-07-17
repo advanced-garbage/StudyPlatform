@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
+using static StudyPlatform.Common.ErrorMessages.Category;
 
 namespace StudyPlatform.Controllers
 {
@@ -62,7 +63,7 @@ namespace StudyPlatform.Controllers
         {
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
             {
-                ModelState.AddModelError(nameof(model.Name), $"Object with this name ({model.Name}) already exists in the DataBase.");
+                ModelState.AddModelError(nameof(model.Name), CategoryByNameExists);
             }
 
             if (!ModelState.IsValid)
