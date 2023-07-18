@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Services.Category.Interfaces;
+using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
 using StudyPlatform.Web.View.Models.Course;
 using static StudyPlatform.Common.ErrorMessages.Category;
@@ -11,10 +12,10 @@ namespace StudyPlatform.Services.Category
     public class CategoryViewService : ICategoryViewService
     {
         private readonly StudyPlatformDbContext _db;
-
-        public CategoryViewService(StudyPlatformDbContext db)
+        public CategoryViewService(
+            StudyPlatformDbContext db)
         {
-            _db = db;
+            this._db = db;
         }
 
         public async Task<bool> AnyByNameAsync(string name)
@@ -38,8 +39,24 @@ namespace StudyPlatform.Services.Category
                     Name = c.Name
                 })
                 .ToListAsync();
-
+            
             return categories;
+        }
+
+        public async Task<AllCategoriesViewModel> GetCategoriesForAllPageAsync()
+        {
+            AllCategoriesViewModel model = new AllCategoriesViewModel();
+            model.Categories
+                = await _db
+                .Categories
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return model;
         }
 
         public async Task<CategoryViewModel> GetCategoryByIdAsync(int id)

@@ -1,41 +1,46 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using StudyPlatform.Infrastructure;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
 using static StudyPlatform.Common.ErrorMessages.Lesson;
+using static StudyPlatform.Common.GeneralConstants;
 
 namespace StudyPlatform.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class LessonController : Controller
     {
         private readonly ILessonViewService _lessonViewService;
         private readonly ILessonFormService _lessonFormService;
         private readonly ICourseViewService _courseViewService;
+        private readonly ITeacherService _teacherService;
 
         public LessonController(
             ILessonViewService lessonViewService,
             ILessonFormService lessonFormService,
-            ICourseViewService courseViewService)
+            ICourseViewService courseViewService,
+            ITeacherService teacherService)
         {
             this._lessonFormService = lessonFormService;
             this._lessonViewService = lessonViewService;
             this._courseViewService = courseViewService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            this._teacherService = teacherService;
         }
 
         public async Task<IActionResult> GetLesson(int id)
         {
             LessonViewModel lessonsModel = await this._lessonViewService.GetLessonByIdAsync(id);
-
+            lessonsModel.IsViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
             return View(lessonsModel);
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
@@ -52,6 +57,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", "Course", new {id = courseId});
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -67,6 +73,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpPost]
         public async Task<IActionResult> Edit(LessonViewFormModel model)
         {
@@ -88,6 +95,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetLesson", "Lesson", new { id = model.Id});
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Add(int id)
         {
@@ -100,6 +108,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpPost]
         public async Task<IActionResult> Add(LessonViewFormModel model)
         {

@@ -15,6 +15,8 @@ namespace StudyPlatform.Controllers
     // <summary>
     // controller for displaying learning material (presentations)
     // </summary>
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class LearningMaterialController : Controller
     {
         private readonly ILearningMaterialService _learningMaterialService;
@@ -23,6 +25,7 @@ namespace StudyPlatform.Controllers
         private readonly ICourseViewService _courseService;
         private readonly ITeacherService _teacherService;
         private readonly ITeacherLearningMaterialService _teacherLearningMaterialService;
+        private readonly IConfiguration _config;
 
         public LearningMaterialController(
             ILearningMaterialService learningMaterialService,
@@ -30,7 +33,8 @@ namespace StudyPlatform.Controllers
             ILessonViewService lessonViewService,
             ILearningMaterialFormService learningMaterialFormService,
             ITeacherService teacherService,
-            ITeacherLearningMaterialService teacherLearningMaterialService)
+            ITeacherLearningMaterialService teacherLearningMaterialService,
+            IConfiguration config)
         {
             this._learningMaterialService = learningMaterialService;
             this._courseService = courseService;
@@ -38,13 +42,14 @@ namespace StudyPlatform.Controllers
             this._learningMaterialFormService = learningMaterialFormService;
             this._teacherService = teacherService;
             this._teacherLearningMaterialService = teacherLearningMaterialService;
+            this._config = config;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Upload(int id) // relevant lesson id
         {
@@ -59,37 +64,26 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = TeacherRoleName)]
         [HttpPost]
         public async Task<IActionResult> Upload(UploadLearningMaterialFormModel model)
         {
             Guid userGuid = User.Id();
-            if (userGuid == Guid.Empty)
-            {
+            if (userGuid == Guid.Empty) {
                 return RedirectToAction("Error", "Home", new { StatusCode = 404 });
             }
-
-            bool isUserTeacher = await this._teacherService.AnyById(userGuid);
-            if (!isUserTeacher)
-            {
-                return RedirectToAction("Error", "Home", new { StatusCode = 404 });
-            }
-
-            if (model.File == null)
-            {
+            if (model.File == null) {
                 ModelState.AddModelError(nameof(model.File), FileNotSent);
             }
 
             bool lmNameExists = await this._learningMaterialService.AnyByNameAsync(model.LearningMaterialName);
-            if (lmNameExists)
-            {
+            if (lmNameExists){
                 ModelState.AddModelError(nameof(model.LearningMaterialName), FileByNameExists);
             }
 
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid){
                 int courseId = await this._lessonViewService.GetCourseIdByLessonId(model.LessonId);
-                UploadLearningMaterialFormModel getModel = new UploadLearningMaterialFormModel()
-                {
+                UploadLearningMaterialFormModel getModel = new UploadLearningMaterialFormModel(){
                     LessonId = model.LessonId,
                     LessonName = await this._lessonViewService.GetNameByIdAsync(model.LessonId),
                     CourseName = await this._courseService.GetNameByIdAsync(courseId),
@@ -98,9 +92,8 @@ namespace StudyPlatform.Controllers
             }
 
             string fileName = model.File.FileName;
-            string uploadPath = Path.Combine(LearningMaterialFolderPathWithRoot, fileName);
-            using (FileStream stream = new FileStream(uploadPath, FileMode.Create))
-            {
+            string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], fileName);
+            using (FileStream stream = new FileStream(uploadPath, FileMode.Create)) {
                 await model.File.CopyToAsync(stream);
             }
 
@@ -116,8 +109,7 @@ namespace StudyPlatform.Controllers
         public async Task<IActionResult> ShowLearningMaterial(int id)
         {
             bool lmExists = await this._learningMaterialService.AnyByIdAsync(id);
-            if (!lmExists)
-            {
+            if (!lmExists){
                 return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 

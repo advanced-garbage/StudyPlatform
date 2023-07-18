@@ -1,35 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudyPlatform.Services;
-using StudyPlatform.Web.View.Models.Category;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Web.View.Models.Course;
 using Microsoft.AspNetCore.Authorization;
-
+using StudyPlatform.Services.Users.Interfaces;
+using StudyPlatform.Infrastructure;
+using static StudyPlatform.Common.GeneralConstants;
 namespace StudyPlatform.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     // a method for displaying and accessing courses
     public class CourseController : Controller
     {
         private readonly ICourseViewService _courseViewService;
         private readonly ICategoryViewService _categoryViewService;
         private readonly ICourseViewFormService _courseViewFormService;
+        private readonly ITeacherService _teacherService;
 
         public CourseController(
             ICourseViewService courseViewService,
             ICategoryViewService categoryViewService,
-            ICourseViewFormService courseViewFormService)
+            ICourseViewFormService courseViewFormService,
+            ITeacherService teacherService)
         {
             this._courseViewService = courseViewService;
             this._categoryViewService = categoryViewService;
             this._courseViewFormService = courseViewFormService;
+            this._teacherService = teacherService;
         }
 
-        public IActionResult Index()
-        {
-            return RedirectToAction("GetCourse");
-        }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCourse(int id)
         {
@@ -38,10 +39,11 @@ namespace StudyPlatform.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            course.isViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
             return View(course);
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -51,12 +53,11 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpPost]
         public async Task<IActionResult> Edit(CourseViewFormModel model)
         {
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid){
                 return View();
             }
 
@@ -65,7 +66,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", new { id = model.Id});
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
@@ -74,19 +75,18 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All", "Category");
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            CourseViewFormModel model = new CourseViewFormModel()
-            {
+            CourseViewFormModel model = new CourseViewFormModel() {
                 Categories = await this._categoryViewService.GetAllCategoriesAsync()
             };
 
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = TeacherRoleName)]
         [HttpPost]
         public async Task<IActionResult> Add(CourseViewFormModel model)
         {

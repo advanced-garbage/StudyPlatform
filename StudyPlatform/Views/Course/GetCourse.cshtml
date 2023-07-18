@@ -2,24 +2,36 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-<h1>
-    @ViewData["Title"]
-    <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-</h1>
-<hr/>
-<hr/>
-@{
-    if (!string.IsNullOrEmpty(Model.Description))
-    {
-        <h3>@Model.Description</h3>
+<div class="text-center">
+    <h1>
+        @ViewData["Title"]
+        @{
+            if ((bool)Model.isViewedByTeacher)
+            {
+                <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            }
+        }
+    </h1>
+    <hr/>
+    <hr/>
+    @{
+        if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <h3>@Model.Description</h3>
+        }
     }
-}
-<hr/>
-<a asp-controller="Lesson" asp-action="Add" asp-route-id="@Model.Id">Add Lesson</a>
-@{
-    foreach(var lesson in Model.Lessons)
-    {
-        <a asp-controller="Lesson" asp-action="GetLesson" asp-route-id="@lesson.Id" class="link nav-link">@lesson.Name</a>
-        <br />
+    <hr/>
+    @{
+        if ((bool)Model.isViewedByTeacher)
+        {
+            <a asp-controller="Lesson" asp-action="Add" asp-route-id="@Model.Id">Add Lesson</a>
+        }
     }
-}
+    @{
+        foreach(var lesson in Model.Lessons)
+        {
+            <a asp-controller="Lesson" asp-action="GetLesson" asp-route-id="@lesson.Id" class="link nav-link">@lesson.Name</a>
+            <br />
+        }
+    }
+</div>

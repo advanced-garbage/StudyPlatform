@@ -40,5 +40,17 @@
         {
             public const string CourseIdNotFound = "Id for this course was not found!";
         }
+
+        /// <summary>
+        /// Error messages for the Users Controller, Models and Registry.
+        /// </summary>
+        public static class Users
+        {
+            public const string IdNotFound = "Id for this user was not found!";
+            public const string FirstNameNotInRange = "Length for the first name is not in range.";
+            public const string MiddleNameNotInRange = "Length for the middle name is not in range.";
+            public const string LastNameNotInRange = "Length for the last name is not in range.";
+
+        }
     }
 }

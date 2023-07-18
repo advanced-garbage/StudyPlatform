@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
@@ -17,7 +18,8 @@ using StudyPlatform.Services.Users.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//builder.Services.AddMvc(options => options.Filters.Add(new ValidateAntiForgeryTokenAttribute()));
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<StudyPlatformDbContext>(options =>
     options.UseSqlServer(
@@ -25,6 +27,7 @@ builder.Services.AddDbContext<StudyPlatformDbContext>(options =>
         db => db.MigrationsAssembly("StudyPlatform.Data")) // or just "StudyPlatform.Data"
 );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedAccount 

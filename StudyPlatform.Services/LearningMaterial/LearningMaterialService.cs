@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
@@ -13,14 +14,17 @@ namespace StudyPlatform.Services.LearningMaterial
         /// <summary>
         /// DataBase injection.
         /// </summary>
+        private IConfiguration _config;
         private readonly StudyPlatformDbContext _db;
         private readonly ITeacherService _teacherService;
         public LearningMaterialService(
             StudyPlatformDbContext db,
-            ITeacherService teacherService)
+            ITeacherService teacherService,
+            IConfiguration config)
         {
             this._db = db;
             this._teacherService = teacherService;
+            this._config = config;
         }
 
         /// <summary>
@@ -106,7 +110,7 @@ namespace StudyPlatform.Services.LearningMaterial
         /// </summary>
         public async Task<LearningMaterialViewModel> GetViewModelAsync(int lmId)
         {
-            
+           
             LearningMaterialViewModel lmModel =
                 await this._db
                 .LearningMaterials
@@ -115,6 +119,7 @@ namespace StudyPlatform.Services.LearningMaterial
                 {
                     Id = lm.Id,
                     FileName = lm.FileName,
+                    FullPath = this._config["FilePath:LearningMaterialPath"] + lm.FileName,
                     Title = lm.LearningMaterialName,
                     Teachers = this._teacherService.GetByLearningMaterialId(lm.Id)
                 })

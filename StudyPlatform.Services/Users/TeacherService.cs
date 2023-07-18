@@ -3,6 +3,7 @@ using StudyPlatform.Data;
 using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Teacher;
+using System.Data;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 namespace StudyPlatform.Services.Users
 {
@@ -96,6 +97,23 @@ namespace StudyPlatform.Services.Users
                 .ToList();
 
             return userModels;
+        }
+
+        public async Task<bool> IsTeacherAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return false;
+            }
+
+            Data.Models.ApplicationUser userObj
+                = await this._db
+                .Users
+                .Where(t => t.Id.Equals(id))
+                .FirstOrDefaultAsync();
+
+            
+            return userObj.Role.Equals(TeacherRoleTitle);
         }
     }
 }

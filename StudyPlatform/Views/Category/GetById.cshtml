@@ -1,21 +1,26 @@
 ﻿@model CategoryViewModel
-
-@{
-    ViewData["Title"] = $"Category by id {Model.Id}";
-
-}
-
-<h1>@ViewData["Title"]</h1>
-
-<h2>@Model.Name</h2>
-<a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
-<a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
-<hr/>
-<a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
-<br/>
-@{
-    foreach (var course in Model.Courses)
-    {
-        <p><a asp-controller="Course" asp-action="GetCourse" asp-route-id="@course.Id" class="link-dark">@course.Name</a></p>
+<div class="text-center">
+    <h2>@Model.Name</h2>
+    @{
+        if ((bool)Model.IsViewedByTeacher)
+        {
+            <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
+            <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
+        }
     }
-}
+
+    <hr/>
+    @{
+        if ((bool)Model.IsViewedByTeacher)
+        {
+            <a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
+        }
+    }
+    <br/>
+    @{
+        foreach (var course in Model.Courses)
+        {
+            <p><a asp-controller="Course" asp-action="GetCourse" asp-route-id="@course.Id" class="link-dark">@course.Name</a></p>
+        }
+    }
+</div>

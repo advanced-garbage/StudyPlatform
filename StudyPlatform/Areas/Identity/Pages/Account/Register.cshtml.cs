@@ -19,6 +19,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using StudyPlatform.Data.Models;
+using static StudyPlatform.Common.GeneralConstants;
+using static StudyPlatform.Common.ModelValidationConstants.Users;
+using static StudyPlatform.Common.ErrorMessages.Users;
+using static StudyPlatform.Common.ViewModelConstants.Account;
 
 namespace StudyPlatform.Areas.Identity.Pages.Account
 {
@@ -27,15 +31,21 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IConfiguration _config;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IConfiguration config,
+            RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
+            _config = config;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -61,6 +71,27 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(FirstNameMaxLength, ErrorMessage = FirstNameNotInRange, MinimumLength = FirstNameMinLength)]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Middle Name")]
+            [StringLength(MiddleNameMaxLength, ErrorMessage = MiddleNameNotInRange, MinimumLength = MiddleNameMinLength)]
+            public string? MiddleName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(LastNameMaxLength, ErrorMessage = LastNameNotInRange, MinimumLength = LastNameMinLength)]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Age")]
+            [Range(AgeMin, AgeMax)]
+            public int Age { get; set; }
+
+            public string Role { get; set; }
         }
 
 
@@ -75,14 +106,31 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 ApplicationUser user = CreateUser();
-
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.MiddleName = Input.MiddleName;
+                user.Age = Input.Age.ToString();
+                user.Role = StudentRoleTitle;
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    string roleName = this._config["RoleNames:StudentRoleName"];
+                    bool roleExists = await this._roleManager.RoleExistsAsync(roleName);
+
+                    if (roleExists)
+                    {
+                        IdentityResult roleResult = await this._userManager.AddToRoleAsync(user, roleName);
+                        // Something went wrong
+                        if (!roleResult.Succeeded)
+                        {
+                            throw new InvalidOperationException($"Could not add role for {nameof(user)}");
+                        }
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }      
                 }
                 foreach (var error in result.Errors)
                 {

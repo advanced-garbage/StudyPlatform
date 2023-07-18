@@ -8,5 +8,11 @@ namespace StudyPlatform.Infrastructure
         {
             return new Guid(user.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
+
+        public static string Name(this ClaimsPrincipal user)
+        {
+            return new string(user.FindFirst(ClaimTypes.Name).Value);
+        }
+
     }
 }

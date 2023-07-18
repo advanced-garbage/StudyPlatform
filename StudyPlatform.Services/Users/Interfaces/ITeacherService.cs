@@ -35,5 +35,12 @@ namespace StudyPlatform.Services.Users.Interfaces
         /// <param name="learningMaterial"></param>
         /// <returns></returns>
         ICollection<TeacherForLearningMaterialViewModel> GetByLearningMaterialId(int learningMaterialId);
+        
+        /// <summary>
+        /// Returns a boolean confirming whether or not the Guid belongs to a teacher.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<bool> IsTeacherAsync(Guid id);
     }
 }

@@ -6,15 +6,26 @@
     <a asp-controller="Course" asp-action="GetCourse" asp-route-id="@Model.CourseId" >Back to course</a>
     <hr/>
     <h1 class="display-4">@Model.Name</h1>
-    <a asp-controller="Lesson" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-    <a asp-controller="Lesson" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
+    @{
+        if ((bool)Model.IsViewedByTeacher)
+        {
+            <a asp-controller="Lesson" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a asp-controller="Lesson" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
+        }
+    }
     <br/>
     <p>@Model.Description</p>
     <hr/>
-    <p>
-        <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">Add new learning material</a>
-    </p>
-    <hr/>
+    @{
+        if ((bool)Model.IsViewedByTeacher)
+        {
+            <p>
+                <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">Add new learning material</a>
+            </p>
+            <hr/>
+        }
+    }
+    
     @{
         foreach (var lms in Model.LearningMaterials)
         {

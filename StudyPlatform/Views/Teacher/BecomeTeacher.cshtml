@@ -1,0 +1,12 @@
+﻿@using StudyPlatform.Infrastructure;
+@{
+    ViewData["Title"] = "Become teacher";
+}
+<div class="text-center">
+    <form asp-controller="Teacher" asp-action="BecomeTeacher" method="post">
+        @*<input asp-for="@User.Id();" type="hidden"/>*@
+        <label><h1>Become teacher?</h1></label><br/>
+        <button type="submit" name="submit" class="btn btn-success align-items-center" value="yes">Yes</button>
+        <button type="submit" name="submit" class="btn btn-danger align-items-center" value="no">No</button>
+    </form>
+</div>

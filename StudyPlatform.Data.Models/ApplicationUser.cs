@@ -12,6 +12,7 @@ namespace StudyPlatform.Data.Models
         public string? MiddleName { get; set; }
         public string? LastName { get; set; }
         public string? Age { get; set; }
+        public string Role { get; set; }
 
         //public string ProfilePicture { get; set; }
 
