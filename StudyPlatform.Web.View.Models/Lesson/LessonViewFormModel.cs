@@ -1,10 +1,11 @@
 ﻿using static StudyPlatform.Common.ModelValidationConstants.Lesson;
 using System.ComponentModel.DataAnnotations;
 using StudyPlatform.Web.View.Models.Course;
+using StudyPlatform.Web.View.Models.Lesson.Interfaces;
 
 namespace StudyPlatform.Web.View.Models.Lesson
 {
-    public class LessonViewFormModel
+    public class LessonViewFormModel 
     {
         public LessonViewFormModel()
         {

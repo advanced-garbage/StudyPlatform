@@ -1,11 +1,11 @@
 ﻿using StudyPlatform.Common;
 using System.ComponentModel.DataAnnotations;
-using static StudyPlatform.Common.ModelValidationConstants.Lesson ;
+using static StudyPlatform.Common.ModelValidationConstants.Lesson;
 using static StudyPlatform.Common.ModelValidationConstants.LearningMaterial;
 using static StudyPlatform.Common.ModelValidationConstants.Course;
 using Microsoft.AspNetCore.Http;
 
-namespace StudyPlatform.Web.View.Models.Lesson
+namespace StudyPlatform.Web.View.Models.LearningMaterial
 {
     public class UploadLearningMaterialFormModel : IValidatableObject
     {
@@ -30,11 +30,13 @@ namespace StudyPlatform.Web.View.Models.Lesson
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(LearningMaterialName)) { 
-                yield return new ValidationResult("The title cannot be null!"); 
+            if (string.IsNullOrWhiteSpace(LearningMaterialName))
+            {
+                yield return new ValidationResult("The title cannot be null!");
             }
 
-            if (!File.FileName.EndsWith(".pdf")) {
+            if (!File.FileName.EndsWith(".pdf"))
+            {
                 yield return new ValidationResult("You can only upload files with the .pdf extension!");
             }
 

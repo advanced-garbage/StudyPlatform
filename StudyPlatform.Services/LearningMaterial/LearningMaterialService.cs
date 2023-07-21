@@ -4,7 +4,7 @@ using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
-using StudyPlatform.Web.View.Models.Lesson;
+using StudyPlatform.Web.View.Models.LearningMaterial;
 using StudyPlatform.Web.View.Models.Teacher;
 
 namespace StudyPlatform.Services.LearningMaterial
@@ -17,6 +17,7 @@ namespace StudyPlatform.Services.LearningMaterial
         private IConfiguration _config;
         private readonly StudyPlatformDbContext _db;
         private readonly ITeacherService _teacherService;
+
         public LearningMaterialService(
             StudyPlatformDbContext db,
             ITeacherService teacherService,
@@ -66,7 +67,8 @@ namespace StudyPlatform.Services.LearningMaterial
                 {
                     Id = lm.Id,
                     FileName = lm.FileName,
-                    Title = lm.LearningMaterialName
+                    Title = lm.LearningMaterialName,
+                    LinkName = lm.FileName.Split(".pdf", StringSplitOptions.RemoveEmptyEntries)[0].ToString(),
                 })
                 .ToList();
 
@@ -86,7 +88,8 @@ namespace StudyPlatform.Services.LearningMaterial
                 {
                     Id = lm.Id,
                     FileName = lm.FileName,
-                    Title = lm.LearningMaterialName
+                    Title = lm.LearningMaterialName,
+                    LinkName = lm.FileName.Split(".pdf", StringSplitOptions.RemoveEmptyEntries)[0].ToString(),
                 })
                 .ToListAsync();
 
@@ -110,7 +113,6 @@ namespace StudyPlatform.Services.LearningMaterial
         /// </summary>
         public async Task<LearningMaterialViewModel> GetViewModelAsync(int lmId)
         {
-           
             LearningMaterialViewModel lmModel =
                 await this._db
                 .LearningMaterials
@@ -119,12 +121,13 @@ namespace StudyPlatform.Services.LearningMaterial
                 {
                     Id = lm.Id,
                     FileName = lm.FileName,
+                    LinkName = lm.FileName.Split(".pdf", StringSplitOptions.RemoveEmptyEntries)[0].ToString(),
                     FullPath = this._config["FilePath:LearningMaterialPath"] + lm.FileName,
                     Title = lm.LearningMaterialName,
                     Teachers = this._teacherService.GetByLearningMaterialId(lm.Id)
                 })
                 .FirstOrDefaultAsync();
-
+            
             return lmModel;
         }
     }

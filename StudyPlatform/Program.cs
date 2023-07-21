@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
@@ -17,8 +18,6 @@ using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//builder.Services.AddMvc(options => options.Filters.Add(new ValidateAntiForgeryTokenAttribute()));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<StudyPlatformDbContext>(options =>
@@ -43,7 +42,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
 })
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<StudyPlatformDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
 builder.Services.AddScoped<ICategoryViewFormService, CategoryViewFormService>();
@@ -57,6 +59,8 @@ builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
 builder.Services.AddScoped<ILearningMaterialFormService, LearningMaterialFormService>();
 builder.Services.AddScoped<ILessonViewService, LessonViewService>();
 builder.Services.AddScoped<ILessonFormService, LessonFormService>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
@@ -82,9 +86,40 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "LearningMaterial ShowLearningMaterial",
+        pattern: "LearningMaterial/ShowLearningMaterial/{id}/{linkname}",
+        defaults: new {Controller = "LearningMaterial", Action = "ShowLearningMaterial" }
+    );
+
+    endpoints.MapControllerRoute(
+        name: "Category Specific",
+        pattern: "Category/{id}/{categoryName}",
+        defaults: new { Controller = "Category", Action = "GetById" }
+    );
+
+    endpoints.MapControllerRoute(
+        name: "Course Specific",
+        pattern: "Course/{id}/{courseName}",
+        defaults: new { Controller = "Course", Action = "GetCourse" }
+    );
+
+    endpoints.MapControllerRoute(
+        name: "Lesson Specific",
+        pattern: "Lesson/{id}/{lessonName}",
+        defaults: new { Controller = "Lesson", Action = "GetLesson" }
+    );
+
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
+
 
 app.Run();

@@ -1,4 +1,4 @@
-﻿using StudyPlatform.Web.View.Models.Lesson;
+﻿using StudyPlatform.Web.View.Models.LearningMaterial;
 using System;
 using System.Collections.Generic;
 using System.Linq;

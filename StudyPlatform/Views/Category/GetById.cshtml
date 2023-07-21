@@ -20,7 +20,9 @@
     @{
         foreach (var course in Model.Courses)
         {
-            <p><a asp-controller="Course" asp-action="GetCourse" asp-route-id="@course.Id" class="link-dark">@course.Name</a></p>
+            <p><a asp-controller="Course" asp-action="GetCourse"
+            asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
+            class="link-dark">@course.Name</a></p>
         }
     }
 </div>

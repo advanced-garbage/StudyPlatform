@@ -11,16 +11,13 @@ namespace StudyPlatform.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly ITeacherService _teacherService;
         private readonly ILessonViewService _lessonViewService;
 
         public AccountController(
             IUserService userService, 
-            ITeacherService teacherService,
             ILessonViewService lessonViewService)
         {
             this._userService = userService;
-            this._teacherService = teacherService;
             this._lessonViewService = lessonViewService;
         }
 
@@ -38,7 +35,7 @@ namespace StudyPlatform.Controllers
 
             UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
 
-            if (await this._teacherService.AnyById(userId))
+            if (User.IsTeacher())
             {
                 userModel.Role = TeacherRoleTitle;
                 userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);

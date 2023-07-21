@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using StudyPlatform.Infrastructure;
+using StudyPlatform.Infrastructure.Infrastructure;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
@@ -13,7 +14,6 @@ using static StudyPlatform.Common.GeneralConstants;
 namespace StudyPlatform.Controllers
 {
     [Authorize]
-    [AutoValidateAntiforgeryToken]
     public class LessonController : Controller
     {
         private readonly ILessonViewService _lessonViewService;
@@ -33,10 +33,24 @@ namespace StudyPlatform.Controllers
             this._teacherService = teacherService;
         }
 
-        public async Task<IActionResult> GetLesson(int id)
+        public async Task<IActionResult> GetLesson(int id, string lessonName)
         {
+            if (!await this._lessonViewService.AnyByIdAsync(id))
+            {
+                return BadRequest();
+            }
+
             LessonViewModel lessonsModel = await this._lessonViewService.GetLessonByIdAsync(id);
-            lessonsModel.IsViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
+
+            if (lessonName != lessonsModel.GetNameUrl())
+            {
+                return BadRequest();
+            }
+
+            if (User.IsTeacher()) { 
+                lessonsModel.IsViewedByTeacher = true;
+            }
+            
             return View(lessonsModel);
         }
 

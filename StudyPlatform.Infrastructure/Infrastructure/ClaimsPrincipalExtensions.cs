@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 
 namespace StudyPlatform.Infrastructure
 {
@@ -13,6 +14,9 @@ namespace StudyPlatform.Infrastructure
         {
             return new string(user.FindFirst(ClaimTypes.Name).Value);
         }
-
+        public static bool IsTeacher(this ClaimsPrincipal user)
+        {
+            return user.Identity.IsAuthenticated && user.IsInRole("Teacher");
+        }
     }
 }

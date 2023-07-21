@@ -1,14 +1,15 @@
-﻿
+﻿using StudyPlatform.Web.View.Models.LearningMaterial.Interfaces;
 using StudyPlatform.Web.View.Models.Teacher;
 using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.LearningMaterial;
 
-namespace StudyPlatform.Web.View.Models.Lesson
+namespace StudyPlatform.Web.View.Models.LearningMaterial
 {
-    public class LearningMaterialViewModel
+    public class LearningMaterialViewModel : ILearningMaterialLinkService
     {
-        public LearningMaterialViewModel() {
-            this.Teachers = new List<TeacherForLearningMaterialViewModel>();
+        public LearningMaterialViewModel()
+        {
+            Teachers = new List<TeacherForLearningMaterialViewModel>();
         }
         public int Id { get; set; }
 
@@ -23,5 +24,8 @@ namespace StudyPlatform.Web.View.Models.Lesson
         public string FullPath { get; set; }
 
         public ICollection<TeacherForLearningMaterialViewModel> Teachers { get; set; }
+
+        public string LinkName { get; set; }
+
     }
 }

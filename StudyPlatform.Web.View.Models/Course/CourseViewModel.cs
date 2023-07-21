@@ -1,10 +1,11 @@
-﻿using StudyPlatform.Web.View.Models.Lesson;
+﻿using StudyPlatform.Web.View.Models.Course.Interfaces;
+using StudyPlatform.Web.View.Models.Lesson;
 using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.Course;
 
 namespace StudyPlatform.Web.View.Models.Course
 {
-    public class CourseViewModel
+    public class CourseViewModel : ICourseLink
     {
         public CourseViewModel() 
         {

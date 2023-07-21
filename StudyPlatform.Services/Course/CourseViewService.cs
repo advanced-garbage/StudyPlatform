@@ -39,6 +39,7 @@ namespace StudyPlatform.Services.Course
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
+                    isViewedByTeacher = false,
                     Lessons = c.Lessons.Select(l => new LessonViewModel()
                     {
                         Id = l.Id,

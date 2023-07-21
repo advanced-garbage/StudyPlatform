@@ -103,11 +103,6 @@ namespace StudyPlatform.Services.Lesson
             return model;
         }
 
-        public Task<AccountCreditsViewModel> GetAccountCreditsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ICollection<LessonViewModel>> GetAllLessonsByCourseIdAsync(int courseId)
         {
             ICollection<LessonViewModel> lessonModels =
@@ -150,6 +145,7 @@ namespace StudyPlatform.Services.Lesson
                     Name = l.Name,
                     Description = l.Description,
                     CourseId = l.CourseId,
+                    IsViewedByTeacher = false,
                     LearningMaterials = this._learningMaterialService.GetAllModelsByLesson(l.Id)
                 })
                 .FirstOrDefaultAsync();

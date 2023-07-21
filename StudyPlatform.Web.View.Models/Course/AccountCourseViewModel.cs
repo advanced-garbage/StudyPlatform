@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StudyPlatform.Web.View.Models.Course.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.Course;
 namespace StudyPlatform.Web.View.Models.Course
 {
-    public class AccountCourseViewModel
+    public class AccountCourseViewModel : ICourseLink
     {
         [Required]
         public int Id { get; set; }

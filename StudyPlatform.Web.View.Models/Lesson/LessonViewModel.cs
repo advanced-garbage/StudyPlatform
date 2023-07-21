@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using StudyPlatform.Web.View.Models.LearningMaterial;
+using StudyPlatform.Web.View.Models.Lesson.Interfaces;
 using static StudyPlatform.Common.ModelValidationConstants.Lesson;
 
 namespace StudyPlatform.Web.View.Models.Lesson
 {
-    public class LessonViewModel
+    public class LessonViewModel : ILessonLink
     {
         public LessonViewModel() {
             this.LearningMaterials = new List<LearningMaterialViewModel>();

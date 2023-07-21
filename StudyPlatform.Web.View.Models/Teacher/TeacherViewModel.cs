@@ -1,4 +1,4 @@
-﻿using StudyPlatform.Web.View.Models.Lesson;
+﻿using StudyPlatform.Web.View.Models.LearningMaterial;
 using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 

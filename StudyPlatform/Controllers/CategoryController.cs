@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using StudyPlatform.Infrastructure;
+using StudyPlatform.Infrastructure.Infrastructure;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
@@ -12,7 +12,6 @@ namespace StudyPlatform.Controllers
 {
     // Controller for accessing courses
     // action for all categories and for 1 certain category (by id)
-    [AutoValidateAntiforgeryToken]
     public class CategoryController : Controller
     {
         private readonly ICategoryViewService _categoryViewService;
@@ -36,19 +35,36 @@ namespace StudyPlatform.Controllers
         [Route("Category/All")]
         public async Task<IActionResult> All()
         {
-            var categories = await this._categoryViewService.GetCategoriesForAllPageAsync();
-            categories.IsViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
+            AllCategoriesViewModel categories = await this._categoryViewService.GetCategoriesForAllPageAsync();
+
+            if (User.IsTeacher()) { 
+                categories.IsViewedByTeacher = true;
+            }
+
             return View(categories);
         }
 
         // TODO: Create "GetById" View
         [HttpGet]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id, string categoryName)
         {
+            if (!await this._categoryViewService.AnyByIdAsync(id))
+            {
+                return BadRequest();
+            }
+
             var category = 
                 await this._categoryViewService
                 .GetCategoryByIdAsync(id);
-            category.IsViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
+
+            if (categoryName != category.GetNameUrl())
+            {
+                return BadRequest();
+            }
+
+            if (User.IsTeacher()) {
+                category.IsViewedByTeacher = true;
+            }
 
             return View(category);
         }
@@ -65,11 +81,6 @@ namespace StudyPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
-            if (!await this._teacherService.IsTeacherAsync(User.Id()))
-            {
-                return Unauthorized();
-            }
-
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
             {
                 ModelState.AddModelError(nameof(model.Name), CategoryByNameExists);
@@ -89,9 +100,9 @@ namespace StudyPlatform.Controllers
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
-            if (!await this._teacherService.IsTeacherAsync(User.Id()))
+            if (!await this._categoryViewService.AnyByIdAsync(id))
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             await this._categoryViewFormService.RemoveAsync(id);
@@ -102,9 +113,9 @@ namespace StudyPlatform.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (!await this._teacherService.IsTeacherAsync(User.Id()))
+            if (!await this._categoryViewService.AnyByIdAsync(id))
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             CategoryViewFormModel model = await this._categoryViewService.GetFormCategory(id);
@@ -116,11 +127,6 @@ namespace StudyPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {
-            if (!await this._teacherService.IsTeacherAsync(User.Id()))
-            {
-                return Unauthorized();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View();

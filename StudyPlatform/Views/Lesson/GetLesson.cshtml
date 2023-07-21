@@ -27,10 +27,11 @@
     }
     
     @{
-        foreach (var lms in Model.LearningMaterials)
+        foreach (var lm in Model.LearningMaterials)
         {
-            <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial" asp-route-id="@lms.Id">
-                @lms.Title
+            <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
+               asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()">
+                @lm.Title
             </a>
             <br />
         }

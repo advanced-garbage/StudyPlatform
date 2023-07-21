@@ -16,7 +16,12 @@
             @{
                 foreach (var category in Model.Categories)
                 {
-                    <a asp-controller="Category" asp-action="GetById" asp-route-id="@category.Id" class="link-dark">@category.Name</a><br/>
+                    <a asp-controller="Category" asp-action="GetById" 
+                    asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()" 
+                    class="link-dark">
+                        @category.Name
+                    </a>
+                    <br />
                 }
             }
     </h3>

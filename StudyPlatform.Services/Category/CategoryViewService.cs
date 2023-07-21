@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
@@ -12,10 +13,23 @@ namespace StudyPlatform.Services.Category
     public class CategoryViewService : ICategoryViewService
     {
         private readonly StudyPlatformDbContext _db;
+        private readonly IMapper _mapper;
         public CategoryViewService(
-            StudyPlatformDbContext db)
+            StudyPlatformDbContext db,
+            IMapper mapper)
         {
             this._db = db;
+            this._mapper = mapper;
+        }
+
+        public async Task<bool> AnyByIdAsync(int id)
+        {
+            bool categoryExists = 
+                await this._db
+                .Categories
+                .AnyAsync(c => c.Id.Equals(id));
+
+            return categoryExists;
         }
 
         public async Task<bool> AnyByNameAsync(string name)
@@ -52,10 +66,10 @@ namespace StudyPlatform.Services.Category
                 .Select(c => new CategoryViewModel()
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
                 })
                 .ToListAsync();
-
+            model.IsViewedByTeacher = false;
             return model;
         }
 
@@ -71,6 +85,7 @@ namespace StudyPlatform.Services.Category
                     {
                         Id = c.Id,
                         Name = c.Name,
+                        IsViewedByTeacher = false,
                         Courses = c.Courses.Select(a => new CourseViewModel()
                         {
                             Id = a.Id,

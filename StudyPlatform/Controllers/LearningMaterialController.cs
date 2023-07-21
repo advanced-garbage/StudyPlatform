@@ -6,7 +6,7 @@ using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users.Interfaces;
-using StudyPlatform.Web.View.Models.Lesson;
+using StudyPlatform.Web.View.Models.LearningMaterial;
 using static StudyPlatform.Common.ErrorMessages.LearningMaterial;
 using static StudyPlatform.Common.GeneralConstants;
 
@@ -16,7 +16,6 @@ namespace StudyPlatform.Controllers
     // controller for displaying learning material (presentations)
     // </summary>
     [Authorize]
-    [AutoValidateAntiforgeryToken]
     public class LearningMaterialController : Controller
     {
         private readonly ILearningMaterialService _learningMaterialService;
@@ -44,10 +43,6 @@ namespace StudyPlatform.Controllers
             this._teacherLearningMaterialService = teacherLearningMaterialService;
             this._config = config;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
@@ -72,6 +67,7 @@ namespace StudyPlatform.Controllers
             if (userGuid == Guid.Empty) {
                 return RedirectToAction("Error", "Home", new { StatusCode = 404 });
             }
+
             if (model.File == null) {
                 ModelState.AddModelError(nameof(model.File), FileNotSent);
             }
@@ -114,7 +110,6 @@ namespace StudyPlatform.Controllers
             }
 
             LearningMaterialViewModel model = await this._learningMaterialService.GetViewModelAsync(id);
-
             return View(model);
         }
 

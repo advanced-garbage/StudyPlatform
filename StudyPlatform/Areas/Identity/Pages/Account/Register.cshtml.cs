@@ -110,7 +110,6 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.MiddleName = Input.MiddleName;
                 user.Age = Input.Age.ToString();
-                user.Role = StudentRoleTitle;
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

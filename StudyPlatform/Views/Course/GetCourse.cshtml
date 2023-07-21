@@ -30,7 +30,9 @@
     @{
         foreach(var lesson in Model.Lessons)
         {
-            <a asp-controller="Lesson" asp-action="GetLesson" asp-route-id="@lesson.Id" class="link nav-link">@lesson.Name</a>
+            <a asp-controller="Lesson" asp-action="GetLesson"
+            asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()" 
+            class="link nav-link">@lesson.Name</a>
             <br />
         }
     }

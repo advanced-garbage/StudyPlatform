@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Infrastructure;
 using static StudyPlatform.Common.GeneralConstants;
+using StudyPlatform.Infrastructure.Infrastructure;
+
 namespace StudyPlatform.Controllers
 {
     [Authorize]
-    [AutoValidateAntiforgeryToken]
     // a method for displaying and accessing courses
     public class CourseController : Controller
     {
@@ -32,14 +33,22 @@ namespace StudyPlatform.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetCourse(int id)
+        public async Task<IActionResult> GetCourse(int id, string courseName)
         {
             var course = await this._courseViewService.GetById(id);
-            if (course == null)
-            {
+            if (course == null) {
                 return RedirectToAction("Error", "Home");
             }
-            course.isViewedByTeacher = await this._teacherService.IsTeacherAsync(User.Id());
+
+            if(courseName != course.GetNameUrl())
+            {
+                return BadRequest();
+            }
+
+            if (User.IsTeacher()) {
+                course.isViewedByTeacher = true;
+            }
+            
             return View(course);
         }
 

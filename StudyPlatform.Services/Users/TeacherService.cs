@@ -98,22 +98,5 @@ namespace StudyPlatform.Services.Users
 
             return userModels;
         }
-
-        public async Task<bool> IsTeacherAsync(Guid id)
-        {
-            if (id == Guid.Empty)
-            {
-                return false;
-            }
-
-            Data.Models.ApplicationUser userObj
-                = await this._db
-                .Users
-                .Where(t => t.Id.Equals(id))
-                .FirstOrDefaultAsync();
-
-            
-            return userObj.Role.Equals(TeacherRoleTitle);
-        }
     }
 }

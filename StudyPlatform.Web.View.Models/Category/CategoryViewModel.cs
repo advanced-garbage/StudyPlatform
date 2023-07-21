@@ -1,9 +1,10 @@
-﻿using StudyPlatform.Web.View.Models.Course;
+﻿using StudyPlatform.Web.View.Models.Category.Interfaces;
+using StudyPlatform.Web.View.Models.Course;
 using System.ComponentModel.DataAnnotations;
 using static StudyPlatform.Common.ModelValidationConstants.Category;
 namespace StudyPlatform.Web.View.Models.Category
 {
-    public class CategoryViewModel : IValidatableObject
+    public class CategoryViewModel : IValidatableObject, ICategoryLink
     {
         public CategoryViewModel()
         {
