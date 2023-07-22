@@ -5,6 +5,7 @@ using StudyPlatform.Infrastructure.Infrastructure;
 using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
+using System.Drawing.Text;
 using static StudyPlatform.Common.ErrorMessages.Category;
 using static StudyPlatform.Common.GeneralConstants;
 
@@ -49,7 +50,7 @@ namespace StudyPlatform.Controllers
                 return BadRequest();
             }
 
-            var category = 
+            var category =
                 await this._categoryViewService
                 .GetCategoryByIdAsync(id);
 
@@ -60,7 +61,8 @@ namespace StudyPlatform.Controllers
             return View(category);
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
         [HttpGet]
         public async Task<IActionResult> CreateCategory()
         {
@@ -68,7 +70,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
@@ -87,7 +89,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All");
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
@@ -100,7 +102,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All");
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -114,7 +116,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {

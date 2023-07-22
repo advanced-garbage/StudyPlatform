@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
+using static StudyPlatform.Common.GeneralConstants;
 
 namespace StudyPlatform.Infrastructure
 {

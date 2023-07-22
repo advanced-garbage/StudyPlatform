@@ -12,5 +12,6 @@
         public const int AgeMax = 110;
         public const string TeacherRoleName = "Teacher";
         public const string StudentRoleName = "Student";
+        public const string AdministratorRole = "Administrator";
     }
 }
