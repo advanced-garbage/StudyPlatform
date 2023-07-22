@@ -23,7 +23,7 @@ namespace StudyPlatform.Infrastructure
 
         public static bool IsAdministrator(this ClaimsPrincipal user)
         {
-            return user.Identity.IsAuthenticated && user.IsInRole(AdministratorRole);
+            return user.Identity.IsAuthenticated && user.IsInRole(AdministratorRoleName);
         }
 
         public static string GetRole(this ClaimsPrincipal user)

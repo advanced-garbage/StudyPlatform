@@ -50,7 +50,7 @@ namespace StudyPlatform.Controllers
             return View(lessonsModel);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
@@ -67,7 +67,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", "Course", new {id = courseId});
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -83,7 +83,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Edit(LessonViewFormModel model)
         {
@@ -105,7 +105,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetLesson", "Lesson", new { id = model.Id});
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Add(int id)
         {
@@ -118,7 +118,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Add(LessonViewFormModel model)
         {

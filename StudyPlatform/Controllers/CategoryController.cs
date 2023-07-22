@@ -62,7 +62,7 @@ namespace StudyPlatform.Controllers
         }
 
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> CreateCategory()
         {
@@ -70,7 +70,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
@@ -89,7 +89,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All");
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Remove(int id)
         {
@@ -102,7 +102,7 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All");
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -116,7 +116,7 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRole}")]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {
