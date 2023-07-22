@@ -20,6 +20,11 @@ namespace StudyPlatform.Infrastructure
             return user.Identity.IsAuthenticated && user.IsInRole("Teacher");
         }
 
+        public static bool IsAdministrator(this ClaimsPrincipal user)
+        {
+            return user.Identity.IsAuthenticated && user.IsInRole("Administrator");
+        }
+
         public static string GetRole(this ClaimsPrincipal user)
         {
             return user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
