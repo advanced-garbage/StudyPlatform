@@ -18,12 +18,12 @@ namespace StudyPlatform.Infrastructure
 
         public static bool IsTeacher(this ClaimsPrincipal user)
         {
-            return user.Identity.IsAuthenticated && user.IsInRole("Teacher");
+            return user.Identity.IsAuthenticated && user.IsInRole(TeacherRoleName);
         }
 
         public static bool IsAdministrator(this ClaimsPrincipal user)
         {
-            return user.Identity.IsAuthenticated && user.IsInRole("Administrator");
+            return user.Identity.IsAuthenticated && user.IsInRole(AdministratorRole);
         }
 
         public static string GetRole(this ClaimsPrincipal user)
