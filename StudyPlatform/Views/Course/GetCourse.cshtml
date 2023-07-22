@@ -6,7 +6,7 @@
     <h1>
         @ViewData["Title"]
         @{
-            if ((bool)Model.isViewedByTeacher)
+            if (User.IsTeacher())
             {
                 <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
             }
@@ -22,7 +22,7 @@
     }
     <hr/>
     @{
-        if ((bool)Model.isViewedByTeacher)
+        if (User.IsTeacher())
         {
             <a asp-controller="Lesson" asp-action="Add" asp-route-id="@Model.Id">Add Lesson</a>
         }

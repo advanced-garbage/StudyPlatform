@@ -37,10 +37,6 @@ namespace StudyPlatform.Controllers
         {
             AllCategoriesViewModel categories = await this._categoryViewService.GetCategoriesForAllPageAsync();
 
-            if (User.IsTeacher()) { 
-                categories.IsViewedByTeacher = true;
-            }
-
             return View(categories);
         }
 
@@ -61,11 +57,6 @@ namespace StudyPlatform.Controllers
             {
                 return BadRequest();
             }
-
-            if (User.IsTeacher()) {
-                category.IsViewedByTeacher = true;
-            }
-
             return View(category);
         }
 

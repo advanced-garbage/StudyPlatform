@@ -14,9 +14,15 @@ namespace StudyPlatform.Infrastructure
         {
             return new string(user.FindFirst(ClaimTypes.Name).Value);
         }
+
         public static bool IsTeacher(this ClaimsPrincipal user)
         {
             return user.Identity.IsAuthenticated && user.IsInRole("Teacher");
+        }
+
+        public static string GetRole(this ClaimsPrincipal user)
+        {
+            return user.Claims.Where(c => c.Type == ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
         }
     }
 }

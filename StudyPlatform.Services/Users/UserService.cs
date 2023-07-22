@@ -6,6 +6,7 @@ using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 
 
+
 namespace StudyPlatform.Services.Users
 {
     public class UserService : IUserService
@@ -49,8 +50,7 @@ namespace StudyPlatform.Services.Users
                     FirstName = u.FirstName,
                     MiddleName = u.MiddleName,
                     LastName = u.LastName,
-                    Age = u.Age,
-                    Role = StudentRoleTitle
+                    Age = u.Age
                 })
                 .FirstOrDefaultAsync();
 

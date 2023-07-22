@@ -16,8 +16,6 @@ namespace StudyPlatform.Web.View.Models.Category
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;
 
-        public bool? IsViewedByTeacher { get; set; }
-
         public ICollection<CourseViewModel> Courses { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

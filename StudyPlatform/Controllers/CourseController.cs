@@ -44,11 +44,6 @@ namespace StudyPlatform.Controllers
             {
                 return BadRequest();
             }
-
-            if (User.IsTeacher()) {
-                course.isViewedByTeacher = true;
-            }
-            
             return View(course);
         }
 

@@ -85,7 +85,6 @@ namespace StudyPlatform.Services.Category
                     {
                         Id = c.Id,
                         Name = c.Name,
-                        IsViewedByTeacher = false,
                         Courses = c.Courses.Select(a => new CourseViewModel()
                         {
                             Id = a.Id,

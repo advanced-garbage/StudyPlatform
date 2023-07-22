@@ -14,9 +14,9 @@
         <hr/>
     </div>
 </div>
-    @{
-        if (Model.Role.Equals(TeacherRoleTitle))
-        {
-            <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
-        }
+@{
+    if (User.IsTeacher())
+    {
+        <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
     }
+}

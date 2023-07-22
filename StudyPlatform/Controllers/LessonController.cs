@@ -47,10 +47,6 @@ namespace StudyPlatform.Controllers
                 return BadRequest();
             }
 
-            if (User.IsTeacher()) { 
-                lessonsModel.IsViewedByTeacher = true;
-            }
-            
             return View(lessonsModel);
         }
 

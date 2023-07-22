@@ -2,7 +2,7 @@
 <div class="text-center">
     <h2>@Model.Name</h2>
     @{
-        if ((bool)Model.IsViewedByTeacher)
+        if (User.IsTeacher())
         {
             <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
             <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
@@ -11,7 +11,7 @@
 
     <hr/>
     @{
-        if ((bool)Model.IsViewedByTeacher)
+        if (User.IsTeacher())
         {
             <a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
         }

@@ -21,8 +21,6 @@ namespace StudyPlatform.Web.View.Models.Lesson
 
         public int CourseId { get; set; }
 
-        public bool? IsViewedByTeacher { get; set; }
-
         public ICollection<LearningMaterialViewModel>? LearningMaterials { get; set; }
     }
 }

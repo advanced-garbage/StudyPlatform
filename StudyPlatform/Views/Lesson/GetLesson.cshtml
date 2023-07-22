@@ -7,7 +7,7 @@
     <hr/>
     <h1 class="display-4">@Model.Name</h1>
     @{
-        if ((bool)Model.IsViewedByTeacher)
+        if (User.IsTeacher())
         {
             <a asp-controller="Lesson" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
             <a asp-controller="Lesson" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
@@ -17,7 +17,7 @@
     <p>@Model.Description</p>
     <hr/>
     @{
-        if ((bool)Model.IsViewedByTeacher)
+        if (User.IsTeacher())
         {
             <p>
                 <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">Add new learning material</a>

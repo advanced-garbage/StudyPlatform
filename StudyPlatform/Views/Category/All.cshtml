@@ -5,7 +5,7 @@
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
     @{
-        if ((bool)Model.IsViewedByTeacher)
+        if (User.IsTeacher())
         {
             <a asp-controller="Category" asp-action="CreateCategory" class="btn-link">Add Category</a>
 
@@ -17,8 +17,8 @@
                 foreach (var category in Model.Categories)
                 {
                     <a asp-controller="Category" asp-action="GetById" 
-                    asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()" 
-                    class="link-dark">
+                        asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()" 
+                        class="link-dark">
                         @category.Name
                     </a>
                     <br />
