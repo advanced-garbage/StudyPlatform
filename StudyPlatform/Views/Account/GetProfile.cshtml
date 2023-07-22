@@ -2,16 +2,17 @@
 @{
     ViewData["Title"] = "Account Profile";
 }
-<h1>@ViewData["Title"]</h1>
+<h1 class="display-5">@ViewData["Title"]</h1>
 <hr/>
-<div class="text-center">
-    <div class="align-content-center align-items-center">
-        <img src="~/study_platform_default_pfp.png" alt="default profile picture" width="200" height="200"/>
-        <h3>@Model.UserName</h3>
-        <h2>@Model.Role</h2>
-        <h1>@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
-        <h2>@Model?.Age</h2>
-        <hr/>
+<div class="row justify-content-center">
+    <div class="col-sm-auto bg-body-tertiary">
+        <img src="~/study_platform_default_pfp.png" alt="default profile picture" width="200" height="200" />
+    </div>
+    <div class="col-sm-auto lh-lg">
+        <h3 class="fs-2 fw-light">@Model.UserName</h3>
+        <h2 class="fs-3 fw-semibold">@Model.Role</h2>
+        <h1 class="fs-1 fw-light">@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
+        <h2 class="fs-4 fw-italic">@Model?.Age y/o</h2>
     </div>
 </div>
 @{

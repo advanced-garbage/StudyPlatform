@@ -31,7 +31,7 @@ namespace StudyPlatform.Web.View.Models.User
         public string LastName { get; set; }
 
         public string Age { get; set; }
-
+        public AccountCreditsViewModel? Lessons;
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (!int.TryParse(Age, out int age) && (age <= AgeMin || age >= AgeMax))

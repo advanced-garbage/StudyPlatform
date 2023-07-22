@@ -52,6 +52,7 @@ namespace StudyPlatform.Services.Category
                     Id = c.Id,
                     Name = c.Name
                 })
+                .OrderBy(c => c.Name)
                 .ToListAsync();
             
             return categories;

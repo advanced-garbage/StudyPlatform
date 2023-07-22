@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Services.Users.Interfaces;
-using StudyPlatform.Web.View.Models.Student;
 using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 

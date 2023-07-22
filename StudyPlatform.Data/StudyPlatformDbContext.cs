@@ -18,7 +18,6 @@ namespace StudyPlatform.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<Lesson> Lessons { get; set; }
-        public DbSet<Homework> Homeworks { get; set; }
         public DbSet<LearningMaterial> LearningMaterials { get; set; }
         public DbSet<TeacherLearningMaterial> TeacherLessons { get; set; }
         public DbSet<StudentLearningMaterial> StudentLessons { get; set; }
