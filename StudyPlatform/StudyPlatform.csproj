@@ -26,7 +26,6 @@
     <ProjectReference Include="..\StudyPlatform.Data\StudyPlatform.Data.csproj" />
     <ProjectReference Include="..\StudyPlatform.Files\StudyPlatform.Files.csproj" />
     <ProjectReference Include="..\StudyPlatform.Infrastructure\StudyPlatform.Infrastructure.csproj" />
-    <ProjectReference Include="..\StudyPlatform.Mapper\StudyPlatform.Mapper.csproj" />
     <ProjectReference Include="..\StudyPlatform.Services\StudyPlatform.Services.csproj" />
     <ProjectReference Include="..\StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj" />
   </ItemGroup>
