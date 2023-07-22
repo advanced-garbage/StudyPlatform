@@ -10,6 +10,7 @@ namespace StudyPlatform.Web.View.Models.Lesson
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Lesson Name")]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; }
 

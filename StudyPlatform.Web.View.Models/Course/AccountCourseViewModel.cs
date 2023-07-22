@@ -12,6 +12,7 @@ namespace StudyPlatform.Web.View.Models.Course
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
     }
 }

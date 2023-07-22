@@ -13,6 +13,7 @@ namespace StudyPlatform.Web.View.Models.Category
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Category Name")]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;
 

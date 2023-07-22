@@ -6,9 +6,8 @@ namespace StudyPlatform.Web.View.Models.Teacher
 {
     public class TeacherViewModel : UserViewModel
     {
-        public TeacherViewModel() {
+        public TeacherViewModel() : base() {
             this.Lessons = new List<LearningMaterialViewModel>();
-            Role = TeacherRoleTitle;
         }
 
         public ICollection<LearningMaterialViewModel> Lessons;

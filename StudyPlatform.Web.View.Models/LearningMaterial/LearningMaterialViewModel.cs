@@ -5,7 +5,7 @@ using static StudyPlatform.Common.ModelValidationConstants.LearningMaterial;
 
 namespace StudyPlatform.Web.View.Models.LearningMaterial
 {
-    public class LearningMaterialViewModel : ILearningMaterialLinkService
+    public class LearningMaterialViewModel : ILearningMaterialLinkService, IValidatableObject
     {
         public LearningMaterialViewModel()
         {
@@ -27,5 +27,12 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
 
         public string LinkName { get; set; }
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (LinkName.EndsWith(".pdf") || LinkName.Contains(".pdf"))
+            {
+                yield return new ValidationResult("Link name musn't contain the file extension!");
+            }
+        }
     }
 }
