@@ -5,6 +5,7 @@ using StudyPlatform.Web.View.Models.User;
 using static StudyPlatform.Infrastructure.ClaimsPrincipalExtensions;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Services.Roles.Interfaces;
 
 namespace StudyPlatform.Controllers
 {
@@ -12,13 +13,16 @@ namespace StudyPlatform.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILessonViewService _lessonViewService;
+        private readonly IRoleService _roleService;
 
         public AccountController(
             IUserService userService, 
-            ILessonViewService lessonViewService)
+            ILessonViewService lessonViewService,
+            IRoleService roleService)
         {
             this._userService = userService;
             this._lessonViewService = lessonViewService;
+            this._roleService = roleService;
         }
 
         [HttpGet]
@@ -34,7 +38,7 @@ namespace StudyPlatform.Controllers
             }
 
             UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
-            userModel.Role = User.GetRole();
+            userModel.RoleTitle = this._roleService.GetRoleName();
             if (User.IsTeacher())
             {
                 userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);

@@ -8,9 +8,8 @@ namespace StudyPlatform.Web.View.Models.User
 {
     public class UserAccountViewModel : IValidatableObject
     {
-        // role has default value. can be admin
         [StringLength(RoleMaxLength, MinimumLength = RoleMinLength)]
-        public string Role { get; set; } = StudentRoleTitle;
+        public string RoleTitle { get; set; } = string.Empty;
 
         [StringLength(UserNameMinLength, MinimumLength = UserNameMaxLength)]
         public string UserName { get; set; }

@@ -12,6 +12,8 @@ using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Lesson;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Services.Roles;
+using StudyPlatform.Services.Roles.Interfaces;
 using StudyPlatform.Services.TeacherLesson;
 using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users;
@@ -26,7 +28,6 @@ builder.Services.AddDbContext<StudyPlatformDbContext>(options =>
         db => db.MigrationsAssembly("StudyPlatform.Data")) // or just "StudyPlatform.Data"
 );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedAccount 
@@ -46,6 +47,7 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 });
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
 builder.Services.AddScoped<ICategoryViewFormService, CategoryViewFormService>();
@@ -59,6 +61,7 @@ builder.Services.AddScoped<ILearningMaterialService, LearningMaterialService>();
 builder.Services.AddScoped<ILearningMaterialFormService, LearningMaterialFormService>();
 builder.Services.AddScoped<ILessonViewService, LessonViewService>();
 builder.Services.AddScoped<ILessonFormService, LessonFormService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

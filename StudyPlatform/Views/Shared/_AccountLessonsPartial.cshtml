@@ -1,7 +1,9 @@
 ﻿@model UserAccountViewModel;
 <hr />
 @{
-    <h3 class="fw-normal">This teacher is the author of the following lessons:</h3>
+    if (Model.Lessons.AccountCategories.Count > 0) {
+        <h3 class="fw-normal">This teacher is the author of the following lessons:</h3>        
+    }
     <br />
     foreach (AccountCategoryViewModel category in Model.Lessons.AccountCategories)
     {
