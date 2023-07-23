@@ -22,8 +22,8 @@ namespace StudyPlatform.Services.TeacherLesson
         }
         public async Task AddAsync(Guid teacherId, int lmId)
         {
-            Data.Models.TeacherLearningMaterial tl
-                = new Data.Models.TeacherLearningMaterial()
+            Data.Models.TeacherLesson tl
+                = new Data.Models.TeacherLesson()
                 {
                     TeacherId = teacherId,
                     LessonId = lmId

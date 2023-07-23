@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudyPlatform.Data.Models
 {
     // Composite keys for the tables 'Teacher' and 'Lesson'
     // it has a Many-to-many relationship.
-    public class TeacherLearningMaterial
+    public class TeacherLesson
     {
         [ForeignKey(nameof(Teacher))]
         public Guid TeacherId { get; set; }
@@ -18,6 +12,6 @@ namespace StudyPlatform.Data.Models
 
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }   
-        public LearningMaterial Lesson { get; set; }
+        public Lesson Lesson { get; set; }
     }
 }

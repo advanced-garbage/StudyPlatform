@@ -46,6 +46,14 @@ namespace StudyPlatform.Services.Lesson
                 .Where(c => c.Id.Equals(lessonId))
                 .FirstAsync();
 
+            ICollection<Data.Models.TeacherLesson> lessons 
+                = await this._db.TeacherLessons
+                .Where(tl => tl.LessonId.Equals(lessonId))
+                .ToListAsync();
+
+            this._db.TeacherLessons.RemoveRange(lessons);
+            await this._db.SaveChangesAsync();
+
             this._db.Lessons.Remove(lessonObj);
             await this._db.SaveChangesAsync();
         }

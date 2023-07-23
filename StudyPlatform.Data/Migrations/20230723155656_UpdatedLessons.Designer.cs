@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudyPlatform.Data;
 
@@ -11,9 +12,10 @@ using StudyPlatform.Data;
 namespace StudyPlatform.Data.Migrations
 {
     [DbContext(typeof(StudyPlatformDbContext))]
-    partial class StudyPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230723155656_UpdatedLessons")]
+    partial class UpdatedLessons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -366,7 +368,7 @@ namespace StudyPlatform.Data.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("StudyPlatform.Data.Models.TeacherLesson", b =>
+            modelBuilder.Entity("StudyPlatform.Data.Models.TeacherLearningMaterial", b =>
                 {
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -465,9 +467,9 @@ namespace StudyPlatform.Data.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("StudyPlatform.Data.Models.TeacherLesson", b =>
+            modelBuilder.Entity("StudyPlatform.Data.Models.TeacherLearningMaterial", b =>
                 {
-                    b.HasOne("StudyPlatform.Data.Models.Lesson", "Lesson")
+                    b.HasOne("StudyPlatform.Data.Models.LearningMaterial", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)

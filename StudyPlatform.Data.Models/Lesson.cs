@@ -8,7 +8,6 @@ namespace StudyPlatform.Data.Models
     public class Lesson
     {
         public Lesson() { 
-            this.Teachers = new List<Teacher>();
             this.LearningMaterials = new List<LearningMaterial>();
         }
 
@@ -29,7 +28,6 @@ namespace StudyPlatform.Data.Models
 
         // teachers are considred authors of lessons.
         // called "teachers" for predictability.
-        public ICollection<Teacher> Teachers { get; set; }
         public ICollection<LearningMaterial> LearningMaterials { get; set; }
     }
 }

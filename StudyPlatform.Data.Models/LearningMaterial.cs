@@ -25,7 +25,5 @@ namespace StudyPlatform.Data.Models
         [ForeignKey(nameof(Lesson))]
         public int LessonId { get; set; }
         public Lesson Lesson { get; set; }
-
-
     }
 }
