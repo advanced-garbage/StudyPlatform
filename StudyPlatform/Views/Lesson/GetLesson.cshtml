@@ -5,43 +5,51 @@
 <div class="text-center">
     <a asp-controller="Course" asp-action="GetCourse" asp-route-id="@Model.CourseId" >Back to course</a>
     <hr/>
-    <div class="row justify-content-center">
+    <div class="row justify-content-between">
         <div class="col-sm-auto">
-            <h1 class="display-4">Lesson: <i>@Model.Name</i></h1>
+            <h1 class="display-6"><i>@Model.Name</i></h1>
         </div>
         <div class="col-sm-auto mt-3">
-
+            @{
+                if (User.IsTeacher())
+                {
+                    <div class="row">
+                        <div class="col-sm-auto">
+                           <a asp-controller="Lesson" asp-action="Edit"
+                           asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                        </div>
+                        <div class="col-sm-auto">
+                           <a asp-controller="Lesson" asp-action="Remove"
+                           asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a asp-controller="LearningMaterial" asp-action="Upload"
+                           asp-route-id="@Model.Id" class="btn btn-dark">Add new learning material</a>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
-    
-    @{
-        if (User.IsTeacher())
-        {
-            <a asp-controller="Lesson" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-            <a asp-controller="Lesson" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
-        }
-    }
     <br/>
-    <p>@Model.Description</p>
-    <hr/>
     @{
-        if (User.IsTeacher())
+        if (!string.IsNullOrWhiteSpace(Model.Description))
         {
-            <p>
-                <a asp-controller="LearningMaterial" asp-action="Upload" asp-route-id="@Model.Id">Add new learning material</a>
-            </p>
-            <hr />
+            <hr/>
+            <h3 class="fst-italic bg-dark bg-opacity-10">@Model.Description</h3>
         }
     }
-    
+    <hr/>
+    <div class="list-group">
     @{
         foreach (var lm in Model.LearningMaterials)
         {
             <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
-               asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()">
+            asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
+            class="list-group-item list-group-item-action fs-4">
                 @lm.Title
             </a>
-            <br />
         }
     }
+    </div>
 </div>
