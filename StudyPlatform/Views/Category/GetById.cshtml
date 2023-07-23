@@ -10,7 +10,7 @@
         @{
             if (User.IsTeacher())
             {
-                <div class="col-sm-auto  mt-3">
+                <div class="col-sm-auto mt-3">
                     <div class="row">
                         <div class="col">
                             <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
@@ -28,20 +28,15 @@
     </div>
     <hr />
     <br/>
-    <div class="list-group list-group-flush">
-        <ul>
-            @{
-                foreach (var course in Model.Courses)
-                {
-                    <li class="list-group-item">
-                        <div class="fs-2">
-                            <a asp-controller="Course" asp-action="GetCourse"
-                            asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
-                            class="link-dark">@course.Name</a>
-                        </div>
-                    </li>
-                }
+    <div class="list-group">
+        @{
+            foreach (var course in Model.Courses)
+            {
+                    <a asp-controller="Course" asp-action="GetCourse"
+                    asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
+                    class="list-group-item list-group-item-action fs-2">
+                    @course.Name</a>
             }
-        </ul>
+        }
     </div>
 </div>

@@ -1,20 +1,14 @@
 ﻿@model AllCategoriesViewModel
 
-<div class="list-group list-group-flush">
-    <ul>
-        @{
-            foreach (var category in Model.Categories)
-            {
-                <li class="list-group-item">
-                    <div class="fs-2">
-                        <a asp-controller="Category" asp-action="GetById"
-                        asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()"
-                        class="link-dark">
-                            @category.Name
-                        </a>
-                    </div>
-                </li>
-            }
+<div class="list-group">
+    @{
+        foreach (var category in Model.Categories)
+        {
+            <a asp-controller="Category" asp-action="GetById"
+            asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()"
+            class="list-group-item list-group-item-action fs-2">
+                @category.Name
+            </a>
         }
-    </ul>
+    }
 </div>

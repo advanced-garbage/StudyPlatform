@@ -3,37 +3,53 @@
     ViewData["Title"] = Model.Name;
 }
 <div class="text-center">
-    <h1>
-        @ViewData["Title"]
-        @{
-            if (User.IsTeacher())
-            {
-                <a asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <div class="row justify-content-between">
+        <div class="col-sm-auto">
+            <h1 class="display-5">
+                <i>@ViewData["Title"]</i>
+            </h1>
+        </div>
+        <div class="col-sm-auto mt-3">
+            @{
+                if (User.IsTeacher())
+                {
+                    <div class="row">
+                        <div class="col-sm-auto">
+                            <a asp-controller="Course" asp-action="Edit" 
+                            asp-route-id="@Model.Id" 
+                            class="btn btn-primary">Edit</a>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a asp-controller="Lesson" asp-action="Add" 
+                            asp-route-id="@Model.Id" 
+                            class="btn btn-dark">Add Lesson</a>
+                        </div>
+                    </div>
+                }
             }
-        }
-    </h1>
-    <hr/>
+        </div>
+    </div>
+            
     <hr/>
     @{
         if (!string.IsNullOrEmpty(Model.Description))
         {
-            <h3>@Model.Description</h3>
+            <div class="justify-content-md-between">
+                <h3 class="fst-italic bg-black bg-opacity-10">@Model.Description</h3>
+            </div>
         }
     }
     <hr/>
-    @{
-        if (User.IsTeacher())
-        {
-            <a asp-controller="Lesson" asp-action="Add" asp-route-id="@Model.Id">Add Lesson</a>
-        }
-    }
+    <div class="list-group">
     @{
         foreach(var lesson in Model.Lessons)
         {
             <a asp-controller="Lesson" asp-action="GetLesson"
-            asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()" 
-            class="link nav-link">@lesson.Name</a>
+            asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()"
+            class="list-group-item list-group-item-action fs-2">@lesson.Name
+            </a>
             <br />
         }
     }
+    </div>
 </div>

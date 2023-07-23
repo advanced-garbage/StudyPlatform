@@ -5,7 +5,15 @@
 <div class="text-center">
     <a asp-controller="Course" asp-action="GetCourse" asp-route-id="@Model.CourseId" >Back to course</a>
     <hr/>
-    <h1 class="display-4">@Model.Name</h1>
+    <div class="row justify-content-center">
+        <div class="col-sm-auto">
+            <h1 class="display-4">Lesson: <i>@Model.Name</i></h1>
+        </div>
+        <div class="col-sm-auto mt-3">
+
+        </div>
+    </div>
+    
     @{
         if (User.IsTeacher())
         {
