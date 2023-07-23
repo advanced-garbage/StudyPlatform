@@ -5,7 +5,7 @@ using StudyPlatform.Web.View.Models.Lesson.Interfaces;
 
 namespace StudyPlatform.Web.View.Models.Lesson
 {
-    public class LessonViewFormModel 
+    public class LessonViewFormModel : ILessonLink
     {
         public LessonViewFormModel()
         {

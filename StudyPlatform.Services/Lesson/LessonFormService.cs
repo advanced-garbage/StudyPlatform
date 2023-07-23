@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
+using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
 using System;
@@ -16,9 +17,13 @@ namespace StudyPlatform.Services.Lesson
     public class LessonFormService : ILessonFormService
     {
         private readonly StudyPlatformDbContext _db;
-        public LessonFormService(StudyPlatformDbContext db)
+        private readonly ICourseViewService _courseViewService;
+        public LessonFormService(
+            StudyPlatformDbContext db,
+            ICourseViewService courseViewService)
         {
             this._db = db;
+            this._courseViewService = courseViewService;
         }
         public async Task AddAsync(LessonViewFormModel model)
         {
@@ -59,7 +64,7 @@ namespace StudyPlatform.Services.Lesson
             await this._db.SaveChangesAsync();
         }
 
-        public async Task<LessonViewFormModel> GetLessonFormByIdAsync(int id)
+        public async Task<LessonViewFormModel> GetFormByIdAsync(int id)
         {
             LessonViewFormModel model
                 = await this._db
@@ -73,7 +78,7 @@ namespace StudyPlatform.Services.Lesson
                     CourseId = l.CourseId
                 })
                 .FirstOrDefaultAsync();
-
+            model.Courses = await this._courseViewService.GetAllAsync();
             return model;
         }
 

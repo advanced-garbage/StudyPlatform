@@ -52,33 +52,32 @@ namespace StudyPlatform.Controllers
 
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove(int lessonId)
         {
-            bool lessonExists = await this._lessonViewService.AnyByIdAsync(id);
+            bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
             if (!lessonExists)
             {
                 return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 
-            int courseId = await this._lessonViewService.GetCourseIdByLessonId(id);
+            int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
 
-            await this._lessonFormService.RemoveAsync(id);
+            await this._lessonFormService.RemoveAsync(lessonId);
 
             return RedirectToAction("GetCourse", "Course", new {id = courseId});
         }
 
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int lessonId)
         {
-            bool lessonExists = await this._lessonViewService.AnyByIdAsync(id);
+            bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
             if (!lessonExists)
             {
                 return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 
-            LessonViewFormModel model = await this._lessonFormService.GetLessonFormByIdAsync(id);
-            model.Courses = await this._courseViewService.GetAllAsync();
+            LessonViewFormModel model = await this._lessonFormService.GetFormByIdAsync(lessonId);
 
             return View(model);
         }
@@ -95,14 +94,13 @@ namespace StudyPlatform.Controllers
 
             if (!ModelState.IsValid)
             {
-                LessonViewFormModel getModel = await this._lessonFormService.GetLessonFormByIdAsync(model.Id);
-                getModel.Courses = await this._courseViewService.GetAllAsync();
+                LessonViewFormModel getModel = await this._lessonFormService.GetFormByIdAsync(model.Id);
                 return View(getModel);
             }
 
             await this._lessonFormService.EditAsync(model);
 
-            return RedirectToAction("GetLesson", "Lesson", new { id = model.Id});
+            return RedirectToAction("GetLesson", "Lesson", new { id = model.Id, lessonName = model.GetNameUrl()});
         }
 
         [HttpGet]

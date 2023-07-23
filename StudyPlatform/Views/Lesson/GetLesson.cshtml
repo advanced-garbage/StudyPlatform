@@ -16,15 +16,15 @@
                     <div class="row">
                         <div class="col-sm-auto">
                            <a asp-controller="Lesson" asp-action="Edit"
-                           asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                           asp-route-lessonId="@Model.Id" class="btn btn-primary">Edit</a>
                         </div>
                         <div class="col-sm-auto">
                            <a asp-controller="Lesson" asp-action="Remove"
-                           asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+                            asp-route-lessonId="@Model.Id" class="btn btn-danger">Remove</a>
                         </div>
                         <div class="col-sm-auto">
                             <a asp-controller="LearningMaterial" asp-action="Upload"
-                           asp-route-id="@Model.Id" class="btn btn-dark">Add new learning material</a>
+                            asp-route-lessonId="@Model.Id" class="btn btn-dark">Add new learning material</a>
                         </div>
                     </div>
                 }
