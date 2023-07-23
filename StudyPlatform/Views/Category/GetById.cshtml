@@ -1,28 +1,47 @@
 ﻿@model CategoryViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
 <div class="text-center">
-    <h2>@Model.Name</h2>
-    @{
-        if (User.IsTeacher())
-        {
-            <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="link-danger">Remove</a>
-            <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="link-dark">Edit</a>
+    <div class="row justify-content-between">
+        <div class="col-sm-auto ">
+            <h2 class="display-5">Category: <i>@ViewData["Title"]</i></h2>
+        </div>
+        @{
+            if (User.IsTeacher())
+            {
+                <div class="col-sm-auto  mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="Category" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-dark">Add New Course</a>
+                        </div>
+                    </div>
+                </div>
+            }
         }
-    }
-
-    <hr/>
-    @{
-        if (User.IsTeacher())
-        {
-            <a asp-controller="Course" asp-action="Add" asp-route-id="@Model.Id">Add New Course</a>
-        }
-    }
+    </div>
+    <hr />
     <br/>
-    @{
-        foreach (var course in Model.Courses)
-        {
-            <p><a asp-controller="Course" asp-action="GetCourse"
-            asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
-            class="link-dark">@course.Name</a></p>
-        }
-    }
+    <div class="list-group list-group-flush">
+        <ul>
+            @{
+                foreach (var course in Model.Courses)
+                {
+                    <li class="list-group-item">
+                        <div class="fs-2">
+                            <a asp-controller="Course" asp-action="GetCourse"
+                            asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
+                            class="link-dark">@course.Name</a>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 </div>
