@@ -121,11 +121,6 @@ namespace StudyPlatform.Services.Category
 
         public async Task<CategoryViewFormModel> GetFormCategory(int id)
         {
-            if (!await AnyCategoryByIdAsync(id))
-            {
-                throw new InvalidOperationException($"A Category by this id {id} was not found");
-            }
-
             CategoryViewFormModel model
                 = await this._db
                 .Categories

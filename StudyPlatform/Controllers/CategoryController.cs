@@ -62,16 +62,16 @@ namespace StudyPlatform.Controllers
         }
 
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> CreateCategory()
         {
             CategoryViewFormModel model = new CategoryViewFormModel();
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
@@ -86,38 +86,38 @@ namespace StudyPlatform.Controllers
 
             await this._categoryViewFormService.AddAsync(model);
 
-            return RedirectToAction("All");
+            return RedirectToAction("All", "Category");
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Remove(int id)
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        public async Task<IActionResult> Remove(int categoryId)
         {
-            if (!await this._categoryViewService.AnyByIdAsync(id))
+            if (!await this._categoryViewService.AnyByIdAsync(categoryId))
             {
                 return BadRequest();
             }
 
-            await this._categoryViewFormService.RemoveAsync(id);
-            return RedirectToAction("All");
+            await this._categoryViewFormService.RemoveAsync(categoryId);
+            return RedirectToAction("All", "Category");
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        public async Task<IActionResult> Edit(int categoryId)
         {
-            if (!await this._categoryViewService.AnyByIdAsync(id))
+            if (!await this._categoryViewService.AnyByIdAsync(categoryId))
             {
                 return BadRequest();
             }
 
-            CategoryViewFormModel model = await this._categoryViewService.GetFormCategory(id);
+            CategoryViewFormModel model = await this._categoryViewService.GetFormCategory(categoryId);
 
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {
             if (!ModelState.IsValid)
@@ -127,7 +127,7 @@ namespace StudyPlatform.Controllers
 
             await this._categoryViewFormService.EditAsync(model);
 
-            return RedirectToAction("All");
+            return RedirectToAction("All", "Category");
         }
     }
 }

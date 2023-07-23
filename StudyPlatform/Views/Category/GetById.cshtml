@@ -13,12 +13,12 @@
                 <div class="col-sm-auto mt-3">
                     <div class="row">
                         <div class="col">
-                            <a asp-controller="Category" asp-action="Remove" 
-                            asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+                            <a asp-controller="Category" asp-action="Remove"
+                            asp-route-categoryId="@Model.Id" class="btn btn-danger">Remove</a>
                         </div>
                         <div class="col-sm-auto">
-                            <a asp-controller="Category" asp-action="Edit" 
-                            asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Category" asp-action="Edit"
+                            asp-route-categoryId="@Model.Id" class="btn btn-primary">Edit</a>
                         </div>
                         <div class="col-sm-auto">
                             <a asp-controller="Course" asp-action="Add"
