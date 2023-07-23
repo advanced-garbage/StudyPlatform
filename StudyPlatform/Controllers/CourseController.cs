@@ -17,18 +17,15 @@ namespace StudyPlatform.Controllers
         private readonly ICourseViewService _courseViewService;
         private readonly ICategoryViewService _categoryViewService;
         private readonly ICourseViewFormService _courseViewFormService;
-        private readonly ITeacherService _teacherService;
 
         public CourseController(
             ICourseViewService courseViewService,
             ICategoryViewService categoryViewService,
-            ICourseViewFormService courseViewFormService,
-            ITeacherService teacherService)
+            ICourseViewFormService courseViewFormService)
         {
             this._courseViewService = courseViewService;
             this._categoryViewService = categoryViewService;
             this._courseViewFormService = courseViewFormService;
-            this._teacherService = teacherService;
         }
 
         [AllowAnonymous]
@@ -48,18 +45,22 @@ namespace StudyPlatform.Controllers
             return View(course);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        public async Task<IActionResult> Edit(int courseId)
         {
-            CourseViewFormModel model = await this._courseViewService.GetFormCourseAsync(id);
-            model.Categories = await this._categoryViewService.GetAllCategoriesAsync();
+            if (!await this._courseViewService.AnyByIdAsync(courseId))
+            {
+                return BadRequest();
+            }
+
+            CourseViewFormModel model = await this._courseViewService.GetFormCourseAsync(courseId);
 
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Edit(CourseViewFormModel model)
         {
             if (!ModelState.IsValid){
@@ -68,7 +69,7 @@ namespace StudyPlatform.Controllers
 
             await this._courseViewFormService.EditAsync(model);
 
-            return RedirectToAction("GetCourse", new { id = model.Id});
+            return RedirectToAction("GetCourse", new { id = model.Id, courseName = model.GetNameUrl() });
         }
 
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]

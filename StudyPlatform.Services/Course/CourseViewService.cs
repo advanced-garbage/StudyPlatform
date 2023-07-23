@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
+using StudyPlatform.Services.Category.Interfaces;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Web.View.Models.Course;
 using StudyPlatform.Web.View.Models.Lesson;
@@ -10,10 +11,14 @@ namespace StudyPlatform.Services.Course
     public class CourseViewService : ICourseViewService
     {
         private readonly StudyPlatformDbContext _db;
+        private readonly ICategoryViewService _categoryViewService;
 
-        public CourseViewService(StudyPlatformDbContext db)
+        public CourseViewService(
+            StudyPlatformDbContext db,
+            ICategoryViewService categoryViewService)
         {
-            _db = db;
+            this._db = db;
+            this._categoryViewService = categoryViewService;
         }
 
         public async Task<int> GetCategoryIdByCourseIdAsync(int courseId)
@@ -68,6 +73,8 @@ namespace StudyPlatform.Services.Course
                 })
                 .FirstOrDefaultAsync();
 
+            courseModel.Categories = await this._categoryViewService.GetAllCategoriesAsync();
+
             return courseModel;
         }
 
@@ -89,9 +96,9 @@ namespace StudyPlatform.Services.Course
             return courseName;
         }
 
-        private async Task<bool> AnyByIdAsync(int id)
+        public async Task<bool> AnyByIdAsync(int courseId)
         {
-            bool courseExists = await this._db.Courses.AnyAsync(c => c.Id.Equals(id));
+            bool courseExists = await this._db.Courses.AnyAsync(c => c.Id.Equals(courseId));
 
             return courseExists;
         }
@@ -134,5 +141,6 @@ namespace StudyPlatform.Services.Course
 
             return courseId;
         }
+
     }
 }

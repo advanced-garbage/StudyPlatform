@@ -105,21 +105,21 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetLesson", "Lesson", new { id = model.Id});
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Add(int id)
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        public async Task<IActionResult> Add(int courseId)
         {
             LessonViewFormModel model = new LessonViewFormModel()
             {
-                CourseId = id,
+                CourseId = courseId,
                 Courses = await this._courseViewService.GetAllAsync()
             };
 
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Add(LessonViewFormModel model)
         {
             bool existsByName = await this._lessonViewService.AnyByNameAsync(model.Name);

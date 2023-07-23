@@ -5,17 +5,17 @@ namespace StudyPlatform.Services.Course.Interfaces
     public interface ICourseViewService
     {
         public Task<ICollection<CourseListViewModel>> GetAllAsync();
-        public Task<CourseViewModel> GetById(int id);
+        public Task<CourseViewModel> GetById(int courseId);
 
-        public Task<CourseViewFormModel> GetFormCourseAsync(int id);
+        public Task<CourseViewFormModel> GetFormCourseAsync(int courseId);
 
         public Task<int> GetCategoryIdByCourseIdAsync(int courseId);
 
         public Task<string> GetNameByIdAsync(int courseId);
         public Task<int> GetIdByNameAsync(string courseName);
 
-        public Task<int> GetIdAsync(int id);
+        public Task<int> GetIdAsync(int courseId);
 
-
+        Task<bool> AnyByIdAsync(int courseid);
     }
 }
