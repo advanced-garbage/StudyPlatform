@@ -13,7 +13,7 @@ namespace StudyPlatform.Services.Course.Interfaces
 
         public Task<string> GetNameByIdAsync(int courseId);
         public Task<int> GetIdByNameAsync(string courseName);
-
+        public Task<string> GetNameUrlByIdAsync(int courseId);
         public Task<int> GetIdAsync(int courseId);
 
         Task<bool> AnyByIdAsync(int courseid);

@@ -140,8 +140,8 @@ namespace StudyPlatform.Controllers
             await this._lessonFormService.AddAsync(model);
 
             int courseId = await this._courseViewService.GetIdAsync(model.CourseId);
-
-            return RedirectToAction("GetCourse", "Course", new { id = courseId });
+            string courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
+            return RedirectToAction("GetCourse", "Course", new { id = courseId, courseName = courseName});
         }
     }
 }

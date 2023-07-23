@@ -28,8 +28,8 @@ namespace StudyPlatform.Controllers
             this._courseViewFormService = courseViewFormService;
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCourse(int id, string courseName)
         {
             var course = await this._courseViewService.GetById(id);
@@ -72,8 +72,8 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", new { id = model.Id, courseName = model.GetNameUrl() });
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Remove(int id)
         {
             await this._courseViewFormService.RemoveAsync(id);
@@ -81,8 +81,8 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All", "Category");
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Add(int categoryId)
         {
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -98,8 +98,8 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Add(CourseViewFormModel model)
         {
             if (!ModelState.IsValid)
