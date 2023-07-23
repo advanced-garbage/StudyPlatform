@@ -17,22 +17,5 @@
         </div>
     </div>
     <hr/>
-    <div class="list-group list-group-flush">
-        <ul>
-        @{
-            foreach (var category in Model.Categories)
-            {
-                <li class="list-group-item">
-                    <div class="fs-2">
-                        <a asp-controller="Category" asp-action="GetById" 
-                            asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()" 
-                            class="link-dark">
-                            @category.Name
-                        </a>
-                    </div>
-                </li>
-            }
-        }
-        </ul>
-    </div>
+    <partial name="~/Views/Shared/_AllCategoriesPartial.cshtml" model="@Model" />
 </div>
