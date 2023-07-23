@@ -55,17 +55,13 @@ namespace StudyPlatform.Services.Course
 
         public async Task<CourseViewFormModel> GetFormCourseAsync(int id)
         {
-            if (!await AnyByIdAsync(id))
-            {
-                throw new InvalidOperationException(CourseIdNotFound);
-            }
-
             CourseViewFormModel courseModel
                 = await this._db
                 .Courses
                 .Where(c => c.Id.Equals(id))
                 .Select(c => new CourseViewFormModel()
                 {
+                    Id = id,
                     Name = c.Name,
                     Description = c.Description,
                     CategoryId = c.CategoryId
