@@ -44,6 +44,7 @@ namespace StudyPlatform.Controllers
             {
                 return BadRequest();
             }
+
             return View(course);
         }
 
@@ -81,10 +82,16 @@ namespace StudyPlatform.Controllers
 
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public async Task<IActionResult> Add(int categoryId)
         {
+            if (!await this._categoryViewService.AnyByIdAsync(categoryId))
+            {
+                return BadRequest();
+            }
+
             CourseViewFormModel model = new CourseViewFormModel() {
-                Categories = await this._categoryViewService.GetAllCategoriesAsync()
+                Categories = await this._categoryViewService.GetAllCategoriesAsync(),
+                CategoryId = categoryId
             };
 
             return View(model);
@@ -100,7 +107,8 @@ namespace StudyPlatform.Controllers
             }
 
             await this._courseViewFormService.AddAsync(model);
-            return RedirectToAction("GetCourse", new { id = model.Id });
+            int courseId = await this._courseViewService.GetIdByNameAsync(model.Name);
+            return RedirectToAction("GetCourse", new { id = courseId, courseName = model.GetNameUrl() });
         }
     }
 }

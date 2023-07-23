@@ -126,5 +126,17 @@ namespace StudyPlatform.Services.Course
 
             return courseId;
         }
+
+        public async Task<int> GetIdByNameAsync(string courseName)
+        {
+            int courseId
+                = await this._db
+                .Courses
+                .Where(c => c.Name.Equals(courseName))
+                .Select(c => c.Id)
+                .FirstOrDefaultAsync();
+
+            return courseId;
+        }
     }
 }
