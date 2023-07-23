@@ -34,7 +34,7 @@ namespace StudyPlatform.Services.Users.Interfaces
         /// </summary>
         /// <param name="learningMaterial"></param>
         /// <returns></returns>
-        ICollection<TeacherForLearningMaterialViewModel> GetByLearningMaterialId(int learningMaterialId);
+        ICollection<TeacherForLearningMaterialViewModel> GetByLessonId(int lessonId);
        
     }
 }

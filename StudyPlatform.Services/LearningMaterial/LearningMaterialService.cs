@@ -124,7 +124,7 @@ namespace StudyPlatform.Services.LearningMaterial
                     LinkName = lm.FileName.Split(".pdf", StringSplitOptions.RemoveEmptyEntries)[0].ToString(),
                     FullPath = this._config["FilePath:LearningMaterialPath"] + lm.FileName,
                     Title = lm.LearningMaterialName,
-                    Teachers = this._teacherService.GetByLearningMaterialId(lm.Id)
+                    Teachers = this._teacherService.GetByLessonId(lm.Id)
                 })
                 .FirstOrDefaultAsync();
             

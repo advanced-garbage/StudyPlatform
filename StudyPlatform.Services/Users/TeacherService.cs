@@ -74,12 +74,12 @@ namespace StudyPlatform.Services.Users
             return userModel;
         }
 
-        public ICollection<TeacherForLearningMaterialViewModel> GetByLearningMaterialId(int learningMaterialId)
+        public ICollection<TeacherForLearningMaterialViewModel> GetByLessonId(int lessonId)
         {
             ICollection<Guid> teacherIds
                 = this._db
                 .TeacherLessons
-                .Where(lm => lm.LessonId.Equals(learningMaterialId))
+                .Where(lm => lm.LessonId.Equals(lessonId))
                 .Select(t => (Guid)t.TeacherId)
                 .ToList();
 

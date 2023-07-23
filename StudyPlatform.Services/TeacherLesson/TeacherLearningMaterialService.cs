@@ -20,37 +20,37 @@ namespace StudyPlatform.Services.TeacherLesson
         {
             this._db = db;
         }
-        public async Task AddAsync(Guid teacherId, int lmId)
+        public async Task AddAsync(Guid teacherId, int lessonId)
         {
             Data.Models.TeacherLesson tl
                 = new Data.Models.TeacherLesson()
                 {
                     TeacherId = teacherId,
-                    LessonId = lmId
+                    LessonId = lessonId
                 };
 
             await this._db.TeacherLessons.AddAsync(tl);
             await this._db.SaveChangesAsync();
         }
 
-        public async Task<int> GetLmIdByTeacherGuidAsync(Guid teacherId)
+        public async Task<int> GetLessonIdByTeacherGuidAsync(Guid teacherId)
         {
-            int lmId
+            int lessonId
                 = await this._db
                 .TeacherLessons
                 .Where(t => t.TeacherId.Equals(teacherId))
                 .Select(lm => lm.LessonId)
                 .FirstAsync();
 
-            return lmId;
+            return lessonId;
         }
 
-        public async Task<Guid> GetTeacherIdByLmIdAsync(int lmId)
+        public async Task<Guid> GetTeacherIdByLessonIdAsync(int lessonId)
         {
             Guid teacherGuid 
                 = await this._db
                 .TeacherLessons
-                .Where(lm => lm.LessonId.Equals(lmId))
+                .Where(lm => lm.LessonId.Equals(lessonId))
                 .Select(t => t.TeacherId)
                 .FirstAsync();
 

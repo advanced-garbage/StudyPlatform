@@ -2,10 +2,10 @@
 {
     public interface ITeacherLearningMaterialService
     {
-        Task AddAsync(Guid teacherId, int lmId);
+        Task AddAsync(Guid teacherId, int lessonId);
 
-        Task<Guid> GetTeacherIdByLmIdAsync(int lmId);
+        Task<Guid> GetTeacherIdByLessonIdAsync(int lessonId);
 
-        Task<int> GetLmIdByTeacherGuidAsync(Guid teacherId);
+        Task<int> GetLessonIdByTeacherGuidAsync(Guid teacherId);
     }
 }

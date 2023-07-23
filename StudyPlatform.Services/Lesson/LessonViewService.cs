@@ -55,16 +55,16 @@ namespace StudyPlatform.Services.Lesson
             IList<int> categoryIds = new List<int>();
 
             // take every learning material id that shares the passed teacherId
-            IList<int> lmIds 
+            IList<int> lIds 
                 = await this._db.TeacherLessons
                 .Where(c => c.TeacherId.Equals(teacherId))
                 .Select(lm => lm.LessonId)
                 .ToListAsync();
 
-            foreach (int lmId in lmIds)
+            foreach (int lmId in lIds)
             {
-                // find lessonid through learning material ids 
-                int lessonId = await GetLessonIdByLearningMaterialId(lmId);
+                // get current lesson id
+                int lessonId = lmId;
                 // find courseId through lessonId
                 int courseId = await GetCourseIdByLessonId(lessonId);
                 // find categoryId through courseId

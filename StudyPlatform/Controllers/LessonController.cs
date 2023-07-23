@@ -61,10 +61,11 @@ namespace StudyPlatform.Controllers
             }
 
             int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
+            string courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
 
             await this._lessonFormService.RemoveAsync(lessonId);
 
-            return RedirectToAction("GetCourse", "Course", new {id = courseId});
+            return RedirectToAction("GetCourse", "Course", new {id = courseId, courseName = courseName});
         }
 
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
