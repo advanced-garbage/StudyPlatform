@@ -1,4 +1,6 @@
 ﻿@model AllCategoriesViewModel
+@inject IRoleService roleService;
+
 @{
     ViewData["Title"] = "Categories";
 }
@@ -9,7 +11,7 @@
         </div>
         <div class="col-sm-auto mt-3">
             @{
-                if (User.IsTeacher())
+                if (!await roleService.IsTeacherRole())
                 {
                     <a asp-controller="Category" asp-action="CreateCategory" class="btn btn-dark">Add Category</a>
                 }

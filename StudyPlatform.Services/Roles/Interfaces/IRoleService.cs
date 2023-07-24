@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StudyPlatform.Services.Roles.Interfaces
+﻿namespace StudyPlatform.Services.Roles.Interfaces
 {
     public interface IRoleService
     {
-        string GetRoleName();
+        Task<string> GetRoleNameAsync();
+
+        Task<bool> IsTeacherRole();
     }
 }

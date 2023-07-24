@@ -23,6 +23,7 @@ using static StudyPlatform.Common.GeneralConstants;
 using static StudyPlatform.Common.ModelValidationConstants.Users;
 using static StudyPlatform.Common.ErrorMessages.Users;
 using static StudyPlatform.Common.ViewModelConstants.Account;
+using StudyPlatform.Infrastructure;
 
 namespace StudyPlatform.Areas.Identity.Pages.Account
 {
@@ -33,19 +34,22 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IConfiguration _config;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration config,
-            RoleManager<IdentityRole<Guid>> roleManager)
+            RoleManager<IdentityRole<Guid>> roleManager,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
             _config = config;
             _roleManager = roleManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [BindProperty]

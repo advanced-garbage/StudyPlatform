@@ -47,6 +47,7 @@ namespace StudyPlatform.Controllers
             try {
                 await this._teacherFormService.AddTeacher(userId);
                 await this._teacherFormService.UpdateRoleToTeacher(userId);
+                User.AddTeacherRoleIdentity();
             } catch(InvalidOperationException ioe) {
                 return RedirectToAction("Error", "Home", new {StatusCode = 500});
             } catch(Exception ex) {

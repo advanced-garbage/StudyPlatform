@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using StudyPlatform.Web.View.Models.LearningMaterial;
 using StudyPlatform.Web.View.Models.Lesson.Interfaces;
+using StudyPlatform.Web.View.Models.Teacher;
 using static StudyPlatform.Common.ModelValidationConstants.Lesson;
 
 namespace StudyPlatform.Web.View.Models.Lesson
@@ -9,6 +10,7 @@ namespace StudyPlatform.Web.View.Models.Lesson
     {
         public LessonViewModel() {
             this.LearningMaterials = new List<LearningMaterialViewModel>();
+            this.Teachers = new List<TeacherForLessonModel>();
         }
         public int Id { get; set; }
 
@@ -22,5 +24,6 @@ namespace StudyPlatform.Web.View.Models.Lesson
         public int CourseId { get; set; }
 
         public ICollection<LearningMaterialViewModel>? LearningMaterials { get; set; }
+        public ICollection<TeacherForLessonModel>? Teachers { get; set; } 
     }
 }

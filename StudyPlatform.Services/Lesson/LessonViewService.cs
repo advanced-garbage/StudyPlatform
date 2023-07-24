@@ -7,6 +7,7 @@ using StudyPlatform.Services.Lesson.Interfaces;
 using StudyPlatform.Web.View.Models.Lesson;
 using StudyPlatform.Web.View.Models.Course;
 using StudyPlatform.Web.View.Models.Category;
+using StudyPlatform.Services.TeacherLesson.Intefaces;
 
 namespace StudyPlatform.Services.Lesson
 {
@@ -16,16 +17,19 @@ namespace StudyPlatform.Services.Lesson
         private readonly ILearningMaterialService _learningMaterialService;
         private readonly ICourseViewService _courseViewService;
         private readonly ICategoryViewService _categoryViewService;
+        private readonly ITeacherLessonService _teacherLessonService;
         public LessonViewService(
             StudyPlatformDbContext db,
             ILearningMaterialService learningMaterialService,
             ICourseViewService courseViewService,
-            ICategoryViewService categoryViewService)
+            ICategoryViewService categoryViewService,
+            ITeacherLessonService teacherLessonService)
         {
             this._db = db;
             this._learningMaterialService = learningMaterialService;
             this._courseViewService = courseViewService;
             this._categoryViewService = categoryViewService;
+            this._teacherLessonService = teacherLessonService;
         }
         public async Task<bool> AnyByIdAsync(int id)
         {
@@ -149,6 +153,7 @@ namespace StudyPlatform.Services.Lesson
                 })
                 .FirstOrDefaultAsync();
 
+            lessonModel.Teachers = await this._teacherLessonService.GetTeachersForLessonAsync(lessonModel.Id);
             return lessonModel;
         }
 

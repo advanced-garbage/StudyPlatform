@@ -4,7 +4,6 @@
 }
 <div class="text-center">
     <h2>@Model.Title</h2><br/>
-    <h3>Author(s): @string.Join(",", Model.Teachers.Select(t => $"{t.FirstName} {t.LastName} ({t.UserName})"))</h3>
     <embed src="~/@Model.FullPath" type="application/pdf" style="height:600px;width:700px" />
     <hr/>
     <a href="~/@Model.FullPath">PDF link for <i>@Model.Title</i></a><br />

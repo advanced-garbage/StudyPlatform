@@ -23,7 +23,7 @@ namespace StudyPlatform.Controllers
         private readonly ILessonViewService _lessonViewService;
         private readonly ICourseViewService _courseService;
         private readonly ITeacherService _teacherService;
-        private readonly ITeacherLearningMaterialService _teacherLearningMaterialService;
+        private readonly ITeacherLessonService _teacherLessonService;
         private readonly IConfiguration _config;
 
         public LearningMaterialController(
@@ -32,7 +32,7 @@ namespace StudyPlatform.Controllers
             ILessonViewService lessonViewService,
             ILearningMaterialFormService learningMaterialFormService,
             ITeacherService teacherService,
-            ITeacherLearningMaterialService teacherLearningMaterialService,
+            ITeacherLessonService teacherLessonService,
             IConfiguration config)
         {
             this._learningMaterialService = learningMaterialService;
@@ -40,19 +40,19 @@ namespace StudyPlatform.Controllers
             this._lessonViewService = lessonViewService;
             this._learningMaterialFormService = learningMaterialFormService;
             this._teacherService = teacherService;
-            this._teacherLearningMaterialService = teacherLearningMaterialService;
+            this._teacherLessonService = teacherLessonService;
             this._config = config;
         }
 
         [Authorize(Roles = TeacherRoleName)]
         [HttpGet]
-        public async Task<IActionResult> Upload(int id) // relevant lesson id
+        public async Task<IActionResult> Upload(int lessonId) // relevant lesson id
         {
-            int courseId = await this._lessonViewService.GetCourseIdByLessonId(id);
+            int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
             UploadLearningMaterialFormModel model = new UploadLearningMaterialFormModel()
             {
-                LessonId = id,    
-                LessonName = await this._lessonViewService.GetNameByIdAsync(id),
+                LessonId = lessonId,    
+                LessonName = await this._lessonViewService.GetNameByIdAsync(lessonId),
                 CourseName = await this._courseService.GetNameByIdAsync(courseId),
             };
 
@@ -94,8 +94,11 @@ namespace StudyPlatform.Controllers
             }
 
             await this._learningMaterialFormService.AddLessonAsync(model);
-            int lmId = await this._learningMaterialService.GetIdByNameAsync(model.LearningMaterialName);
-            await this._teacherLearningMaterialService.AddAsync(userGuid, lmId);
+
+            if (!await this._teacherLessonService.AnyTeacherByLessonId(model.LessonId))
+            {
+                await this._teacherLessonService.AddAsync(userGuid, model.LessonId);
+            }
 
             // TODO: Redirect to the course
             return Ok(model.File);
@@ -112,7 +115,5 @@ namespace StudyPlatform.Controllers
             LearningMaterialViewModel model = await this._learningMaterialService.GetViewModelAsync(id);
             return View(model);
         }
-
-        // TODO: Add a "Add teacher as author" button
     }
 }

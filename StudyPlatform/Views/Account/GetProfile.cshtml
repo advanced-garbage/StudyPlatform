@@ -1,4 +1,5 @@
 ﻿@model UserAccountViewModel;
+@inject IRoleService roleService;
 @{
     ViewData["Title"] = "Account Profile";
 }
@@ -16,7 +17,7 @@
     </div>
 </div>
 @{
-    if (User.IsTeacher())
+    if (!await roleService.IsTeacherRole())
     {
         <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
     }

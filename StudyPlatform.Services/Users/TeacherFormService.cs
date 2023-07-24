@@ -9,6 +9,7 @@ using StudyPlatform.Services.Users.Interfaces;
 using static StudyPlatform.Common.ViewModelConstants.Account;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using StudyPlatform.Infrastructure;
 
 namespace StudyPlatform.Services.Users
 {
@@ -49,18 +50,28 @@ namespace StudyPlatform.Services.Users
 
         public async Task UpdateRoleToTeacher(Guid id)
         {
-            string roleName = this._config["RoleNames:TeacherRoleName"];
-            bool roleExists = await this._roleManager.RoleExistsAsync(roleName);
+            string teacherRoleName = this._config["RoleNames:TeacherRoleName"];
+            string studentRoleName = this._config["RoleNames:StudentRoleName"];
+            bool teacherRoleExists = await this._roleManager.RoleExistsAsync(teacherRoleName);
+            bool studentRoleExists = await this._roleManager.RoleExistsAsync(studentRoleName);
 
-            if (roleExists)
+            //ClaimsPrincipal claimsUser = this._httpContextAccessor.HttpContext.User;
+            ApplicationUser user = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
+            if (teacherRoleExists && studentRoleExists)
             {
-                ApplicationUser user = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
-                IdentityResult result = await this._userManager.AddToRoleAsync(user, roleName);
+                IdentityResult addTeacherRoleResult = await this._userManager.AddToRoleAsync(user, teacherRoleName);
 
-                // Something went wrong
-                if (!result.Succeeded)
+                if (!addTeacherRoleResult.Succeeded)
+                { 
+                    throw new InvalidOperationException("Error from adding the teacher role to the user");
+                }
+
+                //claimsUser.AddTeacherRoleIdentity();
+
+                IdentityResult removeStudentRoleResult = await this._userManager.RemoveFromRoleAsync(user, studentRoleName);
+                if (!removeStudentRoleResult.Succeeded)
                 {
-                    throw new InvalidOperationException("Something went wrong with adding a role to the user");
+                    throw new InvalidOperationException("Error from removing the student role from the user");
                 }
             } else
             {

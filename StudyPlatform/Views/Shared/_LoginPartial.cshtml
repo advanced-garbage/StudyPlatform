@@ -2,11 +2,12 @@
 @using StudyPlatform.Data.Models;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IRoleService roleService;
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    if (!User.IsTeacher())
+    if (!await roleService.IsTeacherRole())
     {
         <li class="nav-item">
             <a asp-controller="Teacher" asp-action="BecomeTeacher" class="nav-link text-dark">Become Teacher</a>

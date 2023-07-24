@@ -1,4 +1,5 @@
 ﻿@model CategoryViewModel
+@inject IRoleService roleService;
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -8,11 +9,11 @@
             <h2 class="display-5">Category: <i>@ViewData["Title"]</i></h2>
         </div>
         @{
-            if (User.IsTeacher())
+            if (!await roleService.IsTeacherRole())
             {
                 <div class="col-sm-auto mt-3">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-auto">
                             <a asp-controller="Category" asp-action="Remove"
                             asp-route-categoryId="@Model.Id" class="btn btn-danger">Remove</a>
                         </div>

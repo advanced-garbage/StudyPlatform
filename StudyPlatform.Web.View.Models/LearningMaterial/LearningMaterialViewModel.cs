@@ -7,10 +7,6 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
 {
     public class LearningMaterialViewModel : ILearningMaterialLinkService, IValidatableObject
     {
-        public LearningMaterialViewModel()
-        {
-            Teachers = new List<TeacherForLearningMaterialViewModel>();
-        }
         public int Id { get; set; }
 
         [Required]
@@ -22,8 +18,6 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
         public string FileName { get; set; } = null!;
 
         public string FullPath { get; set; }
-
-        public ICollection<TeacherForLearningMaterialViewModel> Teachers { get; set; }
 
         public string LinkName { get; set; }
 

@@ -37,15 +37,19 @@ namespace StudyPlatform.Controllers
                 return NotFound();
             }
 
-            UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
-            userModel.RoleTitle = this._roleService.GetRoleName();
-            if (User.IsTeacher())
-            {
-                userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);
+            try {
+                UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
+                userModel.RoleTitle = await this._roleService.GetRoleNameAsync();
+                
+                if (!await this._roleService.IsTeacherRole())
+                {
+                    userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);
+                }
+
+                return View(userModel);
+            } catch (Exception ex) {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
-
-            return View(userModel);
         }
-
     }
 }

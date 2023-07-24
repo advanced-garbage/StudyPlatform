@@ -1,4 +1,6 @@
 ﻿@model CourseViewModel
+@inject IRoleService roleService;
+
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -11,7 +13,7 @@
         </div>
         <div class="col-sm-auto mt-3">
             @{
-                if (User.IsTeacher())
+                if (!await roleService.IsTeacherRole())
                 {
                     <div class="row">
                         <div class="col-sm-auto">

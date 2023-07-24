@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StudyPlatform.Data.Models\StudyPlatform.Data.Models.csproj" />
     <ProjectReference Include="..\StudyPlatform.Data\StudyPlatform.Data.csproj" />
+    <ProjectReference Include="..\StudyPlatform.Infrastructure\StudyPlatform.Infrastructure.csproj" />
     <ProjectReference Include="..\StudyPlatform.Web.View.Models\StudyPlatform.Web.View.Models.csproj" />
   </ItemGroup>
 

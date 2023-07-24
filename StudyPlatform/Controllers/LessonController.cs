@@ -142,5 +142,6 @@ namespace StudyPlatform.Controllers
             string courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
             return RedirectToAction("GetCourse", "Course", new { id = courseId, courseName = courseName});
         }
+
     }
 }
