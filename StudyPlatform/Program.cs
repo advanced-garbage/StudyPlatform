@@ -53,6 +53,7 @@ internal class Program
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         });
         builder.Services.AddHttpContextAccessor();
+        builder.Services.AddMemoryCache();
 
         builder.Services.AddScoped<ICategoryViewService, CategoryViewService>();
         builder.Services.AddScoped<ICategoryViewFormService, CategoryViewFormService>();

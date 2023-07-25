@@ -26,5 +26,6 @@
         /// Constant string for the administrator role name
         /// </summary>
         public const string AdministratorRoleName = "Administrator";
+
     }
 }
