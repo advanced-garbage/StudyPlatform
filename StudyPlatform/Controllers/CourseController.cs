@@ -74,11 +74,13 @@ namespace StudyPlatform.Controllers
 
         [HttpGet]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove(int courseId)
         {
-            await this._courseViewFormService.RemoveAsync(id);
-            // TODO: Return to the category of the deleted course
-            return RedirectToAction("All", "Category");
+            int categoryId = await this._categoryViewService.GetCategoryIdByCourseIdAsync(courseId);
+            string categoryName = await this._categoryViewService.GetNameUrlByIdAsync(categoryId);
+            await this._courseViewFormService.RemoveAsync(courseId);
+
+            return RedirectToAction("GetById", "Category", new {id = categoryId, categoryName = categoryName});
         }
 
         [HttpGet]

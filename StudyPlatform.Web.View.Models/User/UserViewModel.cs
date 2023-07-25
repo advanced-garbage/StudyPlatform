@@ -9,7 +9,7 @@ namespace StudyPlatform.Web.View.Models.User
 
         // role has default value. can be admin
         [StringLength(RoleMaxLength, MinimumLength = RoleMinLength)]
-        public string Role { get; set; } = StudentRoleTitle;
+        public string Role { get; set; } = UserRoleTitle;
         public string UserName { get; set; }
 
         [EmailAddress]

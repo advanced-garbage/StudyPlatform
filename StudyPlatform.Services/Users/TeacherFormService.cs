@@ -40,9 +40,9 @@ namespace StudyPlatform.Services.Users
         public async Task AddTeacher(Guid id)
         {
             Teacher teacherObj= new Teacher()
-                {
-                    Id = id
-                };
+            {
+                Id = id
+            };
 
             await this._db.Teachers.AddAsync(teacherObj);
             await this._db.SaveChangesAsync();

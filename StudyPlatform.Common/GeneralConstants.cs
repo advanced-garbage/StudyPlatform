@@ -20,7 +20,7 @@
         /// <summary>
         /// Constant string for the Student role name
         /// </summary>
-        public const string StudentRoleName = "Student";
+        public const string UserRoleName = "User";
 
         /// <summary>
         /// Constant string for the administrator role name

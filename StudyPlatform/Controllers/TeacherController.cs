@@ -21,7 +21,7 @@ namespace StudyPlatform.Controllers
         /// <summary>
         /// GET method for turning an User into a teacher.
         /// </summary>
-        [Authorize(Roles = StudentRoleName)]
+        [Authorize(Roles = UserRoleName)]
         [HttpGet]
         public IActionResult BecomeTeacher()
         {
@@ -31,7 +31,7 @@ namespace StudyPlatform.Controllers
         /// POST method for turning an User into a teacher.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = StudentRoleName)]
+        [Authorize(Roles = UserRoleName)]
         [HttpPost]
         public async Task<IActionResult> BecomeTeacher(string submit)
         {
@@ -47,7 +47,6 @@ namespace StudyPlatform.Controllers
             try {
                 await this._teacherFormService.AddTeacher(userId);
                 await this._teacherFormService.UpdateRoleToTeacher(userId);
-                User.AddTeacherRoleIdentity();
             } catch(InvalidOperationException ioe) {
                 return RedirectToAction("Error", "Home", new {StatusCode = 500});
             } catch(Exception ex) {

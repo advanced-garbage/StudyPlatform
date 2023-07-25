@@ -41,7 +41,7 @@ namespace StudyPlatform.Controllers
                 UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
                 userModel.RoleTitle = await this._roleService.GetRoleNameAsync();
                 
-                if (!await this._roleService.IsTeacherRole())
+                if (await this._roleService.IsTeacherRole())
                 {
                     userModel.Lessons = await this._lessonViewService.GetAccountCreditsAsync(userId);
                 }

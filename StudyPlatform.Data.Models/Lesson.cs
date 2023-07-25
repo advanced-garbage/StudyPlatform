@@ -5,7 +5,7 @@ using static StudyPlatform.Common.ModelValidationConstants.Lesson;
 namespace StudyPlatform.Data.Models
 {
     // lesson class for storing learning material, homework and quizes
-    public class Lesson
+    public class Lesson 
     {
         public Lesson() { 
             this.LearningMaterials = new List<LearningMaterial>();

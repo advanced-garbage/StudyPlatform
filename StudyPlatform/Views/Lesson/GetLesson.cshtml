@@ -3,25 +3,26 @@
 @{
     ViewData["Title"] = "View Lesson by Id";
 }
+<a asp-controller="Course" asp-action="GetCourse" 
+asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to course</a>
+<hr/>
 <div class="text-center">
-    <a asp-controller="Course" asp-action="GetCourse" asp-route-id="@Model.CourseId" >Back to course</a>
-    <hr/>
     <div class="row justify-content-between">
         <div class="col-sm-auto">
             <h1 class="display-6"><i>@Model.Name</i></h1>
         </div>
         <div class="col-sm-auto mt-3">
             @{
-                if (!await roleService.IsTeacherRole())
+                if (await roleService.IsTeacherRole())
                 {
                     <div class="row">
                         <div class="col-sm-auto">
-                           <a asp-controller="Lesson" asp-action="Edit"
-                           asp-route-lessonId="@Model.Id" class="btn btn-primary">Edit</a>
-                        </div>
-                        <div class="col-sm-auto">
                            <a asp-controller="Lesson" asp-action="Remove"
                             asp-route-lessonId="@Model.Id" class="btn btn-danger">Remove</a>
+                        </div>
+                        <div class="col-sm-auto">
+                           <a asp-controller="Lesson" asp-action="Edit"
+                           asp-route-lessonId="@Model.Id" class="btn btn-primary">Edit</a>
                         </div>
                         <div class="col-sm-auto">
                             <a asp-controller="LearningMaterial" asp-action="Upload"
@@ -65,8 +66,8 @@
                 @{
                     foreach (TeacherForLessonModel teacher in Model.Teachers)
                     {
-                        <div class="cok-sm-auto mb-3 fst-italic fs-5">
-                        @teacher.FirstName @teacher.MiddleName @teacher.LastName <i>(@teacher.UserName)</i>
+                        <div class="text-body mb-3 fst-italic fs-5 ps-4">
+                                @teacher.FirstName @teacher.MiddleName @teacher.LastName <i>(@@@teacher.UserName)</i>
                         </div>
                     }
                 }

@@ -21,6 +21,8 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
 
         public string LinkName { get; set; }
 
+        public LearningMaterialLessonLinkModel LessonLink;
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (LinkName.EndsWith(".pdf") || LinkName.Contains(".pdf"))

@@ -3,13 +3,15 @@
 @{
     ViewData["Title"] = Model.Name;
 }
+<a asp-controller="Category" asp-action="All">View every category</a>
+<hr />
 <div class="text-center">
     <div class="row justify-content-between">
         <div class="col-sm-auto ">
             <h2 class="display-5">Category: <i>@ViewData["Title"]</i></h2>
         </div>
         @{
-            if (!await roleService.IsTeacherRole())
+            if (await roleService.IsTeacherRole())
             {
                 <div class="col-sm-auto mt-3">
                     <div class="row">

@@ -17,6 +17,8 @@ namespace StudyPlatform.Services.Category.Interfaces
 
         public Task<string> GetNameByIdAsync(int categoryId);
 
+        public Task<string> GetNameUrlByIdAsync(int categoryId);
+
         public Task<AllCategoriesViewModel> GetCategoriesForAllPageAsync();
     }
 }

@@ -17,7 +17,7 @@
     </div>
 </div>
 @{
-    if (!await roleService.IsTeacherRole())
+    if (await roleService.IsTeacherRole())
     {
         <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
     }

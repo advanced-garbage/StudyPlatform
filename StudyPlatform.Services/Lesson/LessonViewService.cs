@@ -149,6 +149,7 @@ namespace StudyPlatform.Services.Lesson
                     Name = l.Name,
                     Description = l.Description,
                     CourseId = l.CourseId,
+                    CourseName = l.Course.Name.Replace(" ", "-"),
                     LearningMaterials = this._learningMaterialService.GetAllModelsByLesson(l.Id)
                 })
                 .FirstOrDefaultAsync();

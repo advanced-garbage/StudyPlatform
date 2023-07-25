@@ -77,7 +77,8 @@ namespace StudyPlatform.Controllers
                 ModelState.AddModelError(nameof(model.LearningMaterialName), FileByNameExists);
             }
 
-            if (!ModelState.IsValid){
+            if (!ModelState.IsValid || !await this._teacherService.AnyById(userGuid))
+            {
                 int courseId = await this._lessonViewService.GetCourseIdByLessonId(model.LessonId);
                 UploadLearningMaterialFormModel getModel = new UploadLearningMaterialFormModel(){
                     LessonId = model.LessonId,
@@ -95,7 +96,7 @@ namespace StudyPlatform.Controllers
 
             await this._learningMaterialFormService.AddLessonAsync(model);
 
-            if (!await this._teacherLessonService.AnyTeacherByLessonId(model.LessonId))
+            if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid))
             {
                 await this._teacherLessonService.AddAsync(userGuid, model.LessonId);
             }

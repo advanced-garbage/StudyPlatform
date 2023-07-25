@@ -34,12 +34,12 @@ namespace StudyPlatform.Services.TeacherLesson
             await this._db.SaveChangesAsync();
         }
 
-        public async Task<bool> AnyTeacherByLessonId(int lessonId)
+        public async Task<bool> TeacherLessonAlreadyExists(int lessonId, Guid teacherId)
         {
             bool teacherExists 
                 = await this._db
                 .TeacherLessons
-                .AnyAsync(c => c.LessonId.Equals(lessonId));  
+                .AnyAsync(c => c.LessonId.Equals(lessonId) && c.TeacherId.Equals(teacherId));  
 
             return teacherExists;
         }

@@ -5,9 +5,9 @@
         public static class Account
         {
             /// <summary>
-            /// Constant string value for the Student Role type.
+            /// Constant string value for the User Role type.
             /// </summary>
-            public const string StudentRoleTitle = "Student";
+            public const string UserRoleTitle = "User";
             /// <summary>
             /// Constant string value for the Teacher Role type.
             /// </summary>

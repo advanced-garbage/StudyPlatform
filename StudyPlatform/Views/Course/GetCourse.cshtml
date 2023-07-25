@@ -1,9 +1,11 @@
 ﻿@model CourseViewModel
 @inject IRoleService roleService;
-
 @{
     ViewData["Title"] = Model.Name;
 }
+<a asp-controller="Category" asp-action="GetById"
+    asp-route-id="@Model.CategoryId" asp-route-categoryName="@Model.CategoryName">Back to category</a>
+<hr/>
 <div class="text-center">
     <div class="row justify-content-between">
         <div class="col-sm-auto">
@@ -13,9 +15,14 @@
         </div>
         <div class="col-sm-auto mt-3">
             @{
-                if (!await roleService.IsTeacherRole())
+                if (await roleService.IsTeacherRole())
                 {
                     <div class="row">
+                        <div class="col-sm-auto">
+                            <a asp-controller="Course" asp-action="Remove"
+                            asp-route-courseId="@Model.Id"
+                           class="btn btn-danger">Remove</a>
+                        </div>
                         <div class="col-sm-auto">
                             <a asp-controller="Course" asp-action="Edit" 
                             asp-route-courseId="@Model.Id" 

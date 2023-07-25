@@ -35,7 +35,7 @@ namespace StudyPlatform.Services.Roles
                 }
             }
 
-            return StudentRoleName;
+            return UserRoleName;
         }
 
         public async Task<bool> IsTeacherRole()

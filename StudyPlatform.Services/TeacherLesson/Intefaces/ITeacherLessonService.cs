@@ -12,6 +12,6 @@ namespace StudyPlatform.Services.TeacherLesson.Intefaces
 
         Task<ICollection<TeacherForLessonModel>> GetTeachersForLessonAsync(int lessonId);
 
-        Task<bool> AnyTeacherByLessonId(int lessonId);
+        Task<bool> TeacherLessonAlreadyExists(int lessonId, Guid teacherId);
     }
 }

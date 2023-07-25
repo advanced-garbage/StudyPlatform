@@ -153,6 +153,24 @@ namespace StudyPlatform.Services.Category
             return Name;
         }
 
+        public async Task<string> GetNameUrlByIdAsync(int categoryId)
+        {
+            if (!await AnyCategoryByIdAsync(categoryId))
+            {
+                throw new InvalidOperationException(CategoryIdNotFound);
+            }
+
+            string Name =
+                await this._db
+                .Categories
+                .Where(c => c.Id.Equals(categoryId))
+                .Select(c => c.Name)
+                .Take(1)
+                .FirstOrDefaultAsync();
+
+            return Name.Replace(" ", "-");
+        }
+
         private async Task<bool> AnyCategoryByIdAsync(int id)
         {
             bool categoryExists

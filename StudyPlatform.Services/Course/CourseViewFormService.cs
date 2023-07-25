@@ -65,8 +65,8 @@ namespace StudyPlatform.Services.Course
             Data.Models.Course courseObj
                 = await this._db
                 .Courses
-                .Where(c => c.Equals(id))
-                .FirstOrDefaultAsync();
+                .Where(c => c.Id.Equals(id))
+                .FirstAsync();
 
             this._db.Courses.Remove(courseObj);
             await this._db.SaveChangesAsync();

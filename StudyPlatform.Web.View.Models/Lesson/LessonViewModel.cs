@@ -22,6 +22,7 @@ namespace StudyPlatform.Web.View.Models.Lesson
         public string? Description { get; set; }
 
         public int CourseId { get; set; }
+        public string? CourseName { get; set; }
 
         public ICollection<LearningMaterialViewModel>? LearningMaterials { get; set; }
         public ICollection<TeacherForLessonModel>? Teachers { get; set; } 

@@ -2,8 +2,13 @@
 @{
     ViewData["Title"] = "Show Learning Material";
 }
+<a asp-controller="Lesson" asp-action="GetLesson" 
+asp-route-id="@Model.LessonLink.LessonId"
+asp-route-lessonName="@Model.LessonLink.LessonNameLink">
+Back to <i>@Model.LessonLink.LessonName</i></a>
+<hr/>
 <div class="text-center">
-    <h2>@Model.Title</h2><br/>
+    <h1 class="fs-2 fw-semibold">@Model.Title</h1><br />
     <embed src="~/@Model.FullPath" type="application/pdf" style="height:600px;width:700px" />
     <hr/>
     <a href="~/@Model.FullPath">PDF link for <i>@Model.Title</i></a><br />
