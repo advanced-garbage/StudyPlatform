@@ -17,18 +17,15 @@ namespace StudyPlatform.Controllers
     {
         private readonly ICategoryViewService _categoryViewService;
         private readonly ICategoryViewFormService _categoryViewFormService;
-        private readonly ITeacherService _teacherService;
         private readonly IMemoryCache _memoryCache;
 
         public CategoryController(
             ICategoryViewService categoryViewService,
             ICategoryViewFormService categoryViewFormService,
-            ITeacherService teacherService,
             IMemoryCache memoryCache)
         {
             this._categoryViewService = categoryViewService;
             this._categoryViewFormService = categoryViewFormService;
-            this._teacherService = teacherService;
             this._memoryCache = memoryCache;
         }
 

@@ -14,6 +14,6 @@ namespace StudyPlatform.Web.View.Models.Category
 
         public bool? IsViewedByTeacher { get; set; }
 
-        public ICollection<CategoryViewModel> Categories { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
     }
 }

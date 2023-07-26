@@ -13,13 +13,10 @@ namespace StudyPlatform.Services.Category
     public class CategoryViewService : ICategoryViewService
     {
         private readonly StudyPlatformDbContext _db;
-        private readonly IMapper _mapper;
         public CategoryViewService(
-            StudyPlatformDbContext db,
-            IMapper mapper)
+            StudyPlatformDbContext db)
         {
             this._db = db;
-            this._mapper = mapper;
         }
 
         public async Task<bool> AnyByIdAsync(int id)

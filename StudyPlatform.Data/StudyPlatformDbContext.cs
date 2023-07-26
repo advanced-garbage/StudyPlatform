@@ -11,7 +11,7 @@ namespace StudyPlatform.Data
         public StudyPlatformDbContext(DbContextOptions<StudyPlatformDbContext> options)
             : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
 
         public DbSet<Teacher> Teachers { get; set; }        
