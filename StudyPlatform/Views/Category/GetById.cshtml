@@ -11,7 +11,7 @@
             <h2 class="display-5">Category: <i>@ViewData["Title"]</i></h2>
         </div>
         @{
-            if (await roleService.IsTeacherRole())
+            if (User.Identity.IsAuthenticated && await roleService.IsTeacherRole())
             {
                 <div class="col-sm-auto mt-3">
                     <div class="row">

@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm-auto mt-3">
             @{
-                if (await roleService.IsTeacherRole())
+                if (User.Identity.IsAuthenticated && await roleService.IsTeacherRole())
                 {
                     <div class="row">
                         <div class="col-sm-auto">
