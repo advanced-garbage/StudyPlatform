@@ -67,7 +67,7 @@ namespace StudyPlatform.Services.Category
                     Name = c.Name,
                 })
                 .ToListAsync();
-            model.IsViewedByTeacher = false;
+
             return model;
         }
 
