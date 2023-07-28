@@ -4,11 +4,6 @@ using StudyPlatform.Data;
 using StudyPlatform.Services.Category;
 using StudyPlatform.Services.Course;
 using StudyPlatform.Web.View.Models.Course;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyPlatform.Tests
 {
@@ -18,6 +13,9 @@ namespace StudyPlatform.Tests
         private StudyPlatformDbContext dbContext;
         private Mock<CourseViewService> _courseViewServiceMock;
         private Mock<CategoryViewService> _categoryViewServiceMock;
+        private int defaultCategoryId = 1;
+        private int defaultCourseId = 1;
+        private string defaultCourseName = "In Memory Course 1";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -55,9 +53,8 @@ namespace StudyPlatform.Tests
         public async Task CourseView_GetCategoryIdByCourseIdAsyncShouldReturnCategoryIdIfCourseIdExists()
         {
             int categoryIdToCompare = 1;
-            int courseId = 2;
 
-            int resultCategoryId = await this._courseViewServiceMock.Object.GetCategoryIdByCourseIdAsync(courseId);
+            int resultCategoryId = await this._courseViewServiceMock.Object.GetCategoryIdByCourseIdAsync(defaultCourseId);
 
             Assert.That(resultCategoryId, Is.EqualTo(categoryIdToCompare));
         }
@@ -65,9 +62,7 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetCategoryIdByCourseIdAsyncShouldReturnDefaultValueIfCourseIdIsInvalid()
         {
-            int courseId = -1;
-
-            int resultCategoryId = await this._courseViewServiceMock.Object.GetCategoryIdByCourseIdAsync(courseId);
+            int resultCategoryId = await this._courseViewServiceMock.Object.GetCategoryIdByCourseIdAsync(-1);
 
             Assert.That(resultCategoryId, Is.EqualTo(0));
         }
@@ -75,20 +70,16 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetByIdReturnsCourseViewModelWhenIdIsValid()
         {
-            int courseId = 1;
-
-            CourseViewModel resultModel = await this._courseViewServiceMock.Object.GetById(courseId);
+            CourseViewModel resultModel = await this._courseViewServiceMock.Object.GetById(defaultCourseId);
 
             Assert.NotNull(resultModel);
-            Assert.That(resultModel.Id, Is.EqualTo(courseId));
+            Assert.That(resultModel.Id, Is.EqualTo(defaultCourseId));
         }
 
         [Test]
         public async Task CourseView_GetByIdReturnsNullWhenIdIsInvalid()
         {
-            int courseId = -1;
-
-            CourseViewModel? resultModel = await this._courseViewServiceMock.Object.GetById(courseId);
+            CourseViewModel? resultModel = await this._courseViewServiceMock.Object.GetById(-1);
 
             Assert.Null(resultModel);
         }
@@ -96,41 +87,31 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetFormCourseAsyncShouldReturnFormModelWhenIdIsValid()
         {
-            int courseId = 1;
-
-            CourseViewFormModel? resultModel = await this._courseViewServiceMock.Object.GetFormCourseAsync(courseId);
+            CourseViewFormModel? resultModel = await this._courseViewServiceMock.Object.GetFormCourseAsync(defaultCourseId);
 
             Assert.NotNull(resultModel);
-            Assert.AreEqual(courseId, resultModel.Id);
+            Assert.AreEqual(defaultCourseId, resultModel.Id);
             Assert.That(resultModel.Categories.Count > 0);
         }
 
         [Test]
         public async Task CourseView_GetFormCourseAsyncThrowsErrorWhenIdIsInvalid()
         {
-            int courseId = -1;
-
-            Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetFormCourseAsync(courseId));
+            Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetFormCourseAsync(-1));
         }
 
         [Test]
         public async Task CourseView_GetNameByIdAsyncReturnsCourseNameWhenIdIsInvalid()
         {
-            int courseId = 1;
-            string courseNameToTest = "In Memory Course 1";
-
-            string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(courseId);
+            string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(defaultCourseId);
 
             Assert.NotNull(result);
-            Assert.AreEqual(result, courseNameToTest);
+            Assert.AreEqual(result, defaultCourseName);
         }
 
         [Test]
         public async Task CourseView_GetNameByIdAsyncThrowsErrorWhenIdIsInvalid()
-        {
-            int courseId = -1;
-
-            Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetNameByIdAsync(courseId));
+        {Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetNameByIdAsync(-1));
         }
 
         [Test]
@@ -146,9 +127,7 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_AnyByIdAsyncReturnsFalseIfIdIsValid()
         {
-            int courseId = -1;
-
-            bool result = await this._courseViewServiceMock.Object.AnyByIdAsync(courseId);
+            bool result = await this._courseViewServiceMock.Object.AnyByIdAsync(-1);
 
             Assert.False(result);
         }
@@ -164,10 +143,9 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetIdAsyncShouldReturnCourseIdWhenIdIsValid()
         {
-            int idToTest = 1;
-            int courseIdResult = await this._courseViewServiceMock.Object.GetIdAsync(idToTest);
+            int courseIdResult = await this._courseViewServiceMock.Object.GetIdAsync(defaultCourseId);
 
-            Assert.AreEqual(idToTest, courseIdResult);
+            Assert.AreEqual(defaultCourseId, courseIdResult);
         }
 
         [Test]
@@ -180,21 +158,17 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetIdByNameAsyncShouldReturnCourseNameWhenIdIsValid()
         {
-            int courseId = 1;
-            string courseNameToTest = "In Memory Course 1";
+            string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(defaultCourseId);
 
-            string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(courseId);
-
-            Assert.AreEqual(result, courseNameToTest);
+            Assert.AreEqual(result, defaultCourseName);
         }
 
         [Test]
         public async Task CourseView_GetNameUrlByIdAsyncShouldReturnNameUrlWithNoSpacesWhenIdIsValid()
         {
-            int courseId = 1;
-            string courseNameToTest = "In Memory Course 1".Replace(" ", "-");
+            string courseNameToTest = defaultCourseName.Replace(" ", "-");
 
-            string result = await this._courseViewServiceMock.Object.GetNameUrlByIdAsync(courseId);
+            string result = await this._courseViewServiceMock.Object.GetNameUrlByIdAsync(defaultCourseId);
 
             Assert.AreEqual(result, courseNameToTest);
         }
@@ -202,12 +176,9 @@ namespace StudyPlatform.Tests
         [Test]
         public async Task CourseView_GetIdAsyncShouldReturnValidIdWhenNameIsValid()
         {
-            int courseIdToCompare = 1;
-            string courseName = "In Memory Course 1";
+            int result = await this._courseViewServiceMock.Object.GetIdByNameAsync(defaultCourseName);
 
-            int result = await this._courseViewServiceMock.Object.GetIdByNameAsync(courseName);
-
-            Assert.AreEqual(courseIdToCompare, result);
+            Assert.AreEqual(defaultCourseId, result);
         }
     }
 }
