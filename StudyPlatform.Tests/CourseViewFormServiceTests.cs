@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace StudyPlatform.Tests
 {
-    public class CourseViewService
+    [TestFixture]
+    public class CourseViewFormServiceTests
     {
     }
 }

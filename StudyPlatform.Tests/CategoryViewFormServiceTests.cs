@@ -91,5 +91,15 @@ namespace StudyPlatform.Tests
             Assert.False(await this._categoryViewServiceMock.Object.AnyByIdAsync(categoryId));
             Assert.That(categoriesCount - 1, Is.EqualTo(this.dbContext.Categories.Count()));
         }
+
+        [Test]
+        public async Task CategoryFormTest_RemoveShouldThrowErrorIfIdIsInvalid()
+        {
+            // arrange
+            int categoryId = -1;
+
+            // act & assert
+            Assert.ThrowsAsync<InvalidOperationException>(async () => await this._categoryViewFormServiceMock.Object.RemoveAsync(categoryId));
+        }
     }
 }

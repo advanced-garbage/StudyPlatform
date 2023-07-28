@@ -56,13 +56,12 @@ namespace StudyPlatform.Services.Course
                 })
                 .FirstOrDefaultAsync();
 
-
             return course;
         }
 
         public async Task<CourseViewFormModel> GetFormCourseAsync(int id)
         {
-            CourseViewFormModel courseModel
+            CourseViewFormModel? courseModel
                 = await this._db
                 .Courses
                 .Where(c => c.Id.Equals(id))
@@ -74,6 +73,11 @@ namespace StudyPlatform.Services.Course
                     CategoryId = c.CategoryId
                 })
                 .FirstOrDefaultAsync();
+
+            if (courseModel == null)
+            {
+                throw new InvalidOperationException("Course Form is null!");
+            }
 
             courseModel.Categories = await this._categoryViewService.GetAllCategoriesAsync();
 
