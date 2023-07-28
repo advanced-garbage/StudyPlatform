@@ -27,5 +27,7 @@
         /// </summary>
         public const string AdministratorRoleName = "Administrator";
 
+        public const string LmFilePath = "files/learningmaterial/";
+
     }
 }

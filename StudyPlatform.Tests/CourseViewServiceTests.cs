@@ -13,7 +13,6 @@ namespace StudyPlatform.Tests
         private StudyPlatformDbContext dbContext;
         private Mock<CourseViewService> _courseViewServiceMock;
         private Mock<CategoryViewService> _categoryViewServiceMock;
-        private int defaultCategoryId = 1;
         private int defaultCourseId = 1;
         private string defaultCourseName = "In Memory Course 1";
 
@@ -50,7 +49,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetCategoryIdByCourseIdAsyncShouldReturnCategoryIdIfCourseIdExists()
+        public async Task CourseView_GetCategoryIdByCourseIdAsync_ShouldReturnCategoryIdIfCourseIdExists()
         {
             int categoryIdToCompare = 1;
 
@@ -60,7 +59,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetCategoryIdByCourseIdAsyncShouldReturnDefaultValueIfCourseIdIsInvalid()
+        public async Task CourseView_GetCategoryIdByCourseIdAsync_ShouldReturnDefaultValueIfCourseIdIsInvalid()
         {
             int resultCategoryId = await this._courseViewServiceMock.Object.GetCategoryIdByCourseIdAsync(-1);
 
@@ -68,7 +67,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetByIdReturnsCourseViewModelWhenIdIsValid()
+        public async Task CourseView_GetById_ReturnsCourseViewModelWhenIdIsValid()
         {
             CourseViewModel resultModel = await this._courseViewServiceMock.Object.GetById(defaultCourseId);
 
@@ -77,7 +76,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetByIdReturnsNullWhenIdIsInvalid()
+        public async Task CourseView_GetById_ReturnsNullWhenIdIsInvalid()
         {
             CourseViewModel? resultModel = await this._courseViewServiceMock.Object.GetById(-1);
 
@@ -85,7 +84,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetFormCourseAsyncShouldReturnFormModelWhenIdIsValid()
+        public async Task CourseView_GetFormCourseAsync_ShouldReturnFormModelWhenIdIsValid()
         {
             CourseViewFormModel? resultModel = await this._courseViewServiceMock.Object.GetFormCourseAsync(defaultCourseId);
 

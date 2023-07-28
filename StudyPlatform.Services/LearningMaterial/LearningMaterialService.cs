@@ -6,6 +6,7 @@ using StudyPlatform.Services.LearningMaterial.Interfaces;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.LearningMaterial;
 using StudyPlatform.Web.View.Models.Teacher;
+using static StudyPlatform.Common.GeneralConstants;
 
 namespace StudyPlatform.Services.LearningMaterial
 {
@@ -14,18 +15,12 @@ namespace StudyPlatform.Services.LearningMaterial
         /// <summary>
         /// DataBase injection.
         /// </summary>
-        private IConfiguration _config;
         private readonly StudyPlatformDbContext _db;
-        private readonly ITeacherService _teacherService;
 
         public LearningMaterialService(
-            StudyPlatformDbContext db,
-            ITeacherService teacherService,
-            IConfiguration config)
+            StudyPlatformDbContext db)
         {
             this._db = db;
-            this._teacherService = teacherService;
-            this._config = config;
         }
 
         /// <summary>
@@ -57,7 +52,7 @@ namespace StudyPlatform.Services.LearningMaterial
         /// <summary>
         /// Returns every learning material model that has the given lessonId foreign key. Not asynchronous.
         /// </summary>
-        public ICollection<LearningMaterialViewModel> GetAllModelsByLesson(int lessonId)
+        public ICollection<LearningMaterialViewModel> GetAllLmModelsByLesson(int lessonId)
         {
             ICollection<LearningMaterialViewModel> lms
                 = this._db
@@ -78,7 +73,7 @@ namespace StudyPlatform.Services.LearningMaterial
         /// <summary>
         /// Returns every learning material model that has the given lessonId foreign key.
         /// </summary>
-        public async Task<ICollection<LearningMaterialViewModel>> GetAllModelsByLessonAsync(int lessonId)
+        public async Task<ICollection<LearningMaterialViewModel>> GetAllLmModelsByLessonAsync(int lessonId)
         {
             ICollection<LearningMaterialViewModel> lms
                 = await this._db
@@ -122,7 +117,7 @@ namespace StudyPlatform.Services.LearningMaterial
                     Id = lm.Id,
                     FileName = lm.FileName,
                     LinkName = lm.FileName.Split(".pdf", StringSplitOptions.RemoveEmptyEntries)[0].ToString(),
-                    FullPath = this._config["FilePath:LearningMaterialPath"] + lm.FileName,
+                    FullPath = LmFilePath + lm.FileName,
                     Title = lm.LearningMaterialName,
                     LessonLink = new LearningMaterialLessonLinkModel()
                     {
