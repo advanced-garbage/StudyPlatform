@@ -1,19 +1,22 @@
-﻿using Castle.Core.Configuration;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
-using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
+using StudyPlatform.Data;
 using StudyPlatform.Services.Category;
 using StudyPlatform.Services.Course;
 using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.Lesson;
 using StudyPlatform.Services.TeacherLesson;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StudyPlatform.Tests
 {
     [TestFixture]
-    public class LessonViewServiceTests
+    public class LessonFormServiceTests
     {
         private StudyPlatformDbContext dbContext;
         private Mock<CourseViewService> _courseViewServiceMock;
@@ -21,6 +24,7 @@ namespace StudyPlatform.Tests
         private Mock<TeacherLessonService> _teacherLessonServiceMock;
         private Mock<CategoryViewService> _categoryViewServiceMock;
         private Mock<LessonViewService> _lessonViewServiceMock;
+        private Mock<LessonFormService> _lessonFormServiceMock;
 
         private int defaultCourseId = 1;
         private string defaultCourseName = "In Memory Course 1";
@@ -33,8 +37,8 @@ namespace StudyPlatform.Tests
         private string defaultLearningMaterialFileName = "In Memory File Name 1";
         private Guid defaultGuid;
 
-        [OneTimeSetUp] 
-        public void OneTimeSetUp() 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             defaultGuid = Guid.NewGuid();
             //Arrange
@@ -45,17 +49,21 @@ namespace StudyPlatform.Tests
 
             ICollection<Course> courseData = new List<Course>()
             {
-                new Course{Id = 1, 
-                        Name = defaultCourseName, 
-                        Description = defaultCourseDescription, 
+                new Course{Id = 1,
+                        Name = defaultCourseName,
+                        Description = defaultCourseDescription,
                         CategoryId = 1},
+                new Course{Id = 2,
+                        Name = defaultCourseName.Replace('1', '2'),
+                        Description = defaultCourseDescription.Replace('1', '2'),
+                        CategoryId = 1}
             };
 
             ICollection<Lesson> lessonData = new List<Lesson>()
             {
-                new Lesson{Id = defaultLessonId, 
-                        Name = defaultLessonName, 
-                        Description = defaultLessonDescription, 
+                new Lesson{Id = defaultLessonId,
+                        Name = defaultLessonName,
+                        Description = defaultLessonDescription,
                         CourseId = defaultCourseId},
             };
 
@@ -74,7 +82,7 @@ namespace StudyPlatform.Tests
 
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "LessonServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "LessonFormServiceTestInMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
             this.dbContext.Categories.AddRange(categoryData);
@@ -90,7 +98,7 @@ namespace StudyPlatform.Tests
         public void Setup()
         {
             this._categoryViewServiceMock = new Mock<CategoryViewService>(this.dbContext);
-            this._courseViewServiceMock = new Mock<CourseViewService>(this.dbContext, 
+            this._courseViewServiceMock = new Mock<CourseViewService>(this.dbContext,
                                                                       this._categoryViewServiceMock.Object);
             this._learningMaterialServiceMock = new Mock<LearningMaterialService>(this.dbContext);
             this._teacherLessonServiceMock = new Mock<TeacherLessonService>(this.dbContext);
@@ -99,93 +107,65 @@ namespace StudyPlatform.Tests
                                                                       _courseViewServiceMock.Object,
                                                                       _categoryViewServiceMock.Object,
                                                                       _teacherLessonServiceMock.Object);
+            this._lessonFormServiceMock = new Mock<LessonFormService>(this.dbContext,
+                                                                      this._courseViewServiceMock.Object);
         }
 
         [Test]
-        public async Task LessonView_AnyByIdAsync_ShouldReturnTrueIfIdIsValid()
+        public async Task LessonForm_GetFormByIdAsync_ShouldReturnFormModelIfIdIsValid()
         {
-            bool result = await this._lessonViewServiceMock.Object.AnyByIdAsync(defaultLessonId);
-
-            Assert.True(result);
-        }
-
-        [Test]
-        public async Task LessonView_AnyByIdAsync_ShouldReturnFalseIfIdIsInvalid()
-        {
-            bool result = await this._lessonViewServiceMock.Object.AnyByIdAsync(-1);
-
-            Assert.False(result);
-        }
-
-        [Test]
-        public async Task LessonView_AnyByNameAsync_ShouldReturnTrueIfIdIsValid()
-        {
-            bool result = await this._lessonViewServiceMock.Object.AnyByNameAsync(defaultLessonName);
-
-            Assert.True(result);
-        }
-
-        [Test]
-        public async Task LessonView_AnyByNameAsync_ShouldReturnFalseIfIdIsInvalid()
-        {
-            bool result = await this._lessonViewServiceMock.Object.AnyByNameAsync(string.Empty);
-
-            Assert.False(result);
-        }
-
-        [Test]
-        public async Task LessonView_GetAccountCreditsAsync_ShouldReturnAListWithALessonElementIfIdIsValid()
-        {
-            var testModel = await this._lessonViewServiceMock.Object.GetAccountCreditsAsync(defaultGuid);
-
-            Assert.NotNull(testModel);
-            Assert.True(testModel.AccountCategories.Count() > 0);
-            Assert.True(testModel.AccountCourses.Count() > 0);
-            Assert.True(testModel.AccountLessons.Count() > 0);
-            Assert.That(testModel.AccountLessons.First().Id, Is.EqualTo(defaultLessonId));
-        }
-
-        [Test]
-        public async Task LessonView_GetAllLessonsByCourseIdAsync_ShouldReturnAListWithElementsIfIdIsValid()
-        {
-            var resultModel = await this._lessonViewServiceMock.Object.GetAllLessonsByCourseIdAsync(defaultCourseId);
-
-            Assert.NotNull(resultModel);
-            Assert.That(resultModel.Count() > 0);
-            Assert.That(resultModel.First().Id, Is.EqualTo(defaultLessonId));
-            Assert.That(resultModel.First().CourseId ,Is.EqualTo(defaultCourseId));
-        }
-        
-        [Test]
-        public async Task LessonView_GetCourseIdByLessonId_ShouldReturnCourseIdIfLessonIdIsValid()
-        {
-            int resultCourseId = await this._lessonViewServiceMock.Object.GetCourseIdByLessonId(defaultLessonId);
-
-            Assert.That(resultCourseId, Is.EqualTo(defaultCourseId));
-        }
-
-        [Test]
-        public async Task LessonView_GetLessonByIdAsync_ShouldReturnLessonViewModelIfIdIsValid()
-        {
-            var resultModel = await this._lessonViewServiceMock.Object.GetLessonByIdAsync(defaultLessonId);
-
-            Assert.NotNull(resultModel);
+            var resultModel = await this._lessonFormServiceMock.Object.GetFormByIdAsync(defaultLessonId);
+            
+            Assert.IsNotNull(resultModel);
             Assert.That(resultModel.Id, Is.EqualTo(defaultLessonId));
+            Assert.That(resultModel.Name, Is.EqualTo(defaultLessonName));
         }
-        
-        [Test]
-        public async Task LessonView_GetLessonIdByLearningMaterialId_ShouldReturnLessonIdIfLmIdIsValid()
-        {
-            int resultLessonId = await this._lessonViewServiceMock.Object.GetLessonIdByLearningMaterialId(defaultLearningMaterialId);
 
-            Assert.That(resultLessonId, Is.EqualTo(defaultLessonId));
+        [Test]
+        public async Task LessonForm_AddAsync_ShouldAddLessonEntityToDb()
+        {
+            int lessonsCount = this.dbContext.Lessons.Count();
+            var formModel = await this._lessonFormServiceMock.Object.GetFormByIdAsync(defaultLessonId);
+            formModel.Id = 2;
+            formModel.Name = "In Memory Lesson 2";
+            formModel.Description = "In Memory Lesson 2 Description";
+
+            await this._lessonFormServiceMock.Object.AddAsync(formModel);
+            bool resultExists = await this._lessonViewServiceMock.Object.AnyByIdAsync(formModel.Id);   
+
+            Assert.That(this.dbContext.Lessons.Count, Is.EqualTo(lessonsCount + 1));
+            Assert.True(resultExists);
+        }
+
+        [Test]
+        public async Task LessonForm_EditAsync_ShouldEditDataFromExistingLesson()
+        {
+            var oldModel = await this._lessonViewServiceMock.Object.GetLessonByIdAsync(defaultLessonId);
+
+            var formModel = await this._lessonFormServiceMock.Object.GetFormByIdAsync(defaultLessonId);
+            formModel.Name = "In Memory Lesson 1 EDITED";
+            formModel.Description = "In Memory Lesson 1 Description EDITED";
+            formModel.CourseId = 2;
+
+            await this._lessonFormServiceMock.Object.EditAsync(formModel);
+
+            var newModel = await this._lessonViewServiceMock.Object.GetLessonByIdAsync(defaultLessonId);
+
+            Assert.AreEqual(oldModel.Id, newModel.Id);
+            Assert.True(oldModel.Name != newModel.Name);
+            Assert.True(oldModel.Description != newModel.Description);
+            Assert.True(oldModel.CourseId != newModel.CourseId);
         }
         [Test]
-        public async Task LessonView_GetNameByIdAsync_ShouldReturnLessonNameIfIdIsValid()
+        public async Task LessonForm_RemoveAsync_ShouldRemoveLessonEntityIfIdIsValid()
         {
-            string resultLessonName = await this._lessonViewServiceMock.Object.GetNameByIdAsync(defaultLessonId);
+            var stillExists = await this._lessonViewServiceMock.Object.AnyByIdAsync(defaultLessonId);
+            Assert.True(stillExists);
 
-            Assert.That(resultLessonName, Is.EqualTo(defaultLessonName));
+            await this._lessonFormServiceMock.Object.RemoveAsync(defaultLessonId);
+
+            var isNowDeleted = !await this._lessonViewServiceMock.Object.AnyByIdAsync(defaultLessonId);
+            Assert.True(isNowDeleted);
         }
 
     }
