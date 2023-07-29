@@ -117,8 +117,8 @@ namespace StudyPlatform.Tests
             var resultModel = await this._lessonFormServiceMock.Object.GetFormByIdAsync(defaultLessonId);
             
             Assert.IsNotNull(resultModel);
-            Assert.That(resultModel.Id, Is.EqualTo(defaultLessonId));
-            Assert.That(resultModel.Name, Is.EqualTo(defaultLessonName));
+            Assert.AreEqual(resultModel.Id, defaultLessonId);
+            Assert.AreEqual(resultModel.Name, defaultLessonName);
         }
 
         [Test]
@@ -152,9 +152,9 @@ namespace StudyPlatform.Tests
             var newModel = await this._lessonViewServiceMock.Object.GetLessonByIdAsync(defaultLessonId);
 
             Assert.AreEqual(oldModel.Id, newModel.Id);
-            Assert.True(oldModel.Name != newModel.Name);
-            Assert.True(oldModel.Description != newModel.Description);
-            Assert.True(oldModel.CourseId != newModel.CourseId);
+            Assert.AreNotEqual(oldModel.Name, newModel.Name);
+            Assert.AreNotEqual(oldModel.Description, newModel.Description);
+            Assert.AreNotEqual(oldModel.CourseId, newModel.CourseId);
         }
         [Test]
         public async Task LessonForm_RemoveAsync_ShouldRemoveLessonEntityIfIdIsValid()

@@ -18,7 +18,7 @@
         public const string TeacherRoleName = "Teacher";
 
         /// <summary>
-        /// Constant string for the Student role name
+        /// Constant string for the User role name
         /// </summary>
         public const string UserRoleName = "User";
 

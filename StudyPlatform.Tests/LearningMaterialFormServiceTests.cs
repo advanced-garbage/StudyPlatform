@@ -36,7 +36,6 @@ namespace StudyPlatform.Tests
             {
                 new Course{Id = 1,
                         Name = defaultCourseName,
-                        Description = defaultCourseDescription,
                         CategoryId = 1},
             };
 
@@ -44,7 +43,6 @@ namespace StudyPlatform.Tests
             {
                 new Lesson{Id = defaultLessonId,
                         Name = defaultLessonName,
-                        Description = defaultLessonDescription,
                         CourseId = defaultCourseId},
             };
 
@@ -93,12 +91,12 @@ namespace StudyPlatform.Tests
                 };
 
             await this._learningMaterialFormServiceMock.Object.AddLearningMaterial(formModel);
-            bool result = await this._learningMaterialServiceMock.Object.AnyByNameAsync(formModel.LearningMaterialName);
+            bool result = await this._learningMaterialServiceMock.Object.AnyByIdAsync(newLearningMaterialId);
             var resultModel = await this._learningMaterialServiceMock.Object.GetViewModelAsync(newLearningMaterialId);
 
             Assert.True(result);
-            Assert.AreEqual(resultModel.FileName, mockFile.Object.FileName);
             Assert.AreEqual(resultModel.Id, newLearningMaterialId);
+            Assert.AreEqual(resultModel.FileName, mockFile.Object.FileName);
             Assert.AreEqual(resultModel.FullPath, LmFilePath + resultModel.FileName);
         }
     }

@@ -15,18 +15,12 @@ namespace StudyPlatform.Tests
     public class LearningMaterialServiceTests
     {
         private StudyPlatformDbContext dbContext;
-        private Mock<CourseViewService> _courseViewServiceMock;
         private Mock<LearningMaterialService> _learningMaterialServiceMock;
-        private Mock<TeacherLessonService> _teacherLessonServiceMock;
-        private Mock<CategoryViewService> _categoryViewServiceMock;
-        private Mock<LessonViewService> _lessonViewServiceMock;
 
         private int defaultCourseId = 1;
         private string defaultCourseName = "In Memory Course 1";
-        private string defaultCourseDescription = "In Memory Course 1 Description";
         private int defaultLessonId = 1;
         private string defaultLessonName = "In Memory Lesson 1";
-        private string defaultLessonDescription = "In Memory Lesson 1 Description";
         private int defaultLearningMaterialId = 1;
         private string defaultLearningMaterialName = "In Memory Learning Material 1";
         private string defaultLearningMaterialFileName = "In Memory File Name 1.pdf";
@@ -35,18 +29,13 @@ namespace StudyPlatform.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            // Arrange
             defaultGuid = Guid.NewGuid();
-            //Arrange
-            ICollection<Category> categoryData = new List<Category>()
-            {
-                new Category{Id = 1, Name = "In Memory Category 1"},
-            };
 
             ICollection<Course> courseData = new List<Course>()
             {
                 new Course{Id = 1,
                         Name = defaultCourseName,
-                        Description = defaultCourseDescription,
                         CategoryId = 1},
             };
 
@@ -54,7 +43,6 @@ namespace StudyPlatform.Tests
             {
                 new Lesson{Id = defaultLessonId,
                         Name = defaultLessonName,
-                        Description = defaultLessonDescription,
                         CourseId = defaultCourseId},
             };
 
@@ -66,38 +54,20 @@ namespace StudyPlatform.Tests
                                     LessonId = defaultLessonId}
             };
 
-            ICollection<Teacher> teacherData = new List<Teacher>()
-            {
-                new Teacher{ Id = defaultGuid }
-            };
-
-
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
                 .UseInMemoryDatabase(databaseName: "LearningMaterialServiceTests_InMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
-            this.dbContext.Categories.AddRange(categoryData);
             this.dbContext.Courses.AddRange(courseData);
             this.dbContext.Lessons.AddRange(lessonData);
             this.dbContext.LearningMaterials.AddRange(lmData);
-            this.dbContext.Teachers.AddRange(teacherData);
-            this.dbContext.TeacherLessons.Add(new TeacherLesson { TeacherId = teacherData.First().Id, LessonId = defaultLessonId });
             this.dbContext.SaveChanges();
         }
 
         [SetUp]
         public void Setup()
         {
-            this._categoryViewServiceMock = new Mock<CategoryViewService>(this.dbContext);
-            this._courseViewServiceMock = new Mock<CourseViewService>(this.dbContext,
-                                                                      this._categoryViewServiceMock.Object);
             this._learningMaterialServiceMock = new Mock<LearningMaterialService>(this.dbContext);
-            this._teacherLessonServiceMock = new Mock<TeacherLessonService>(this.dbContext);
-            this._lessonViewServiceMock = new Mock<LessonViewService>(this.dbContext,
-                                                                      _learningMaterialServiceMock.Object,
-                                                                      _courseViewServiceMock.Object,
-                                                                      _categoryViewServiceMock.Object,
-                                                                      _teacherLessonServiceMock.Object);
         }
 
         [Test]
