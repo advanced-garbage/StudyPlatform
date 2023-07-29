@@ -20,7 +20,7 @@ namespace StudyPlatform.Tests
     {
         private StudyPlatformDbContext dbContext;
         private Mock<TeacherLessonService> _teacherLessonServiceMock;
-        private Mock<ApplicationUser> _mockUser;
+        private ApplicationUser _fakeUser;
 
         private int defaultCourseId = 1;
         private int defaultLessonId = 1;
@@ -36,11 +36,13 @@ namespace StudyPlatform.Tests
             //Arrange
             defaultGuid = Guid.NewGuid();
 
-            this._mockUser = new Mock<ApplicationUser>();
-            this._mockUser.Setup(u => u.Id).Returns(defaultGuid);
-            this._mockUser.Object.UserName = "Mock User Username";
-            this._mockUser.Object.FirstName = "First Name";
-            this._mockUser.Object.LastName = "Last Name";
+            this._fakeUser = new ApplicationUser();
+            this._fakeUser.UserName = "Fake Username";
+            this._fakeUser.FirstName = "Fake First Name";
+            this._fakeUser.MiddleName = "Fake Middle Name";
+            this._fakeUser.LastName = "Fake Last Name";
+            this._fakeUser.Age = "50";
+            this._fakeUser.Email = "fakeuser@test.com";
 
             ICollection<Lesson> lessonData = new List<Lesson>()
             {
@@ -67,7 +69,7 @@ namespace StudyPlatform.Tests
                 .UseInMemoryDatabase(databaseName: "TeacherLessonServiceTests_InMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
-            this.dbContext.Users.AddRange(_mockUser.Object);
+            this.dbContext.Users.AddRange(_fakeUser);
             this.dbContext.Lessons.AddRange(lessonData);
             this.dbContext.LearningMaterials.AddRange(lmData);
             this.dbContext.Teachers.AddRange(teacherData);
@@ -122,6 +124,15 @@ namespace StudyPlatform.Tests
             Assert.That(this.dbContext.TeacherLessons.Count(), Is.EqualTo(tlCount + 1));
             Assert.True(teacherExists);
             Assert.True(teacherExists);
+        }
+        [Test]
+        public async Task TeacherLessonServicec_GetTeachersForLessonAsync_ShouldReturnListIfIdIsValid()
+        {
+            var result = await this._teacherLessonServiceMock.Object.GetTeachersForLessonAsync(defaultLessonId);
+
+            Assert.NotNull(result);
+            Assert.That(result.Count > 0);
+            Assert.AreEqual(result.First().Id, this.dbContext.Users.First().Id);
         }
 
     }

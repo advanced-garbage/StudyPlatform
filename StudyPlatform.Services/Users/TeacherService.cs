@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudyPlatform.Data;
-using StudyPlatform.Services.LearningMaterial;
 using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Teacher;
 using System.Data;
