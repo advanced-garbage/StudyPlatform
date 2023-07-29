@@ -23,7 +23,7 @@ namespace StudyPlatform.Tests
             };
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "StudyPlatformInMemory")
+                .UseInMemoryDatabase(databaseName: "CategoryViewServiceTests_InMemory")
                 .Options;
 
             this.dbContext = new StudyPlatformDbContext(dbOptions);
@@ -38,7 +38,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_ShouldReturnById()
+        public async Task CategoryAllService_GetCategoryByIdAsync_ShouldReturnById()
         {
             int categoryId = 1;
             // act
@@ -49,7 +49,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_GetCategoryByIdShouldThrowExceptionIfIdIsInvalid()
+        public async Task CategoryAllService_GetCategoryById_ShouldThrowExceptionIfIdIsInvalid()
         {
             int categoryId = -1;
             // act
@@ -60,7 +60,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_GetCategoryIdByCourseIdAsyncShouldThrowErrorIfIdIsInvalid()
+        public async Task CategoryAllService_GetCategoryIdByCourseIdAsync_ShouldThrowErrorIfIdIsInvalid()
         {
             int courseId = -1;
 
@@ -69,7 +69,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_GetNameByIdAsyncShouldThrowErrorIfIdIsInvalid()
+        public async Task CategoryAllService_GetNameByIdAsync_ShouldThrowErrorIfIdIsInvalid()
         {
             int categoryId = -1;
 
@@ -78,7 +78,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_GetNameUrlByIdAsyncShouldThrowErrorIfIdIsInvalid()
+        public async Task CategoryAllService_GetNameUrlByIdAsync_ShouldThrowErrorIfIdIsInvalid()
         {
             int categoryId = -1;
 
@@ -88,7 +88,7 @@ namespace StudyPlatform.Tests
 
 
         [Test]
-        public async Task CategoryAllService_ShouldReturnName()
+        public async Task CategoryAllService_GetNameByIdAsync_ShouldReturnName()
         {
             string name = "In Memory Category 1";
             int categoryId = 1;
@@ -101,7 +101,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AnyByIdShouldReturnTrue()
+        public async Task CategoryAllService_AnyByIdAsync_ShouldReturnTrue()
         {
             int categoryId = 1;
             // act
@@ -112,7 +112,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AnyByIdShouldReturnFalse()
+        public async Task CategoryAllService_AnyByIdAsync_ShouldReturnFalse()
         {
             int categoryId = -1;
             // act
@@ -123,7 +123,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AnyByNameShouldReturnTrue()
+        public async Task CategoryAllService_AnyByNameAsync_ShouldReturnTrue()
         {
             string name = "In Memory Category 1";
             // act
@@ -134,7 +134,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AnyByNameShouldReturnFalse()
+        public async Task CategoryAllService_AnyByNameAsync_ShouldReturnFalse()
         {
             string name = "In Memory Category -1";
             // act
@@ -145,7 +145,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AllShouldReturnAtLeast2()
+        public async Task CategoryAllService_GetAllCategoriesAsync_ShouldReturnAtLeast2()
         {
             // act
             var result = await _categoryViewServiceMock.Object.GetAllCategoriesAsync();
@@ -156,7 +156,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_AllCategoriesShouldHaveCategoriesWithCountOfAtLeast2()
+        public async Task CategoryAllService_GetCategoriesForAllPageAsync_AllCategoriesShouldHaveCategoriesWithCountOfAtLeast2()
         {
             // act
             var result = await _categoryViewServiceMock.Object.GetCategoriesForAllPageAsync();
@@ -167,7 +167,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_ShouldReturnFormById()
+        public async Task CategoryAllService_GetFormCategory_ShouldReturnFormById()
         {
             int categoryId = 1;
             // act
@@ -178,7 +178,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_ShouldReturnNameUrlById()
+        public async Task CategoryAllService_GetNameUrlByIdAsync_ShouldReturnNameUrlById()
         {
             int categoryId = 1;
             // act
@@ -188,7 +188,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryAllService_NameUrlShouldHaveNoEmptySpaces()
+        public async Task CategoryAllService_GetNameUrlByIdAsync_NameUrlShouldHaveNoEmptySpaces()
         {
             int categoryId = 1;
             // act

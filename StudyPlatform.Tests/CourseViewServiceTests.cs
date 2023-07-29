@@ -32,7 +32,7 @@ namespace StudyPlatform.Tests
             };
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "CourseServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "CourseViewServiceTests_InMemory")
                 .Options;
 
             this.dbContext = new StudyPlatformDbContext(dbOptions);
@@ -94,13 +94,13 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetFormCourseAsyncThrowsErrorWhenIdIsInvalid()
+        public async Task CourseView_GetFormCourseAsync_ThrowsErrorWhenIdIsInvalid()
         {
             Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetFormCourseAsync(-1));
         }
 
         [Test]
-        public async Task CourseView_GetNameByIdAsyncReturnsCourseNameWhenIdIsInvalid()
+        public async Task CourseView_GetNameByIdAsync_ReturnsCourseNameWhenIdIsInvalid()
         {
             string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(defaultCourseId);
 
@@ -109,12 +109,12 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetNameByIdAsyncThrowsErrorWhenIdIsInvalid()
+        public async Task CourseView_GetNameByIdAsync_ThrowsErrorWhenIdIsInvalid()
         {Assert.ThrowsAsync<InvalidOperationException>(async () => await this._courseViewServiceMock.Object.GetNameByIdAsync(-1));
         }
 
         [Test]
-        public async Task CourseView_AnyByIdAsyncReturnsTrueIfIdIsValid()
+        public async Task CourseView_AnyByIdAsync_ReturnsTrueIfIdIsValid()
         {
             int courseId = 1;
 
@@ -124,7 +124,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_AnyByIdAsyncReturnsFalseIfIdIsValid()
+        public async Task CourseView_AnyByIdAsync_ReturnsFalseIfIdIsValid()
         {
             bool result = await this._courseViewServiceMock.Object.AnyByIdAsync(-1);
 
@@ -132,7 +132,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetAllAsyncShouldReturnEveryExistingCourse()
+        public async Task CourseView_GetAllAsync_ShouldReturnEveryExistingCourse()
         {
             var result = await this._courseViewServiceMock.Object.GetAllAsync();
 
@@ -140,7 +140,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetIdAsyncShouldReturnCourseIdWhenIdIsValid()
+        public async Task CourseView_GetIdAsync_ShouldReturnCourseIdWhenIdIsValid()
         {
             int courseIdResult = await this._courseViewServiceMock.Object.GetIdAsync(defaultCourseId);
 
@@ -148,14 +148,14 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetIdAsyncShouldReturnDefaultWhenIdIsInvalid()
+        public async Task CourseView_GetIdAsync_ShouldReturnDefaultWhenIdIsInvalid()
         {
             int courseIdResult = await this._courseViewServiceMock.Object.GetIdAsync(-1);
 
             Assert.AreEqual(0, courseIdResult);
         }
         [Test]
-        public async Task CourseView_GetIdByNameAsyncShouldReturnCourseNameWhenIdIsValid()
+        public async Task CourseView_GetIdByNameAsync_ShouldReturnCourseNameWhenIdIsValid()
         {
             string result = await this._courseViewServiceMock.Object.GetNameByIdAsync(defaultCourseId);
 
@@ -163,7 +163,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetNameUrlByIdAsyncShouldReturnNameUrlWithNoSpacesWhenIdIsValid()
+        public async Task CourseView_GetNameUrlByIdAsync_ShouldReturnNameUrlWithNoSpacesWhenIdIsValid()
         {
             string courseNameToTest = defaultCourseName.Replace(" ", "-");
 
@@ -173,7 +173,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CourseView_GetIdAsyncShouldReturnValidIdWhenNameIsValid()
+        public async Task CourseView_GetIdAsync_ShouldReturnValidIdWhenNameIsValid()
         {
             int result = await this._courseViewServiceMock.Object.GetIdByNameAsync(defaultCourseName);
 

@@ -30,7 +30,7 @@ namespace StudyPlatform.Tests
             };
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "CategoryViewServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "CategoryViewFormServiceTests_InMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
             this.dbContext.Categories.AddRange(categoryData);
@@ -45,7 +45,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryFormTest_AddShouldIncreaseCountOfCategoriesInDb()
+        public async Task CategoryFormTest_AddAsync_ShouldIncreaseCountOfCategoriesInDb()
         {
             // arrange
             categoriesCount = this.dbContext.Categories.Count();
@@ -61,7 +61,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryFormTest_EditShouldChangeDataFromExistingEntity()
+        public async Task CategoryFormTest_EditAsync_ShouldChangeDataFromExistingEntity()
         {
             // arrange
             int categoryId = 3;
@@ -78,7 +78,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryFormTest_RemoveShouldDecreaseCountOfCategoriesInDb()
+        public async Task CategoryFormTest_RemoveAsync_ShouldDecreaseCountOfCategoriesInDb()
         {
             // arrange
             categoriesCount = this.dbContext.Categories.Count();
@@ -93,7 +93,7 @@ namespace StudyPlatform.Tests
         }
 
         [Test]
-        public async Task CategoryFormTest_RemoveShouldThrowErrorIfIdIsInvalid()
+        public async Task CategoryFormTest_RemoveAsync_ShouldThrowErrorIfIdIsInvalid()
         {
             // arrange
             int categoryId = -1;

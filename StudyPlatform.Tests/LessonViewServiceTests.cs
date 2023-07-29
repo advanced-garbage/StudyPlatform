@@ -74,7 +74,7 @@ namespace StudyPlatform.Tests
 
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "LessonServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "LessonViewServiceTests_InMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
             this.dbContext.Categories.AddRange(categoryData);
@@ -178,15 +178,14 @@ namespace StudyPlatform.Tests
         {
             int resultLessonId = await this._lessonViewServiceMock.Object.GetLessonIdByLearningMaterialId(defaultLearningMaterialId);
 
-            Assert.That(resultLessonId, Is.EqualTo(defaultLessonId));
+            Assert.AreEqual(resultLessonId, defaultLessonId);
         }
         [Test]
         public async Task LessonView_GetNameByIdAsync_ShouldReturnLessonNameIfIdIsValid()
         {
             string resultLessonName = await this._lessonViewServiceMock.Object.GetNameByIdAsync(defaultLessonId);
 
-            Assert.That(resultLessonName, Is.EqualTo(defaultLessonName));
+            Assert.AreEqual(resultLessonName, defaultLessonName);
         }
-
     }
 }

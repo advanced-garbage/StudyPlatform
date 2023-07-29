@@ -9,6 +9,6 @@ namespace StudyPlatform.Services.LearningMaterial.Interfaces
 {
     public interface ILearningMaterialFormService
     {
-        public Task AddLessonAsync(UploadLearningMaterialFormModel model);
+        public Task AddLearningMaterial(UploadLearningMaterialFormModel model);
     }
 }

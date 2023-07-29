@@ -82,7 +82,7 @@ namespace StudyPlatform.Tests
 
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "LessonFormServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "LessonFormServiceTests_InMemory")
                 .Options;
             this.dbContext = new StudyPlatformDbContext(dbOptions);
             this.dbContext.Categories.AddRange(categoryData);

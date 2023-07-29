@@ -94,7 +94,7 @@ namespace StudyPlatform.Controllers
                 await model.File.CopyToAsync(stream);
             }
 
-            await this._learningMaterialFormService.AddLessonAsync(model);
+            await this._learningMaterialFormService.AddLearningMaterial(model);
 
             if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid))
             {

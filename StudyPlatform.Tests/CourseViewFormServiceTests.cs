@@ -33,7 +33,7 @@ namespace StudyPlatform.Tests
             };
 
             var dbOptions = new DbContextOptionsBuilder<StudyPlatformDbContext>()
-                .UseInMemoryDatabase(databaseName: "CourseViewFormServiceTestInMemory")
+                .UseInMemoryDatabase(databaseName: "CourseViewFormServiceTests_InMemory")
                 .Options;
 
             this.dbContext = new StudyPlatformDbContext(dbOptions);

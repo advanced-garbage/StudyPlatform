@@ -16,7 +16,7 @@ namespace StudyPlatform.Services.LearningMaterial
         {
             this._db = db;
         }
-        public async Task AddLessonAsync(UploadLearningMaterialFormModel model)
+        public async Task AddLearningMaterial(UploadLearningMaterialFormModel model)
         {
             Data.Models.LearningMaterial lmObj
                 = new Data.Models.LearningMaterial()
