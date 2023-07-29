@@ -12,9 +12,6 @@ namespace StudyPlatform.Services.TeacherLesson
 {
     public class TeacherLessonService : ITeacherLessonService
     {
-        /// <summary>
-        /// DbContext dependency.
-        /// </summary>
         private readonly StudyPlatformDbContext _db;
 
         public TeacherLessonService(StudyPlatformDbContext db)
