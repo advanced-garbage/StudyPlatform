@@ -27,6 +27,7 @@ namespace StudyPlatform.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// POST method for turning an User into a teacher.
         /// </summary>

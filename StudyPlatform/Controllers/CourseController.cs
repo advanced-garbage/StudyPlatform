@@ -28,6 +28,12 @@ namespace StudyPlatform.Controllers
             this._courseViewFormService = courseViewFormService;
         }
 
+        /// <summary>
+        /// Returns a course view with the specified id and name.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="courseName"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetCourse(int id, string courseName)
@@ -45,8 +51,14 @@ namespace StudyPlatform.Controllers
             return View(course);
         }
 
-        [HttpGet]
+        /// <summary>
+        /// GET method for editing a course entity with the specified id
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int courseId)
         {
             if (!await this._courseViewService.AnyByIdAsync(courseId))
@@ -59,8 +71,14 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// POST method for editing a course entity with the specified id.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpPost]
         public async Task<IActionResult> Edit(CourseViewFormModel model)
         {
             if (!ModelState.IsValid){
@@ -72,8 +90,14 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", new { id = model.Id, courseName = model.GetNameUrl() });
         }
 
-        [HttpGet]
+        /// <summary>
+        /// GET method for removing a course with the specified id. Returns a view to GetById (Category)
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpGet]
         public async Task<IActionResult> Remove(int courseId)
         {
             int categoryId = await this._categoryViewService.GetCategoryIdByCourseIdAsync(courseId);
@@ -83,8 +107,14 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetById", "Category", new {id = categoryId, categoryName = categoryName});
         }
 
-        [HttpGet]
+        /// <summary>
+        /// GET method for adding a course entity.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpGet]
         public async Task<IActionResult> Add(int categoryId)
         {
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -100,8 +130,14 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// POST method for adding a course entity. Redirects to the GetById with the id from the newly added course entity.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [AutoValidateAntiforgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Add(CourseViewFormModel model)
         {
             if (!ModelState.IsValid)

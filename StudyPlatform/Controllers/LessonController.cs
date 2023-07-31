@@ -32,7 +32,12 @@ namespace StudyPlatform.Controllers
             this._courseViewService = courseViewService;
             this._teacherService = teacherService;
         }
-
+        /// <summary>
+        /// Returns a view displaying a lesson view model with the specified id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lessonName"></param>
+        /// <returns></returns>
         public async Task<IActionResult> GetLesson(int id, string lessonName)
         {
             if (!await this._lessonViewService.AnyByIdAsync(id))
@@ -49,7 +54,12 @@ namespace StudyPlatform.Controllers
 
             return View(lessonsModel);
         }
-
+        /// <summary>
+        /// GET method for removing a lesson entity with the specified id from the db.
+        /// </summary>
+        /// <param name="lessonId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Remove(int lessonId)
@@ -68,6 +78,12 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetCourse", "Course", new {id = courseId, courseName = courseName});
         }
 
+        /// <summary>
+        /// GET method for editing a lesson entity with the specified id.
+        /// </summary>
+        /// <param name="lessonId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int lessonId)
@@ -83,6 +99,13 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// POST method for editing a lesson with the specified id.
+        /// Redirects to the GetLesson Action with the aforementioned id.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Edit(LessonViewFormModel model)
@@ -104,6 +127,12 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("GetLesson", "Lesson", new { id = model.Id, lessonName = model.GetNameUrl()});
         }
 
+        /// <summary>
+        /// GET method for adding a lesson to the DB.
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [HttpGet]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Add(int courseId)
@@ -117,6 +146,12 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// POST method for adding a lesson entity to the db.
+        /// Redirects to the GetCourse action to the specific course in which the lesson was added.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> Add(LessonViewFormModel model)

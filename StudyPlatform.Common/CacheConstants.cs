@@ -8,6 +8,9 @@ namespace StudyPlatform.Common
 {
     public static class CacheConstants
     {
+        /// <summary>
+        /// Cache key for storing every available category.
+        /// </summary>
         public const string AllCategoriesCacheKey = "allCategories";
     }
 }

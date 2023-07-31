@@ -25,6 +25,10 @@ namespace StudyPlatform.Controllers
             this._roleService = roleService;
         }
 
+        /// <summary>
+        /// Action which redirects the user to their profile.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("account/home")]
         [Route("account/index")]

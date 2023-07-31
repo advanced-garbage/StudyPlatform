@@ -44,7 +44,13 @@ namespace StudyPlatform.Controllers
             this._config = config;
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        /// <summary>
+        /// GET method for uploading PDF lessons.
+        /// </summary>
+        /// <param name="lessonId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Upload(int lessonId) // relevant lesson id
         {
@@ -59,7 +65,13 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = TeacherRoleName)]
+        /// <summary>
+        /// POST method for uploading pdf files.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
+        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Upload(UploadLearningMaterialFormModel model)
         {
@@ -105,6 +117,11 @@ namespace StudyPlatform.Controllers
             return Ok(model.File);
         }
 
+        /// <summary>
+        /// Returns a view for displaying a learning material entity with the specified id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ShowLearningMaterial(int id)
         {

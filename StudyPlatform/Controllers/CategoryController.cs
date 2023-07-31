@@ -29,6 +29,9 @@ namespace StudyPlatform.Controllers
             this._memoryCache = memoryCache;
         }
 
+        /// <summary>
+        /// Action which redirects to the page for displaying every category by name.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -37,6 +40,11 @@ namespace StudyPlatform.Controllers
             return View(categories);
         }
 
+        /// <summary>
+        /// Action which redirects to the page for displaying every category by name.
+        /// Caches the call for 3 minutes
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("Category/")]
         [Route("Category/Index")]
@@ -55,7 +63,12 @@ namespace StudyPlatform.Controllers
             return View("All", allCategoriesCache);
         }
 
-        // TODO: Create "GetById" View
+        /// <summary>
+        /// Returns a view containing info for a Category model with the specified id and name.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoryName"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetById(int id, string categoryName)
         {
@@ -75,7 +88,11 @@ namespace StudyPlatform.Controllers
             return View(category);
         }
 
-
+        /// <summary>
+        /// GET method for adding a Category Entity to DB.
+        /// </summary>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [HttpGet]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         public async Task<IActionResult> CreateCategory()
@@ -84,8 +101,14 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// POST method for adding a Category Entity to DB.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
@@ -103,8 +126,14 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All", "Category");
         }
 
-        [HttpGet]
+        /// <summary>
+        /// GET method for removing category entity with the specified id from DB.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpGet]
         public async Task<IActionResult> Remove(int categoryId)
         {
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -116,8 +145,14 @@ namespace StudyPlatform.Controllers
             return RedirectToAction("All", "Category");
         }
 
-        [HttpGet]
+        /// <summary>
+        /// GET method for editing a category entity with the specified id.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int categoryId)
         {
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -130,8 +165,14 @@ namespace StudyPlatform.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// POST method for editing a category entity with the specified id.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AutoValidateAntiforgeryToken]
         [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {
             if (!ModelState.IsValid)

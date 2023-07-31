@@ -5,6 +5,9 @@ using static StudyPlatform.Common.GeneralConstants;
 
 namespace StudyPlatform.Infrastructure
 {
+    /// <summary>
+    /// Class for holding extension methods for Claims Principal.
+    /// </summary>
     public static class ClaimsPrincipalExtensions
     {
         public static Guid Id(this ClaimsPrincipal user)

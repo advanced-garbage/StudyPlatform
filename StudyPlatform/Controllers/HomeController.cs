@@ -15,12 +15,20 @@ namespace StudyPlatform.Controllers
             errorCodes = new List<int>() { 400, 401 };
         }
 
+        /// <summary>
+        /// Returns the index view for this web project.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
-            // DELETE!
             return View();
         }
 
+        /// <summary>
+        /// Returns an error view depending on the status code.
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Error(int statusCode)
         {
             if (errorCodes.Contains(statusCode))
