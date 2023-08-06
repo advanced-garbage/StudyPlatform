@@ -89,16 +89,20 @@ namespace StudyPlatform.Controllers
                 ModelState.AddModelError(nameof(model.LearningMaterialName), FileByNameExists);
             }
 
+            string lessonName = await this._lessonViewService.GetNameByIdAsync(model.LessonId);
+
             if (!ModelState.IsValid || !await this._teacherService.AnyById(userGuid))
             {
                 int courseId = await this._lessonViewService.GetCourseIdByLessonId(model.LessonId);
                 UploadLearningMaterialFormModel getModel = new UploadLearningMaterialFormModel(){
                     LessonId = model.LessonId,
-                    LessonName = await this._lessonViewService.GetNameByIdAsync(model.LessonId),
+                    LessonName = lessonName,
                     CourseName = await this._courseService.GetNameByIdAsync(courseId),
                 };
                 return View(getModel);
             }
+
+            int lessonId = model.LessonId;
 
             string fileName = model.File.FileName;
             string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], fileName);
@@ -106,15 +110,18 @@ namespace StudyPlatform.Controllers
                 await model.File.CopyToAsync(stream);
             }
 
-            await this._learningMaterialFormService.AddLearningMaterial(model);
-
-            if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid))
+            try
             {
-                await this._teacherLessonService.AddAsync(userGuid, model.LessonId);
+                await this._learningMaterialFormService.AddLearningMaterial(model);
+
+                if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid)) {
+                    await this._teacherLessonService.AddAsync(userGuid, model.LessonId);
+                }
+            } catch {
+                return RedirectToAction("Error", "Home", new { StatusCode = 500 });
             }
 
-            // TODO: Redirect to the course
-            return Ok(model.File);
+            return RedirectToAction("GetLesson", "Lesson", new { lessonId = lessonId, lessonName = lessonName.Replace(" ", "-")});
         }
 
         /// <summary>
