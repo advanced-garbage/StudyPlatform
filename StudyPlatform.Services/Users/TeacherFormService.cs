@@ -42,7 +42,7 @@ namespace StudyPlatform.Services.Users
             await this._db.SaveChangesAsync();
         }
 
-        public async Task UpdateRoleToTeacherAsync(Guid id)
+        public async Task UpdateRoleToTeacherAsync(Guid id, ApplicationUser appUser)
         {
             string teacherRoleName = TeacherRoleName;
             string userRoleName = UserRoleName;
@@ -50,22 +50,13 @@ namespace StudyPlatform.Services.Users
             bool studentRoleExists = await this._roleManager.RoleExistsAsync(userRoleName);
 
             //ClaimsPrincipal claimsUser = this._httpContextAccessor.HttpContext.User;
-            ApplicationUser user = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
             if (teacherRoleExists && studentRoleExists)
             {
-                var addTeacherRoleResult = await this._userManager.AddToRoleAsync(user, teacherRoleName);
+                IdentityResult addTeacherRoleResult = await this._userManager.AddToRoleAsync(appUser, teacherRoleName);
 
                 if (!addTeacherRoleResult.Succeeded)
                 { 
                     throw new InvalidOperationException("Error from adding the teacher role to the user");
-                }
-
-                //claimsUser.AddTeacherRoleIdentity();
-
-                IdentityResult removeStudentRoleResult = await this._userManager.RemoveFromRoleAsync(user, userRoleName);
-                if (!removeStudentRoleResult.Succeeded)
-                {
-                    throw new InvalidOperationException("Error from removing the student role from the user");
                 }
             } else
             {

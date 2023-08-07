@@ -125,7 +125,7 @@ namespace StudyPlatform.Areas.Identity.Pages.Account
                     if (roleExists)
                     {
                         IdentityResult roleResult = await this._userManager.AddToRoleAsync(user, roleName);
-                        // Something went wrong
+
                         if (!roleResult.Succeeded)
                         {
                             throw new InvalidOperationException($"Could not add role for {nameof(user)}");

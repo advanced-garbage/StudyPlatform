@@ -8,6 +8,8 @@ using StudyPlatform.Web.View.Models.Category;
 using static StudyPlatform.Common.ErrorMessages.Category;
 using static StudyPlatform.Common.GeneralConstants;
 using static StudyPlatform.Common.CacheConstants;
+using Microsoft.AspNetCore.Identity;
+using StudyPlatform.Data.Models;
 
 namespace StudyPlatform.Controllers
 {
@@ -18,12 +20,14 @@ namespace StudyPlatform.Controllers
         private readonly ICategoryViewService _categoryViewService;
         private readonly ICategoryViewFormService _categoryViewFormService;
         private readonly IMemoryCache _memoryCache;
-
+        private readonly UserManager<ApplicationUser> _userManager;
         public CategoryController(
             ICategoryViewService categoryViewService,
             ICategoryViewFormService categoryViewFormService,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            UserManager<ApplicationUser> userManager)
         {
+            this._userManager = userManager;
             this._categoryViewService = categoryViewService;
             this._categoryViewFormService = categoryViewFormService;
             this._memoryCache = memoryCache;
@@ -94,9 +98,16 @@ namespace StudyPlatform.Controllers
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
         [HttpGet]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         public async Task<IActionResult> CreateCategory()
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             CategoryViewFormModel model = new CategoryViewFormModel();
             return View(model);
         }
@@ -107,10 +118,17 @@ namespace StudyPlatform.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryViewFormModel model)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
             {
                 ModelState.AddModelError(nameof(model.Name), CategoryByNameExists);
@@ -132,10 +150,17 @@ namespace StudyPlatform.Controllers
         /// <param name="categoryId"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Remove(int categoryId)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
             {
                 return BadRequest();
@@ -151,10 +176,17 @@ namespace StudyPlatform.Controllers
         /// <param name="categoryId"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(int categoryId)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
             {
                 return BadRequest();
@@ -171,10 +203,17 @@ namespace StudyPlatform.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewFormModel model)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View();

@@ -18,6 +18,7 @@ using StudyPlatform.Services.TeacherLesson;
 using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
+using static StudyPlatform.Common.GeneralConstants;
 
 internal class Program
 {
@@ -47,11 +48,16 @@ internal class Program
                 = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
         })
             .AddRoles<IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<StudyPlatformDbContext>()
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
             .AddEntityFrameworkStores<StudyPlatformDbContext>();
         builder.Services.AddControllersWithViews(options =>
         {
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         });
+
+
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddMemoryCache();
 
@@ -95,11 +101,6 @@ internal class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-
-        //app.MapControllerRoute(
-        //    name: "default",
-        //    pattern: "{controller=Home}/{action=Index}/{id?}");
-        //app.MapRazorPages();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
@@ -136,7 +137,7 @@ internal class Program
                 = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             ICollection<string> roles
-                = new List<string>() { "Administrator", "Teacher", "Student" };
+                = new List<string>() { AdministratorRoleName, TeacherRoleName, UserRoleName };
 
             foreach (string role in roles)
             {

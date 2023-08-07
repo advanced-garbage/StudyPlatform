@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudyPlatform.Data.Models;
 using StudyPlatform.Infrastructure;
 using StudyPlatform.Models;
-
+using StudyPlatform.Services.Users;
 
 namespace StudyPlatform.Controllers
 {

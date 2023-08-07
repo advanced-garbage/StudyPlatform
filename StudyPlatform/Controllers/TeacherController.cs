@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StudyPlatform.Data.Models;
 using StudyPlatform.Infrastructure;
 using StudyPlatform.Services.Users.Interfaces;
 using static StudyPlatform.Common.GeneralConstants;
@@ -11,20 +13,29 @@ namespace StudyPlatform.Controllers
     {
         private readonly ITeacherService _teacherService;
         private readonly ITeacherFormService _teacherFormService;
+        private readonly UserManager<ApplicationUser> _userManager;
         public TeacherController(
             ITeacherService teacherService,
-            ITeacherFormService teacherFormService)
+            ITeacherFormService teacherFormService,
+            UserManager<ApplicationUser> userManager)
         {
             this._teacherService = teacherService;
             this._teacherFormService = teacherFormService;
+            this._userManager = userManager;
         }
         /// <summary>
         /// GET method for turning an User into a teacher.
         /// </summary>
-        [Authorize(Roles = UserRoleName)]
         [HttpGet]
-        public IActionResult BecomeTeacher()
+        public async Task<IActionResult> BecomeTeacher()
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isRegularUser = await this._userManager.IsInRoleAsync(appUser, UserRoleName);
+            if (!isRegularUser)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -32,10 +43,16 @@ namespace StudyPlatform.Controllers
         /// POST method for turning an User into a teacher.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = UserRoleName)]
         [HttpPost]
         public async Task<IActionResult> BecomeTeacher(string submit)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isRegularUser = await this._userManager.IsInRoleAsync(appUser, UserRoleName);
+            if (!isRegularUser)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (string.IsNullOrWhiteSpace(submit) || submit.ToLower().Equals("no")) {
                 return RedirectToAction("Index", "Home");
             }
@@ -47,7 +64,8 @@ namespace StudyPlatform.Controllers
 
             try {
                 await this._teacherFormService.AddTeacherAsync(userId);
-                await this._teacherFormService.UpdateRoleToTeacherAsync(userId);
+
+                await this._teacherFormService.UpdateRoleToTeacherAsync(userId, appUser);
             } catch(InvalidOperationException ioe) {
                 return RedirectToAction("Error", "Home", new {StatusCode = 500});
             } catch(Exception ex) {

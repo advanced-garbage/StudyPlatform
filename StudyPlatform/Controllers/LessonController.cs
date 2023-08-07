@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using StudyPlatform.Data.Models;
 using StudyPlatform.Infrastructure;
 using StudyPlatform.Infrastructure.Infrastructure;
 using StudyPlatform.Services.Course.Interfaces;
@@ -20,17 +22,20 @@ namespace StudyPlatform.Controllers
         private readonly ILessonFormService _lessonFormService;
         private readonly ICourseViewService _courseViewService;
         private readonly ITeacherService _teacherService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public LessonController(
             ILessonViewService lessonViewService,
             ILessonFormService lessonFormService,
             ICourseViewService courseViewService,
-            ITeacherService teacherService)
+            ITeacherService teacherService,
+            UserManager<ApplicationUser> userManager)
         {
             this._lessonFormService = lessonFormService;
             this._lessonViewService = lessonViewService;
             this._courseViewService = courseViewService;
             this._teacherService = teacherService;
+            this._userManager = userManager;
         }
         /// <summary>
         /// Returns a view displaying a lesson view model with the specified id.
@@ -60,10 +65,17 @@ namespace StudyPlatform.Controllers
         /// <param name="lessonId"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Remove(int lessonId)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
             if (!lessonExists)
             {
@@ -84,10 +96,17 @@ namespace StudyPlatform.Controllers
         /// <param name="lessonId"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(int lessonId)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
             if (!lessonExists)
             {
@@ -106,10 +125,17 @@ namespace StudyPlatform.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(LessonViewFormModel model)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(model.Id);
             if (!lessonExists)
             {
@@ -134,9 +160,16 @@ namespace StudyPlatform.Controllers
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
         [HttpGet]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         public async Task<IActionResult> Add(int courseId)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             LessonViewFormModel model = new LessonViewFormModel()
             {
                 CourseId = courseId,
@@ -153,9 +186,16 @@ namespace StudyPlatform.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
+        [Authorize]
         public async Task<IActionResult> Add(LessonViewFormModel model)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             bool existsByName = await this._lessonViewService.AnyByNameAsync(model.Name);
             if (existsByName)
             {

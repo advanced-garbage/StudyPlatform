@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StudyPlatform.Data.Models;
 using StudyPlatform.Infrastructure;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.LearningMaterial.Interfaces;
@@ -25,6 +27,7 @@ namespace StudyPlatform.Controllers
         private readonly ITeacherService _teacherService;
         private readonly ITeacherLessonService _teacherLessonService;
         private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public LearningMaterialController(
             ILearningMaterialService learningMaterialService,
@@ -33,7 +36,8 @@ namespace StudyPlatform.Controllers
             ILearningMaterialFormService learningMaterialFormService,
             ITeacherService teacherService,
             ITeacherLessonService teacherLessonService,
-            IConfiguration config)
+            IConfiguration config,
+            UserManager<ApplicationUser> userManager)
         {
             this._learningMaterialService = learningMaterialService;
             this._courseService = courseService;
@@ -42,6 +46,7 @@ namespace StudyPlatform.Controllers
             this._teacherService = teacherService;
             this._teacherLessonService = teacherLessonService;
             this._config = config;
+            this._userManager = userManager;
         }
 
         /// <summary>
@@ -50,10 +55,16 @@ namespace StudyPlatform.Controllers
         /// <param name="lessonId"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpGet]
         public async Task<IActionResult> Upload(int lessonId) // relevant lesson id
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
             UploadLearningMaterialFormModel model = new UploadLearningMaterialFormModel()
             {
@@ -71,10 +82,16 @@ namespace StudyPlatform.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = $"{TeacherRoleName},{AdministratorRoleName}")]
         [HttpPost]
         public async Task<IActionResult> Upload(UploadLearningMaterialFormModel model)
         {
+            ApplicationUser appUser = await this._userManager.GetUserAsync(User);
+            bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
+            if (!isTeacher)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Guid userGuid = User.Id();
             if (userGuid == Guid.Empty) {
                 return RedirectToAction("Error", "Home", new { StatusCode = 404 });
