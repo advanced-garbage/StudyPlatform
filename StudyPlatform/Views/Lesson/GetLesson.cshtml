@@ -48,8 +48,8 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
                 foreach (var lm in Model.LearningMaterials)
                 {
                     <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
-               asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
-                   class="list-group-item list-group-item-action fs-4">
+                    asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
+                    class="list-group-item list-group-item-secondary list-group-item-action fs-4">
                         @lm.Title
                     </a>
                 }

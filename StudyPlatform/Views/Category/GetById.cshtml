@@ -34,15 +34,17 @@
     </div>
     <hr />
     <br/>
-    <div class="list-group">
+    <div class="container w-50 justify-content-center">
+        <div class="list-group">
         @{
             foreach (var course in Model.Courses)
             {
                 <a asp-controller="Course" asp-action="GetCourse"
                 asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()"
-                class="list-group-item list-group-item-action fs-2">
+                class="list-group-item list-group-item-secondary list-group-item-action fs-2">
                 @course.Name</a>
             }
         }
+        </div>
     </div>
 </div>

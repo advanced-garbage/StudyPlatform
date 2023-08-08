@@ -10,7 +10,7 @@
     {
         <a class="ps-0 link-offset-2 link-underline link-underline-opacity-100"
         asp-controller="Category" asp-action="GetById"
-        asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()">@category.Name
+        asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()"><b>@category.Name</b>
         </a><br/>
         foreach (AccountCourseViewModel course in Model.Lessons.AccountCourses
                                                     .Where(c => c.CategoryId.Equals(category.Id)))

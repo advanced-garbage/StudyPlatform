@@ -139,7 +139,14 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._categoryViewFormService.AddAsync(model);
+            try
+            {
+                await this._categoryViewFormService.AddAsync(model);
+            } 
+            catch 
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
 
             return RedirectToAction("All", "Category");
         }
@@ -166,7 +173,15 @@ namespace StudyPlatform.Controllers
                 return BadRequest();
             }
 
-            await this._categoryViewFormService.RemoveAsync(categoryId);
+            try
+            {
+                await this._categoryViewFormService.RemoveAsync(categoryId);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
+
             return RedirectToAction("All", "Category");
         }
 
@@ -219,7 +234,14 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._categoryViewFormService.EditAsync(model);
+            try
+            {
+                await this._categoryViewFormService.EditAsync(model);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
 
             return RedirectToAction("All", "Category");
         }
