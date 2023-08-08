@@ -78,7 +78,7 @@ namespace StudyPlatform.Controllers
         {
             if (!await this._categoryViewService.AnyByIdAsync(id))
             {
-                return BadRequest();
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             var category =
@@ -105,7 +105,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             CategoryViewFormModel model = new CategoryViewFormModel();
@@ -126,7 +126,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             if (await this._categoryViewService.AnyByNameAsync(model.Name))
@@ -158,7 +158,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -184,7 +184,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             if (!await this._categoryViewService.AnyByIdAsync(categoryId))
@@ -211,7 +211,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             if (!ModelState.IsValid)

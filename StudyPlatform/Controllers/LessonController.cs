@@ -73,7 +73,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
@@ -104,7 +104,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(lessonId);
@@ -133,7 +133,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             bool lessonExists = await this._lessonViewService.AnyByIdAsync(model.Id);
@@ -167,7 +167,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             LessonViewFormModel model = new LessonViewFormModel()
@@ -193,7 +193,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             bool existsByName = await this._lessonViewService.AnyByNameAsync(model.Name);

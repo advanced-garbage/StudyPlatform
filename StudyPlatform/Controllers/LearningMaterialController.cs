@@ -62,7 +62,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
@@ -89,7 +89,7 @@ namespace StudyPlatform.Controllers
             bool isTeacher = await this._userManager.IsInRoleAsync(appUser, TeacherRoleName);
             if (!isTeacher)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             Guid userGuid = User.Id();
@@ -121,14 +121,14 @@ namespace StudyPlatform.Controllers
 
             int lessonId = model.LessonId;
 
-            string fileName = model.File.FileName;
-            string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], fileName);
-            using (FileStream stream = new FileStream(uploadPath, FileMode.Create)) {
-                await model.File.CopyToAsync(stream);
-            }
-
             try
             {
+                string fileName = model.File.FileName;
+                string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], fileName);
+                using (FileStream stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(stream);
+                }
                 await this._learningMaterialFormService.AddLearningMaterial(model);
 
                 if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid)) {
@@ -138,7 +138,7 @@ namespace StudyPlatform.Controllers
                 return RedirectToAction("Error", "Home", new { StatusCode = 500 });
             }
 
-            return RedirectToAction("GetLesson", "Lesson", new { lessonId = lessonId, lessonName = lessonName.Replace(" ", "-")});
+            return RedirectToAction("GetLesson", "Lesson", new { id = lessonId, lessonName = lessonName.Replace(" ", "-")});
         }
 
         /// <summary>

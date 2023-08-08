@@ -33,7 +33,7 @@ namespace StudyPlatform.Controllers
             bool isRegularUser = await this._userManager.IsInRoleAsync(appUser, UserRoleName);
             if (!isRegularUser)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             return View();
@@ -50,7 +50,7 @@ namespace StudyPlatform.Controllers
             bool isRegularUser = await this._userManager.IsInRoleAsync(appUser, UserRoleName);
             if (!isRegularUser)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
             if (string.IsNullOrWhiteSpace(submit) || submit.ToLower().Equals("no")) {
