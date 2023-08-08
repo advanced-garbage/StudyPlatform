@@ -7,6 +7,6 @@ namespace StudyPlatform.Services.Users.Interfaces
     {
         Task AddTeacherAsync(Guid id);
 
-        Task UpdateRoleToTeacherAsync(Guid id, ApplicationUser user);
+        Task UpdateRoleToTeacherAsync(Guid id);
     }
 }

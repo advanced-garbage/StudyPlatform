@@ -42,13 +42,13 @@ namespace StudyPlatform.Services.Users
             await this._db.SaveChangesAsync();
         }
 
-        public async Task UpdateRoleToTeacherAsync(Guid id, ApplicationUser appUser)
+        public async Task UpdateRoleToTeacherAsync(Guid id)
         {
             string teacherRoleName = TeacherRoleName;
             string userRoleName = UserRoleName;
             bool teacherRoleExists = await this._roleManager.RoleExistsAsync(teacherRoleName);
             bool studentRoleExists = await this._roleManager.RoleExistsAsync(userRoleName);
-
+            ApplicationUser appUser = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
             //ClaimsPrincipal claimsUser = this._httpContextAccessor.HttpContext.User;
             if (teacherRoleExists && studentRoleExists)
             {
