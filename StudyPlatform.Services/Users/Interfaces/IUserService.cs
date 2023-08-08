@@ -15,5 +15,6 @@ namespace StudyPlatform.Services.Users.Interfaces
 
         public Task<bool> AnyById(Guid id);
 
+        Task<Guid> GetGuidByUsernameAsync(string username);
     }
 }

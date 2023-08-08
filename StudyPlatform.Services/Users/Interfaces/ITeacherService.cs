@@ -15,6 +15,6 @@ namespace StudyPlatform.Services.Users.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<bool> AnyById(Guid id);
-       
+
     }
 }

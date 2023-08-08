@@ -10,16 +10,31 @@ namespace StudyPlatform.Infrastructure
     /// </summary>
     public static class ClaimsPrincipalExtensions
     {
+        /// <summary>
+        /// Returns the Guid of the ClaimsPrincipal User.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static Guid Id(this ClaimsPrincipal user)
         {
             return new Guid(user.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
 
+        /// <summary>
+        /// Returns the UserName of the ClaimsPrincipal User.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static string Name(this ClaimsPrincipal user)
         {
             return new string(user.FindFirst(ClaimTypes.Name).Value);
         }
 
+        /// <summary>
+        /// Answers wether or not the User is of role "Teacher".
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static bool IsTeacher(this ClaimsPrincipal user)
         {
             bool isTeacher = false;
@@ -34,6 +49,11 @@ namespace StudyPlatform.Infrastructure
             return user.Identity.IsAuthenticated && isTeacher;
         }
 
+        /// <summary>
+        /// Answers wether or not the User is of role "Administrator".
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static bool IsAdministrator(this ClaimsPrincipal user)
         {
             return user.Identity.IsAuthenticated && user.IsInRole(AdministratorRoleName);

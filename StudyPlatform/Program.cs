@@ -127,6 +127,12 @@ internal class Program
                 defaults: new { Controller = "Lesson", Action = "GetLesson" }
             );
 
+            endpoints.MapControllerRoute(
+                name: "Account Profile Viewer",
+                pattern: "Account/{username}",
+                defaults: new { Controller = "Account", Action = "GetProfile" }
+            );
+
             endpoints.MapDefaultControllerRoute();
             endpoints.MapRazorPages();
         });

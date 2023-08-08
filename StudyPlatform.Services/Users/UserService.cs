@@ -36,6 +36,17 @@ namespace StudyPlatform.Services.Users
             return userExists;
         }
 
+        public async Task<Guid> GetGuidByUsernameAsync(string username)
+        {
+            Guid teacherGuid = await this._db
+                .Users
+                .Where(u => u.UserName.Equals(username))
+                .Select(u => u.Id)
+                .FirstOrDefaultAsync();
+
+            return teacherGuid;
+        }
+
         public async Task<UserAccountViewModel> GetUserByIdAsync(Guid id)
         {
             UserAccountViewModel userModel

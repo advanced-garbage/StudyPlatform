@@ -30,18 +30,18 @@ namespace StudyPlatform.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("account/home")]
-        [Route("account/index")]
-        [Route("account/")]
-        public async Task<IActionResult> GetProfile()
+        //[Route("account/home")]
+        //[Route("account/index")]
+        //[Route("account/")]
+        public async Task<IActionResult> GetProfile(string username)
         {
-            Guid userId = User.Id();
-            if (userId == null )
-            {
-                return NotFound();
-            }
-
             try {
+                Guid userId = await this._userService.GetGuidByUsernameAsync(username);
+                if (userId == null || userId == Guid.Empty)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 UserAccountViewModel userModel = await this._userService.GetUserByIdAsync(userId);
                 userModel.RoleTitle = await this._roleService.GetRoleNameAsync();
                 
@@ -51,7 +51,7 @@ namespace StudyPlatform.Controllers
                 }
 
                 return View(userModel);
-            } catch (Exception ex) {
+            } catch {
                 return RedirectToAction("Error", "Home", new { statusCode = 500 });
             }
         }

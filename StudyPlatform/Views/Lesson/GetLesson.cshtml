@@ -43,17 +43,19 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
             }
         }
         <hr />
-        <div class="list-group">
-            @{
-                foreach (var lm in Model.LearningMaterials)
-                {
-                    <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
-                    asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
-                    class="list-group-item list-group-item-secondary list-group-item-action fs-4">
-                        @lm.Title
-                    </a>
+        <div class="container w-50 justify-content-center">
+            <div class="list-group">
+                @{
+                    foreach (var lm in Model.LearningMaterials)
+                    {
+                        <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
+                   asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
+                       class="list-group-item list-group-item-secondary list-group-item-action fs-4">
+                            @lm.Title
+                        </a>
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
     
@@ -67,7 +69,10 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
                     foreach (TeacherForLessonModel teacher in Model.Teachers)
                     {
                         <div class="text-body mb-3 fst-italic fs-5 ps-4">
-                                @teacher.FirstName @teacher.MiddleName @teacher.LastName <i>(@@@teacher.UserName)</i>
+                                @teacher.FirstName @teacher.MiddleName @teacher.LastName (
+                                <a asp-controller="Account" asp-action="GetProfile" asp-route-username="@teacher.UserName">
+                                <i>@@@teacher.UserName</i>
+                                </a>)
                         </div>
                     }
                 }

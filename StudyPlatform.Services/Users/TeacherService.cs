@@ -27,5 +27,16 @@ namespace StudyPlatform.Services.Users
 
             return teacherExists;
         }
+
+        public async Task<Guid> GetGuidByUsernameAsync(string teacherUsername)
+        {
+            Guid teacherGuid = await this._db
+                .Users
+                .Where(u => u.UserName.Equals(teacherUsername))
+                .Select(u => u.Id)
+                .FirstOrDefaultAsync();
+
+            return teacherGuid;
+        }
     }
 }
