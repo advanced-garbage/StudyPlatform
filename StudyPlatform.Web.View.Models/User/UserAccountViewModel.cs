@@ -37,6 +37,10 @@ namespace StudyPlatform.Web.View.Models.User
             {
                 yield return new ValidationResult($"Age either isn't given as a number or is out of bounds ({AgeMin}-{AgeMax})");
             }
+
+            if (UserName.Any(c => char.IsWhiteSpace(c))) {
+                yield return new ValidationResult($"Username shouldn't contain empty spaces.");
+            }
         }
     }
 }

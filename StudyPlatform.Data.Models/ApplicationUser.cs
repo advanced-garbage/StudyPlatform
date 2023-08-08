@@ -12,13 +12,5 @@ namespace StudyPlatform.Data.Models
         public string? MiddleName { get; set; }
         public string? LastName { get; set; }
         public string? Age { get; set; }
-
-        //public string ProfilePicture { get; set; }
-
-        //[Required]
-        //[EmailAddress]
-        //public string Email { get; set; }
-
-        // location (country, city)??? there might be some service
     }
 }
