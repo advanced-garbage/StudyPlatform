@@ -12,7 +12,7 @@ namespace StudyPlatform.Controllers
         private IEnumerable<int> errorCodes;
         public HomeController()
         {
-            errorCodes = new List<int>() { 400, 401 };
+            errorCodes = new List<int>() { 400, 401, 404, 500};
         }
 
         /// <summary>
