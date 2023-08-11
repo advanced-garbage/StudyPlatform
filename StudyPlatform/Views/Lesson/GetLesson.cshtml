@@ -1,7 +1,7 @@
 ﻿@model LessonViewModel
 @inject IRoleService roleService;
 @{
-    ViewData["Title"] = "View Lesson by Id";
+    ViewData["Title"] = "Lesson: " + Model.Name;
 }
 <a asp-controller="Course" asp-action="GetCourse" 
 asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to course</a>

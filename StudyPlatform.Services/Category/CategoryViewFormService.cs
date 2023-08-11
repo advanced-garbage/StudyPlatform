@@ -48,7 +48,7 @@ namespace StudyPlatform.Services.Category
             Data.Models.Category categoryObj
                 = await this._db
                 .Categories
-                .FirstOrDefaultAsync(c => c.Id.Equals(id));
+                .FirstAsync(c => c.Id.Equals(id));
 
             this._db.Categories.Remove(categoryObj);
             await this._db.SaveChangesAsync();
