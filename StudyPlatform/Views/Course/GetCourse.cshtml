@@ -51,15 +51,22 @@
     <hr/>
     <div class="container w-50 justify-content-center">
         <div class="list-group">
-        @{
-            foreach(var lesson in Model.Lessons)
-            {
-                <a asp-controller="Lesson" asp-action="GetLesson"
-                asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()"
-                class="list-group-item list-group-item-action fs-2">@lesson.Name
-                </a>
-                <br />
-            }
+            @{
+                if (!Model.Lessons.Any())
+                {
+                    <h3>There are no lessons for this course!</h3>
+                } else
+                {
+                    foreach(var lesson in Model.Lessons)
+                    {
+                        <a asp-controller="Lesson" asp-action="GetLesson"
+                        asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()"
+                        class="list-group-item list-group-item-action fs-2">@lesson.Name
+                        </a>
+                        <br />
+                    }
+                }
+            
         }
         </div>
     </div>
