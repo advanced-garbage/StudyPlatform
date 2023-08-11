@@ -46,14 +46,22 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
         <div class="container w-50 justify-content-center">
             <div class="list-group">
                 @{
-                    foreach (var lm in Model.LearningMaterials)
+                    if (!Model.LearningMaterials.Any())
                     {
-                        <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
-                   asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
-                       class="list-group-item list-group-item-secondary list-group-item-action fs-4">
-                            @lm.Title
-                        </a>
+                        <h3>No resources were uploaded for this lesson!</h3>
+                    } else
+                    {
+                        foreach (var lm in Model.LearningMaterials)
+                        {
+                            <a asp-controller="LearningMaterial" asp-action="ShowLearningMaterial"
+                            asp-route-id="@lm.Id" asp-route-linkname="@lm.GetNameURL()"
+                            class="list-group-item list-group-item-secondary list-group-item-action fs-4">
+                                @lm.Title
+                            </a>
+                        }
                     }
+
+                    
                 }
             </div>
         </div>
