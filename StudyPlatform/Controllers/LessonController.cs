@@ -47,7 +47,7 @@ namespace StudyPlatform.Controllers
         {
             if (!await this._lessonViewService.AnyByIdAsync(id))
             {
-                return BadRequest();
+                return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 
             LessonViewModel lessonsModel = await this._lessonViewService.GetLessonByIdAsync(id);
@@ -82,10 +82,19 @@ namespace StudyPlatform.Controllers
                 return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 
-            int courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
-            string courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
-
-            await this._lessonFormService.RemoveAsync(lessonId);
+            int courseId;
+            string courseName;
+            
+            try
+            {
+                courseId = await this._lessonViewService.GetCourseIdByLessonId(lessonId);
+                courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
+                await this._lessonFormService.RemoveAsync(lessonId);
+            } catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
+            
 
             return RedirectToAction("GetCourse", "Course", new {id = courseId, courseName = courseName});
         }
@@ -148,7 +157,14 @@ namespace StudyPlatform.Controllers
                 return View(getModel);
             }
 
-            await this._lessonFormService.EditAsync(model);
+            try
+            {
+                await this._lessonFormService.EditAsync(model);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
 
             return RedirectToAction("GetLesson", "Lesson", new { id = model.Id, lessonName = model.GetNameUrl()});
         }
@@ -211,8 +227,15 @@ namespace StudyPlatform.Controllers
                 return View(getModel);
             }
 
-            await this._lessonFormService.AddAsync(model);
-
+            try
+            {
+                await this._lessonFormService.AddAsync(model);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
+            
             int courseId = await this._courseViewService.GetIdAsync(model.CourseId);
             string courseName = await this._courseViewService.GetNameUrlByIdAsync(courseId);
             return RedirectToAction("GetCourse", "Course", new { id = courseId, courseName = courseName});

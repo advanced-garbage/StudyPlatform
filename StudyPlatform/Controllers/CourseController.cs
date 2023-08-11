@@ -105,7 +105,14 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._courseViewFormService.EditAsync(model);
+            try
+            {
+                await this._courseViewFormService.EditAsync(model);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
 
             return RedirectToAction("GetCourse", new { id = model.Id, courseName = model.GetNameUrl() });
         }
@@ -127,9 +134,18 @@ namespace StudyPlatform.Controllers
                 return RedirectToAction("Error", "Home", new { statusCode = 401 });
             }
 
-            int categoryId = await this._categoryViewService.GetCategoryIdByCourseIdAsync(courseId);
-            string categoryName = await this._categoryViewService.GetNameUrlByIdAsync(categoryId);
-            await this._courseViewFormService.RemoveAsync(courseId);
+            int categoryId = 0;
+            string categoryName = string.Empty;
+            try
+            {
+                categoryId = await this._categoryViewService.GetCategoryIdByCourseIdAsync(courseId);
+                categoryName = await this._categoryViewService.GetNameUrlByIdAsync(categoryId);
+                await this._courseViewFormService.RemoveAsync(courseId);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }   
 
             return RedirectToAction("GetById", "Category", new {id = categoryId, categoryName = categoryName});
         }
@@ -186,7 +202,15 @@ namespace StudyPlatform.Controllers
                 return View();
             }
 
-            await this._courseViewFormService.AddAsync(model);
+            try
+            {
+                await this._courseViewFormService.AddAsync(model);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 500 });
+            }
+            
             int courseId = await this._courseViewService.GetIdByNameAsync(model.Name);
             return RedirectToAction("GetCourse", new { id = courseId, courseName = model.GetNameUrl() });
         }
