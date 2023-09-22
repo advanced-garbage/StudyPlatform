@@ -1,33 +1,56 @@
 ﻿@model UserAccountViewModel;
-<hr />
 <div class="ps-5">
     @{
-    if (Model.Lessons.AccountCategories.Count > 0) {
-        <h3 class="fw-normal">This teacher has contributed to the following lessons:</h3>        
-    }
-    <br />
-    foreach (AccountCategoryViewModel category in Model.Lessons.AccountCategories)
-    {
-        <a class="ps-0 link-offset-2 link-underline link-underline-opacity-100"
-        asp-controller="Category" asp-action="GetById"
-        asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()"><b>@category.Name</b>
-        </a><br/>
-        foreach (AccountCourseViewModel course in Model.Lessons.AccountCourses
-                                                    .Where(c => c.CategoryId.Equals(category.Id)))
+        if (Model.Lessons.AccountCategories.Count > 0)
         {
-            <a class="ps-3 link-offset-2 link-underline link-underline-opacity-75"
-            asp-controller="Course" asp-action="GetCourse"
-            asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()">
-            @course.Name</a><br/>
-            foreach (AccountLessonViewModel lesson in Model.Lessons.AccountLessons
-                                                        .Where(l => l.CourseId.Equals(course.Id)))
-            {
-                <a class="ps-5 link-offset-2 link-underline link-underline-opacity-50"
-                asp-controller="Lesson" asp-action="GetLesson"
-                asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()">
-                <i>@lesson.Name</i></a><br/>
-            }
+            <h3 class="fw-normal">This teacher has contributed to the following lessons:</h3>
+            <div class="overflow-auto border border-top-0 rounded-bottom border-dark border-opacity-75" style="max-height:125px">
+                <div class="h-25 d-inline-block border border-top-0 rounded-bottom p-2" style="background: linear-gradient(to bottom, #ffffff, #dddddd);>
+                    <div class="p-4 pb-0 pt-0">
+                        @{
+                            foreach (AccountCategoryViewModel category in Model.Lessons.AccountCategories)
+                            {
+                                <a class="ps-0 link-offset-2 link-underline link-underline-opacity-100"
+                               asp-controller="Category" asp-action="GetById"
+                               asp-route-id="@category.Id" asp-route-categoryName="@category.GetNameUrl()">
+                                    <b>@category.Name</b>
+                                </a>
+
+                                <br />
+                                foreach (AccountCourseViewModel course in Model.Lessons.AccountCourses
+                                .Where(c => c.CategoryId.Equals(category.Id)))
+                                {
+                                    <a class="ps-3 link-offset-2 link-underline link-underline-opacity-75"
+                                    asp-controller="Course" asp-action="GetCourse"
+                                    asp-route-id="@course.Id" asp-route-courseName="@course.GetNameUrl()">
+                                        @course.Name
+                                    </a>
+
+                                    <br />
+                                    foreach (AccountLessonViewModel lesson in Model.Lessons.AccountLessons
+                                    .Where(l => l.CourseId.Equals(course.Id)))
+                                    {
+                                        <a class="ps-5 link-offset-2 link-underline link-underline-opacity-50"
+                                       asp-controller="Lesson" asp-action="GetLesson"
+                                       asp-route-id="@lesson.Id" asp-route-lessonName="@lesson.GetNameUrl()">
+                                            <i>@lesson.Name</i>
+                                        </a>
+
+                                        <br />
+                                    }
+                                }
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+            
+            
+        } else
+        {
+            <h3 class="fw-normal">No lessons yet!</h3>
         }
-    }
+            
     }
 </div>

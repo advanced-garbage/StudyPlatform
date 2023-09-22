@@ -1,24 +1,49 @@
 ﻿@model UserAccountViewModel;
 @inject IRoleService roleService;
 @{
-    ViewData["Title"] = "Account Profile";
+    ViewData["Title"] = $"{Model.UserName}'s Account Profile";
 }
-<h1 class="display-5">@ViewData["Title"]</h1>
-<hr/>
-<div class="row justify-content-center">
-    <div class="col-sm-auto bg-body-tertiary">
-        <img src="~/study_platform_default_pfp.png" alt="default profile picture" width="200" height="200" />
+    <h1 class="display-5">@ViewData["Title"]</h1>
+    <hr />
+    <div class="container m-auto mt-xl-5">
+        <div class="row justify-content-md-center p-8">
+            <div class="col col-sm-2 pl-lg-3">
+                <img src="~/study_platform_default_pfp.png" alt="default profile picture" width="200" height="200" style="min-height:100;min-width:100"/>
+            </div>
+            <div class="col col-sm-2 pl-lg-3 border-right border-dark">
+                <h3 class="fs-2 fw-light">@Model.UserName</h3>
+                <h2 class="fs-3 fw-semibold">@Model.RoleTitle</h2>
+                <h1 class="fs-1 fw-light">@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
+                <h2 class="fs-4 fw-italic">@Model?.Age y/o</h2>
+            </div>
+                @{
+                    if (await roleService.IsTeacherRole())
+                    {
+                        <div class="col col-sm-4 ">
+                            <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
+                        </div>
+                    }
+                }
+        </div>
+        @*<div class="row justify-content-center">
+                <div class="col col-lg-2">
+                    
+                </div>
+                <div class="col col-lg-2">
+                    <h3 class="fs-2 fw-light">@Model.UserName</h3>
+                    <h2 class="fs-3 fw-semibold">@Model.RoleTitle</h2>
+                    <h1 class="fs-1 fw-light">@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
+                    <h2 class="fs-4 fw-italic">@Model?.Age y/o</h2>
+                </div>
+                <div class="col-sm-auto">
+                @{
+                    if (await roleService.IsTeacherRole())
+                    {
+                    <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
+                    }
+                }
+                </div>
+
+        </div>*@
     </div>
-    <div class="col-sm-auto lh-lg">
-        <h3 class="fs-2 fw-light">@Model.UserName</h3>
-        <h2 class="fs-3 fw-semibold">@Model.RoleTitle</h2>
-        <h1 class="fs-1 fw-light">@($"{Model?.FirstName} {Model?.MiddleName} {Model?.LastName}")</h1>
-        <h2 class="fs-4 fw-italic">@Model?.Age y/o</h2>
-    </div>
-</div>
-@{
-    if (await roleService.IsTeacherRole())
-    {
-        <partial name="~/Views/Shared/_AccountLessonsPartial.cshtml" model="@Model" />
-    }
-}
+
