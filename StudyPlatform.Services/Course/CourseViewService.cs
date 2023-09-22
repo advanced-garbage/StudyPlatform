@@ -159,5 +159,22 @@ namespace StudyPlatform.Services.Course
 
             return courseName.Replace(" ", "-");
         }
+
+        public async Task<ICollection<CourseListViewModel>> GetAllCoursesInCategoryByCourseIdAsync(int courseId)
+        {
+            int categoryId = await GetCategoryIdByCourseIdAsync(courseId);
+
+            ICollection<CourseListViewModel> courses = await this._db
+                .Courses
+                .Where(c => c.CategoryId.Equals(categoryId))
+                .Select(c => new CourseListViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return courses;
+        }
     }
 }

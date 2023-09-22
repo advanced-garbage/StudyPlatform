@@ -3,6 +3,7 @@ using StudyPlatform.Data;
 using StudyPlatform.Data.Models;
 using StudyPlatform.Services.Course.Interfaces;
 using StudyPlatform.Services.Lesson.Interfaces;
+using StudyPlatform.Web.View.Models.Course;
 using StudyPlatform.Web.View.Models.Lesson;
 using System;
 using System.Collections.Generic;
@@ -86,7 +87,13 @@ namespace StudyPlatform.Services.Lesson
                     CourseId = l.CourseId
                 })
                 .FirstOrDefaultAsync();
-            model.Courses = await this._courseViewService.GetAllAsync();
+
+            if (model.CourseId == null)
+            {
+                throw new InvalidOperationException("Course Id was not found");
+            }
+
+            model.Courses = await this._courseViewService.GetAllCoursesInCategoryByCourseIdAsync(model.CourseId);
             return model;
         }
 

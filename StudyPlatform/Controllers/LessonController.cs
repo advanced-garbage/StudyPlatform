@@ -122,9 +122,16 @@ namespace StudyPlatform.Controllers
                 return RedirectToAction("Error", "Home", new { statusCode = 404 });
             }
 
-            LessonViewFormModel model = await this._lessonFormService.GetFormByIdAsync(lessonId);
+            try
+            {
+                LessonViewFormModel model = await this._lessonFormService.GetFormByIdAsync(lessonId);
 
-            return View(model);
+                return View(model);
+            } catch
+            {
+                return RedirectToAction("Error", "Home", new { statusCode = 404 });
+            }
+            
         }
 
         /// <summary>

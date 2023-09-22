@@ -1,4 +1,5 @@
 ﻿using StudyPlatform.Web.View.Models.Category;
+using StudyPlatform.Web.View.Models.Course;
 
 namespace StudyPlatform.Services.Category.Interfaces
 {
@@ -20,5 +21,6 @@ namespace StudyPlatform.Services.Category.Interfaces
         public Task<string> GetNameUrlByIdAsync(int categoryId);
 
         public Task<AllCategoriesViewModel> GetCategoriesForAllPageAsync();
+
     }
 }
