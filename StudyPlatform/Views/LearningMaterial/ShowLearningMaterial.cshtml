@@ -5,11 +5,12 @@
 <a asp-controller="Lesson" asp-action="GetLesson" 
 asp-route-id="@Model.LessonLink.LessonId"
 asp-route-lessonName="@Model.LessonLink.LessonNameLink">
-Back to <i>@Model.LessonLink.LessonName</i></a>
-<hr/>
+    <i class="fa-solid fa-chevron-left" style="color: #e95420;padding-right:5px;"></i>Back to <i>@Model.LessonLink.LessonName</i>
+</a>
 <div class="text-center">
-    <h1 class="fs-2 fw-semibold">@Model.Title</h1><br />
-    <embed src="~/@Model.FullPath" type="application/pdf" style="height:600px;width:700px" />
-    <hr/>
+    <h1 class="fs-4 fw-semibold">@Model.Title</h1>
     <a href="~/@Model.FullPath" target="_blank">PDF link for <i>@Model.Title</i></a><br />
+    <div class="container p-5 mt-3 bg-dark bg-opacity-25">
+        <embed class="border bg-dark" src="~/@Model.FullPath" type="application/pdf" style="height:600px;width:700px" />
+    </div>
 </div>

@@ -3,15 +3,14 @@
 @{
     ViewData["Title"] = "Lesson: " + Model.Name;
 }
-<a asp-controller="Course" asp-action="GetCourse" 
-asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to course</a>
-<hr/>
+<a asp-controller="Course" asp-action="GetCourse"
+   asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName"><i class="fa-solid fa-chevron-left" style="color: #e95420;padding-right:5px;"></i>Back to course</a>
 <div class="text-center">
     <div class="row justify-content-between">
-        <div class="col-sm-auto">
-            <h1 class="display-6"><i>@Model.Name</i></h1>
+        <div class="col-sm-auto mt-3 mt-auto" style="padding-left:50px">
+            <h1 class="display-5"><i>@Model.Name</i></h1>
         </div>
-        <div class="col-sm-auto mt-3">
+        <div class="col-sm-auto mt-3 mt-auto">
             @{
                 if (await roleService.IsTeacherRole())
                 {
@@ -33,7 +32,6 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
             }
         </div>
     </div>
-    <br/>
     <div class="container-sm">
         @{
             if (!string.IsNullOrWhiteSpace(Model.Description))
@@ -60,13 +58,11 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
                             </a>
                         }
                     }
-
-                    
                 }
             </div>
         </div>
     </div>
-    
+    <hr/>
     <div class="container text-start pt-5">
         @{
             if (Model.Teachers.Count > 0)
@@ -76,7 +72,8 @@ asp-route-id="@Model.CourseId" asp-route-courseName="@Model.CourseName">Back to 
                 @{
                     foreach (TeacherForLessonModel teacher in Model.Teachers)
                     {
-                        <div class="text-body mb-3 fst-italic fs-5 ps-4">
+                        <div class="text-body mb-3 fst-italic fs-5 mr-2 ps-4">
+                                <i class="fa-solid fa-circle" style="color: #000000;"></i>
                                 @teacher.FirstName @teacher.MiddleName @teacher.LastName (
                                 <a asp-controller="Account" asp-action="GetProfile" asp-route-username="@teacher.UserName">
                                 <i>@@@teacher.UserName</i>

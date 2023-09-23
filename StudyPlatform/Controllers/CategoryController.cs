@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using StudyPlatform.Infrastructure.Infrastructure;
 using StudyPlatform.Services.Category.Interfaces;
-using StudyPlatform.Services.Users.Interfaces;
 using StudyPlatform.Web.View.Models.Category;
 using static StudyPlatform.Common.ErrorMessages.Category;
 using static StudyPlatform.Common.GeneralConstants;
 using static StudyPlatform.Common.CacheConstants;
 using Microsoft.AspNetCore.Identity;
 using StudyPlatform.Data.Models;
+using Microsoft.Extensions.Primitives;
 
 namespace StudyPlatform.Controllers
 {
@@ -55,16 +55,37 @@ namespace StudyPlatform.Controllers
         [Route("Category/All")]
         public async Task<IActionResult> AllCache()
         {
-            if (!_memoryCache.TryGetValue(AllCategoriesCacheKey, out AllCategoriesViewModel allCategoriesCache))
+            if (!_memoryCache.TryGetValue(AllCategoriesCacheKey, out AllCategoriesViewModel allCategoriesOutput))
             {
-                allCategoriesCache = await this._categoryViewService.GetCategoriesForAllPageAsync();
-
-                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(3));
-
-                _memoryCache.Set(AllCategoriesCacheKey, allCategoriesCache, cacheEntryOptions);
+                await UpdateCacheAsync();
+                allCategoriesOutput = _memoryCache.Get<AllCategoriesViewModel>(AllCategoriesCacheKey);
             }
 
-            return View("All", allCategoriesCache);
+            return View("All", allCategoriesOutput);
+        }
+
+        private void CacheItemRemoved(object key, object value, EvictionReason reason, object state)
+        {
+            Console.WriteLine(string.Format("EvictionCallback: Cache with key {0} has expired.  */", key));
+        }
+
+        private async Task UpdateCacheAsync()
+        {
+            AllCategoriesViewModel allCategoriesOutput = null;
+            short expMins = 3;
+
+            var expTime = DateTime.Now.AddMinutes(expMins);
+            var expToken = new CancellationChangeToken(new CancellationTokenSource(TimeSpan.FromMinutes(expMins + .5)).Token);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetPriority(CacheItemPriority.Normal)
+                .SetAbsoluteExpiration(expTime)
+                .AddExpirationToken(expToken)
+                .RegisterPostEvictionCallback(callback: CacheItemRemoved, state: this);
+
+            allCategoriesOutput = await this._categoryViewService.GetCategoriesForAllPageAsync();
+
+            _memoryCache.Set(AllCategoriesCacheKey, allCategoriesOutput, cacheEntryOptions);
         }
 
         /// <summary>
@@ -142,6 +163,7 @@ namespace StudyPlatform.Controllers
             try
             {
                 await this._categoryViewFormService.AddAsync(model);
+                await UpdateCacheAsync();
             } 
             catch 
             {
@@ -176,6 +198,7 @@ namespace StudyPlatform.Controllers
             try
             {
                 await this._categoryViewFormService.RemoveAsync(categoryId);
+                await UpdateCacheAsync();
             }
             catch
             {
@@ -237,6 +260,7 @@ namespace StudyPlatform.Controllers
             try
             {
                 await this._categoryViewFormService.EditAsync(model);
+                await UpdateCacheAsync();
             }
             catch
             {
