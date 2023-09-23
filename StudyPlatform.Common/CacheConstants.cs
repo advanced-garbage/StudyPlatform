@@ -11,6 +11,11 @@ namespace StudyPlatform.Common
         /// <summary>
         /// Cache key for storing every available category.
         /// </summary>
-        public const string AllCategoriesCacheKey = "allCategories";
+        public const string AllCategoriesCacheKey = "allCategoriesKey";
+
+        /// <summary>
+        /// Cache key for invoking the cache for the account profile.
+        /// </summary>
+        public const string AccountCacheKey = "accountProfileKey";
     }
 }
