@@ -123,7 +123,8 @@ namespace StudyPlatform.Controllers
 
             try
             {
-                string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], Path.GetRandomFileName());
+                string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], 
+                    Path.GetRandomFileName().Split('.', StringSplitOptions.RemoveEmptyEntries)[0] + "pdf");
                 using (FileStream stream = new FileStream(uploadPath, FileMode.Create))
                 {
                     await model.File.CopyToAsync(stream);
