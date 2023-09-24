@@ -28,6 +28,11 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
             MinimumLength = ModelValidationConstants.Course.NameMinLength)]
         public string? CourseName { get; set; }
 
+        private static double ConvertBytesToMegabytes(long bytes)
+        {
+            return (bytes / 1024f) / 1024f;
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(LearningMaterialName))
@@ -45,6 +50,10 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
                 yield return new ValidationResult("File cannot be empty!");
             }
 
+            if (ConvertBytesToMegabytes(File.Length) > 5)
+            {
+                yield return new ValidationResult("File cannot be bigger than 5MBs!");
+            }
         }
     }
 }
