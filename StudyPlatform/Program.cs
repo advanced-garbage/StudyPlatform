@@ -18,9 +18,7 @@ using StudyPlatform.Services.TeacherLesson;
 using StudyPlatform.Services.TeacherLesson.Intefaces;
 using StudyPlatform.Services.Users;
 using StudyPlatform.Services.Users.Interfaces;
-using Google.Apis.Auth.AspNetCore3;
 using static StudyPlatform.Common.GeneralConstants;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 internal class Program
 {
@@ -59,19 +57,6 @@ internal class Program
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         });
 
-        builder.Services
-            .AddAuthentication(options =>
-            {
-                options.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-                options.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddGoogleOpenIdConnect(options =>
-            {
-                options.ClientId = "76503782452-6bkghjd2rhthq5evehhv778m6vujfvd3.apps.googleusercontent.com";
-                options.ClientSecret = "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";
-            });
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddMemoryCache();
