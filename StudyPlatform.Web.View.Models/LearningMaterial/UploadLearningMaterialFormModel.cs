@@ -40,6 +40,11 @@ namespace StudyPlatform.Web.View.Models.LearningMaterial
                 yield return new ValidationResult("You can only upload files with the .pdf extension!");
             }
 
+            if (File.Length == 0)
+            {
+                yield return new ValidationResult("File cannot be empty!");
+            }
+
         }
     }
 }

@@ -123,15 +123,15 @@ namespace StudyPlatform.Controllers
 
             try
             {
-                string fileName = model.File.FileName;
-                string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], fileName);
+                string uploadPath = Path.Combine(this._config["FilePath:LearningMaterialPathWithRoot"], Path.GetRandomFileName());
                 using (FileStream stream = new FileStream(uploadPath, FileMode.Create))
                 {
                     await model.File.CopyToAsync(stream);
                 }
                 await this._learningMaterialFormService.AddLearningMaterial(model);
 
-                if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid)) {
+                if (!await this._teacherLessonService.TeacherLessonAlreadyExists(model.LessonId, userGuid))
+                {
                     await this._teacherLessonService.AddAsync(userGuid, model.LessonId);
                 }
             } catch {
