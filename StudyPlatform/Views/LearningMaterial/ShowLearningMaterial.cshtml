@@ -7,9 +7,15 @@ asp-route-id="@Model.LessonLink.LessonId"
 asp-route-lessonName="@Model.LessonLink.LessonNameLink">
     <i class="fa-solid fa-chevron-left" style="color: #e95420;padding-right:5px;"></i>Back to <i>@Model.LessonLink.LessonName</i>
 </a>
-<div class="text-center">
+<div class="justify-content-center text-center">
     <h1 class="fs-4 fw-semibold">@Model.Title</h1>
-    <a href="~/@Model.FullPath" target="_blank">PDF link for <i>@Model.Title</i></a><br />
+    <div class="p-3">
+        <button class="bg-primary bg-opacity-75 p-2" style="width:75%">
+            <a href="~/@Model.FullPath" target="_blank">
+                <span class="text-white text-uppercase fw-bold fs-3">PDF link for <i>@Model.Title</i></span>
+            </a>
+        </button>
+    </div>
     <div class="container p-5 mt-3 bg-dark bg-opacity-25">
         <embed class="border bg-dark" src="~/@Model.FullPath" type="application/pdf" style="height:600px;width:700px" />
     </div>
